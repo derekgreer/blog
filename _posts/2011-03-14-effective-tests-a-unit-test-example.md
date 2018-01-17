@@ -1,0 +1,280 @@
+---
+id: 462
+title: 'Effective Tests: A Unit Test Example'
+date: 2011-03-14T11:44:57+00:00
+author: derekgreer
+layout: post
+guid: http://www.aspiringcraftsman.com/default/2011/03/14/effective-tests-a-unit-test-example/
+permalink: /2011/03/14/effective-tests-a-unit-test-example/
+dsq_thread_id:
+  - "261600825"
+categories:
+  - Uncategorized
+tags:
+  - Testing
+---
+In <noindex></noindex> <a href="/2011/03/07/effective-tests-introduction/" target="_blank">part 1</a> of our series, I introduced some common types of automated tests: Unit Tests, Integration Tests, and Acceptance Tests.&#160; In this article, we’ll take a look at a traditional approach to unit testing and discuss a few practices surrounding good test communication.
+
+## First Things First
+
+Before getting started, we _obviously_ need something to test, so let’s create a Calculator class.
+
+<pre class="csharp brush:csharp" name="code">public class Calculator
+    {
+        bool _isDirty;
+
+        string _operation;
+        decimal _state;
+
+        public decimal Display { get; private set; }
+
+        public void Enter(decimal number)
+        {
+            _state = number;
+            _isDirty = true;
+        }
+
+        public void PressPlus()
+        {
+            _operation = "+";
+            if (_isDirty) Calculate();
+        }
+
+        public void PressEquals()
+        {
+            if (_isDirty) Calculate();
+        }
+
+        void Calculate()
+        {
+            switch (_operation)
+            {
+                case "+":
+                    Display += _state;
+                    break;
+            }
+
+            _isDirty = false;
+        }
+    }</pre>
+
+To keep things simple, our Calculator class just adds decimals, but that gives us enough to work with for our discussion.
+
+## Anatomy of a Unit Test 
+
+
+
+Now, let’s create a unit test to validate that our Calculator class behaves properly.&#160; I’ll use <a href="http://nunit.org/" target="_blank">NUnit</a> for this example:
+
+<pre class="csharp brush:csharp" name="code">[TestFixture]
+public class CalculatorTests
+{
+    [Test]
+    public void TestPressEquals()
+    {
+        Calculator calculator = new Calculator();
+        calculator.Enter(2m);
+        calculator.PressPlus();
+        calculator.Enter(2m);
+        calculator.PressEquals();
+        Assert.AreEqual(4m, calculator.Display);
+    }
+}</pre>
+
+So, what’s going on here?&#160; Starting at the top, we have a class with a TestFixture attribute.&#160; This tells NUnit that this class contains unit tests.&#160; We’ve named our test “CalculatorTests” to denote that this class contains the tests for our Calculator class.&#160; Pretty descriptive, eh?
+
+Next, we’ve defined a method with a Test attribute.&#160; This tells NUnit that this method should be considered a test when it scans our types for tests to execute.&#160; We’ve named our method TestPressEquals() to denote that we’re testing the behavior of the PressEquals method.&#160; 
+
+<div style="border-bottom: black 1px solid; border-left: black 1px solid; background: rgb(204,204,204); border-top: black 1px solid; border-right: black 1px solid">
+  <div align="center">
+    <strong>Note </strong>
+  </div>
+  
+  <p>
+    The use of the prefix “Test” is a common convention which originated from a requirement within earlier versions of JUnit.&#160; The first version of NUnit was a direct port of JUnit and therefore shared this requirement until it was rewritten to take advantage of .Net attributes.
+  </p>
+</div>
+
+Next, we’ve defined an instance of the Calculator class we’re going to be testing.&#160; In unit testing parlance, this is generally called the _System Under Test_, or the SUT.
+
+Next, we make several calls to the calculator object to instruct it to add two numbers and then call the PressEquals() method.
+
+Our final call is to the NUnit Assert.AreEqual() method.&#160; This method tests the expected value against the actual value and raises an exception if the values are not equal.
+
+If we run the test at this point, we should see our test pass.
+
+<div style="background: rgb(51,204,0)">
+  &#160;
+</div>
+
+Hooray!
+
+&#160;
+
+## Improving Communication
+
+While our test certainly does the job of validating the Calculator’s behavior, there are a few aspects of our test that we could improve upon.&#160; To start, let’s consider what would be displayed should our test actually ever fail.&#160; To force it to fail, I’ll comment out the line which increments the Display property.&#160; Running the test produces the following:
+
+<div style="background: red">
+  &#160;
+</div>
+
+<font face="Courier New"></p> 
+
+<pre>CalculatorTests.TestPressEquals : Failed 
+Expected: 4m 
+But was:&#160; 0m</pre>
+
+<p>
+  </font>
+</p>
+
+<p>
+  &#160;
+</p>
+
+<p>
+  Ok, so CalculatorTests.TestEquals failed because "expected 4m, but was 0m".&#160; Given that we’ve just written this test, this may not seem like much of an issue.&#160; The context of how our Calculator class works as well as how our test verifies it behavior is still fresh in our minds.&#160; But what if this fails six months from now?&#160; Worse, what if it fails and is discovered by someone who wasn’t the author of this test?&#160; Without looking at the test code, the most that could be derived from this message is that the Calculator.PressEquals method failed in some way.&#160; Let’s see if we can improve upon this.
+</p>
+
+<p>
+  What would be great is if we could have the test runner print out a descriptive message describing what didn’t work.&#160; As it happens, NUnit provides an overload to the TestEquals method which allows us to supply our own message.&#160; Let’s change our test to include a custom message:
+</p>
+
+<pre class="csharp brush:csharp" name="code">        [Test]
+        public void TestPressEquals2()
+        {
+            var calculator = new Calculator();
+            calculator.Enter(2);
+            calculator.PressPlus();
+            calculator.Enter(2);
+            calculator.PressEquals();
+            Assert.AreEqual(4, calculator.Display,
+                "When adding 2 + 2, expected 4 but found {0}.", calculator.Display);
+        }</pre>
+
+<p>
+  When we run the test again, we get the following:
+</p>
+
+<div style="background: red">
+  &#160;
+</div>
+
+<p>
+  <font face="Courier New"></p> 
+  
+  <pre>CalculatorTests.TestPressEquals : Failed 
+When adding 2 + 2, expected 4 but found 0. 
+Expected: 4m 
+But was:&#160; 0m</pre>
+  
+  <p>
+    </font>
+  </p>
+  
+  <p>
+    &#160;
+  </p>
+  
+  <p>
+    By supplying&#160; a custom message, our test now provides some context around why the test failed.&#160; As an added benefit, our custom message also adds a bit of description to the purpose of our test when reading the source code.
+  </p>
+  
+  <p>
+    Unfortunately, these changes have introduced a bit of duplication into our test code.&#160; We now have the expected result, the actual result, and the values being added together repeated throughout out test.&#160; Also, it seems like a good idea to have the assert message automatically reflect any changes that might be made to the values used by the test.&#160; Let’s take a stab at reducing the duplication:
+  </p>
+  
+  <pre class="csharp brush:csharp" name="code">        [Test]
+        public void TestPressEquals2()
+        {
+            var value1 = 2m;
+            var value2 = 2m;
+            var calculator = new Calculator();
+            calculator.Enter(value1);
+            calculator.PressPlus();
+            calculator.Enter(value2);
+            calculator.PressEquals();
+            decimal expected = 4m;
+            decimal actual = calculator.Display;
+            Assert.AreEqual(expected, actual, 
+                "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+        }</pre>
+  
+  <p>
+    Now we’ve eliminated the duplication, but the test doesn’t seem as easy to follow.&#160; Also, our custom message no longer communicates the purpose of the test clearly.&#160; If we revisit this test later, we might as well work through the logic of the test than work through the logic of what this assertion&#160; is going to produce.&#160; Let’s stick to our principles on keeping our code free of duplication for now, but we’ll revisit this topic later in our series.
+  </p>
+  
+  <p>
+    Aside from there being nothing about our test that allows us to easily pick up on what’s occurring, our code is also looking a little crowded.&#160; We could easily address this by spacing things out a bit and perhaps adding a few comments.
+  </p>
+  
+  <p>
+    One popular style of organization is a pattern first described by Bill Wake as <em>Arrange, Act, Assert</em>.&#160; With this organization, the test is separated into three sections: one which Arranges the objects to be used as part of the test, one which Acts upon the objects, and one which Asserts that the expected outcomes have occurred.&#160; Since our test mostly follows this sequence already, let’s just space the sections out a bit and add some comments denoting the Arrange, Act and Assert sections:
+  </p>
+  
+  <pre class="csharp brush:csharp" name="code">        [Test]
+        public void TestPressEquals()
+        {
+            // Arrange
+            decimal value1 = 2m;
+            decimal value2 = 2m;
+            decimal expected = 4m;
+            var calculator = new Calculator();
+
+            // Act
+            calculator.Enter(value1);
+            calculator.PressPlus();
+            calculator.Enter(value2);
+            calculator.PressEquals();
+            decimal actual = calculator.Display;
+
+            // Assert
+            Assert.AreEqual(expected, actual,
+                            "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+        }</pre>
+  
+  <p>
+    That organizes the flow of the test a bit better, but we’re still missing the clarity that initial custom message was providing.&#160; We could communicate this through a comment as well, but another approach would be to just improve upon the actual test name.
+  </p>
+  
+  <p>
+    One common naming convention is to create a name reflecting the name of the method being tested, the scenario being tested and the expected behavior.&#160; Let’s change our test method name to reflect this convention:
+  </p>
+  
+  <pre class="brush:csharp" name="code">        [Test]
+        public void PressEquals_AddingTwoPlusTwo_ReturnsFour()
+        {
+            // Arrange
+            decimal value1 = 2m;
+            decimal value2 = 2m;
+            decimal expected = 4m;
+            var calculator = new Calculator();
+
+            // Act
+            calculator.Enter(value1);
+            calculator.PressPlus();
+            calculator.Enter(value2);
+            calculator.PressEquals();
+            decimal actual = calculator.Display;
+
+            // Assert
+            Assert.AreEqual(expected, actual,
+                            "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+        }</pre>
+  
+  <p>
+    &#160;
+  </p>
+  
+  <p>
+    After we’ve adjusted to reading this naming convention, we can now derive the same information that was communicated in that first message.&#160; Someone get a banner printed up, we’re declaring <a href="http://en.wikipedia.org/wiki/Sarcasm" target="_blank">victory</a>!
+  </p>
+  
+  <h2>
+    Conclusion
+  </h2>
+  
+  <p>
+    In this article, we’ve taken a look at a basic approach to writing unit tests and introduced a few techniques for improving unit test communication.&#160; While our resulting test correctly validates the behavior of our class, communicates what it does and provides a descriptive error message when it fails, there’s still room for improvement.&#160; In our next article, we’ll discuss some alternative approaches that will facilitate these goals as well as help us write working, maintainable software that matters.
+  </p>
