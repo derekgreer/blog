@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      TDD Best Practices: Don&rsquo;t Mock Others &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">TDD Best Practices: Don&rsquo;t Mock Others</h1>
+    <span class="post-meta">1 April, 2012. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p><a href="http://lostechies.com/derekgreer/2011/05/15/effective-tests-test-doubles/">Test <noindex></noindex> Doubles</a> play an important role in the practice of Test-Driven Development for establishing a controlled context, facilitating outside-in design, verifying component interaction, and providing overall test stability through isolation.  While isolating components from their dependencies is a Good Thing, some of the advantages of using test doubles and Test-Driven Development itself can be thwarted by substituting the wrong components.</p>
+
+<p>One design principle which is particularly relevant to the practice of using test doubles (mocks, stubs, spies, fakes, etc.) is the <a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion Principle</a>.  Stated simply, the Dependency Inversion Principle pertains to the decoupling of the stuff you most care about (like your domain layer) from the stuff you care least about (like your low-level infrastructure code and third-party libraries).  In relation to the practice of using test doubles, it’s the coupling to other people’s stuff that is most relevant.</p>
+
+<p>When you provide test doubles for types you don’t own, this indicates that you have a Dependency Inversion Principle violation.  If you’re injecting concrete, abstract, or interface types for a third party dependency then that means your stuff can’t be used without their stuff.  While not ideal, you might ignore this design principle due your personal stance of: “They’ll pry framework XYZ from my cold, dead hands”.  Fair enough.  Nevertheless, there are a few other reasons why you might want to consider following this principle.</p>
+
+<p>When using test doubles for third-party libraries, you make assumptions about how the third-party library works.  Perhaps the library you’re using has no bugs and you thoroughly understand all of its behavior, so you know that the behavior you are substituting behaves exactly like the real library will work in production once you put it all together.  If you aren’t confident of this, however, you might find that your design doesn’t interact with the third-party component in quite the way you imagined.  Let’s say it does though.  What about the next version?  When we design our systems using test doubles for third-party libraries, we create a false sense of security around the soundness and stability of our design.</p>
+
+<p>Another problem caused by the use of test doubles for third-party components is the limitation it places on emergent design.  Coupling to third-party components will often lead to making design concessions to accommodate your dependencies rather than allowing your own design to emerge through the feedback received through the TDD process.</p>
+
+<p>If we shouldn’t couple our design to third-party libraries (thereby removing the need to supply test doubles for third-party libraries), how then do we make use of such libraries and ensure our code works correctly?  The answer is to write component/unit level tests which guide the design of your own code which expresses its needs through its own interfaces (whose behavior is defined through the use of test doubles), and write integration tests which validate the behavior of adaptors which implement your design’s interfaces using the desired third-party components.</p>
+
+<p>For example, you might design your components to rely upon an ILogger, IMapper, or IBus using test doubles to define their expected behavior and have integration tests which validate the implementation of these interfaces with log4net, AutoMapper, or ØMQ respectively.</p>
+
+<p>In summary, don’t use test doubles for types you don’t own.  Instead, let any dependencies you take on be an outgrowth of your emergent design and provide integration tests to validate the expected behavior of any third-party libraries you use to facilitate the required behavior.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

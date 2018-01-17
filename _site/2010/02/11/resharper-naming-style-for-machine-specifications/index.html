@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Resharper Naming Style for Machine.Specifications &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Resharper Naming Style for Machine.Specifications</h1>
+    <span class="post-meta">11 February, 2010. It was a Thursday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>If you’re doing BDD-style specifications and using underscores within your variable names, the default Resharper settings will warn you about violating the naming style rules as shown below:</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperUnconfigured.png"><img class="size-full wp-image-223" title="ResharperUnconfigured" src="/wp-content/uploads/2010/02/ResharperUnconfigured.png" alt="" width="661" height="442" /></a></p>
+
+<p>Fortunately, <noindex></noindex> Machine.Specifications (MSpec) extends Resharper to allow for the creation of custom rules which affect only your MSpec types. To create a custom rule for MSpec, follow these steps:</p>
+
+<p><strong>Step 1</strong>: Open the Resharper Options Dialog.</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptions.png"><img class="alignnone size-full wp-image-255" title="ResharperOptions" src="/wp-content/uploads/2010/02/ResharperOptions.png" alt="" width="229" height="453" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptions.png 229w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptions-151x300.png 151w" sizes="(max-width: 229px) 100vw, 229px" /></a></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Step 2</strong>: Navigate to Languages</td>
+      <td>Naming Style and under “User defined naming rules” click “Add”.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyle_add.png"><img class="size-full wp-image-224" title="ResharperOptionsLanguagesNamingStyle_add" src="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyle_add.png" alt="" width="553" height="533" /></a></p>
+
+<p><strong>Step 3</strong>: This displays the “Edit Extended Naming Rule dialog.  In the “Rule Definition:” text box, give your new rule a name such as “Machine.Specifications Rules”.</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescription.png"><img class="alignnone size-full wp-image-261" title="ResharperOptionsLanguagesNamingStyleRuleDescription" src="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescription.png" alt="" width="492" height="446" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescription.png 492w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescription-300x271.png 300w" sizes="(max-width: 492px) 100vw, 492px" /></a></p>
+
+<p><strong>Step 4</strong>: Within the Affected entities list, un-check Class and scroll to the bottom to locate the entries starting with Machine.Specifications. Select all of these entries.</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescriptionModified.png"><img class="alignnone size-full wp-image-260" title="ResharperOptionsLanguagesNamingStyleRuleDescriptionModified" src="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescriptionModified.png" alt="" width="492" height="443" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescriptionModified.png 492w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleDescriptionModified-300x270.png 300w" sizes="(max-width: 492px) 100vw, 492px" /></a></p>
+
+<p><strong>Step 5</strong>: Select all options under Access rights: and leave options under Static/non-static: selected.</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleAccessRights.png"><img class="alignnone size-full wp-image-263" title="ResharperOptionsLanguagesNamingStyleAccessRights" src="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleAccessRights.png" alt="" width="483" height="190" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleAccessRights.png 483w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleAccessRights-300x118.png 300w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+
+<p><strong>Step 6</strong>: Add a new naming style to associate this rule to by clicking the Add icon and selecting the desired naming style (e.g. all_lower).</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleStyle.png"><img class="alignnone size-full wp-image-264" title="ResharperOptionsLanguagesNamingStyleRuleStyle" src="/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleStyle.png" alt="" width="224" height="622" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleStyle.png 224w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperOptionsLanguagesNamingStyleRuleStyle-108x300.png 108w" sizes="(max-width: 224px) 100vw, 224px" /></a></p>
+
+<p>The following diagram shows the dialog after these steps:</p>
+
+<p><a href="/wp-content/uploads/2010/02/ResharperEditExtendedNamingRuleDialog.png"><img class="size-full wp-image-249" title="ResharperEditExtendedNamingRuleDialog" src="/wp-content/uploads/2010/02/ResharperEditExtendedNamingRuleDialog.png" alt="" width="578" height="531" /></a></p>
+
+<p style="padding: 10px;">
+  After selecting OK, Resharper now ignores the naming warnings for the MSpec types:
+</p>
+
+<div>
+  <a href="/wp-content/uploads/2010/02/ResharperConfigured.png"><img class="size-full wp-image-266" title="ResharperConfigured" src="/wp-content/uploads/2010/02/ResharperConfigured.png" alt="" width="741" height="502" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperConfigured.png 926w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/ResharperConfigured-300x203.png 300w" sizes="(max-width: 741px) 100vw, 741px" /></a>
+</div>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

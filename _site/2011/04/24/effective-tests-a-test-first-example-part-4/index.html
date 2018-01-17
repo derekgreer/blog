@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Effective Tests: A Test-First Example - Part 4 &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Effective Tests: A Test-First Example - Part 4</h1>
+    <span class="post-meta">24 April, 2011. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>In <noindex></noindex> <a href="http://www.aspiringcraftsman.com/2011/04/11/effective-tests-a-test-first-example-part-3/">part 7</a> of our series, we finished the initial implementation of our Tic-tac-toe component. After we finished, a team in charge of creating a host application was able to get everything integrated (though rumor has it that there was a bit of complaining) and the application made its way to the QA team for some acceptance testing. Surprisingly, there were several issues reported that got assigned to us. Here are the issues we’ve been assigned:</p>
+
+<table style="clear:both;border: 1px solid black;border-collapse: collapse;color: black;width=100%;">
+  <tr style="border: 1px solid black;background-color:#DFDFDF">
+    <th style="border: 1px solid black;">
+      Issue
+    </th>
+    
+    <th style="border: 1px solid black;">
+      Description
+    </th>
+    
+    <th style="border: 1px solid black;">
+      Owner
+    </th>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      Defect
+    </td>
+    
+    <td style="border: 1px solid black;">
+      The player can always win by choosing positions 1, 5, 2, and 8. The game should prevent the player from winning.
+    </td>
+    
+    <td style="border: 1px solid black;">
+      <nobr>QA Team</nobr>
+    </td>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      Defect
+    </td>
+    
+    <td style="border: 1px solid black;">
+      The game throws an InvalidOperationException when choosing positions 1, 2, 5, and 9
+    </td>
+    
+    <td style="border: 1px solid black;">
+      QA Team
+    </td>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      Defect
+    </td>
+    
+    <td style="border: 1px solid black;">
+      The game makes a move after the player wins
+    </td>
+    
+    <td style="border: 1px solid black;">
+      QA Team
+    </td>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      Defect
+    </td>
+    
+    <td style="border: 1px solid black;">
+      After letting the game win by choosing positions 4, 7, 8, and 6, choosing the last position of 3 throws an InvalidOperationException
+    </td>
+    
+    <td style="border: 1px solid black;">
+      QA Team
+    </td>
+  </tr>
+  
+  <tr>
+    <td style="border: 1px solid black;">
+      Defect
+    </td>
+    
+    <td style="border: 1px solid black;">
+      When trying to let the game win by choosing positions 1, 7, and 8, the game chose positions 4, 5, and 9 instead of completing the winning sequence 4, 5, 6.
+    </td>
+    
+    <td style="border: 1px solid black;">
+      QA Team
+    </td>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      New Feature
+    </td>
+    
+    <td style="border: 1px solid black;">
+      Add a method to the Game class for retrieving the last position selected by the game.
+    </td>
+    
+    <td style="border: 1px solid black;">
+      <nobr>GUI Team</nobr>
+    </td>
+  </tr>
+  
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black;">
+      New Feature
+    </td>
+    
+    <td style="border: 1px solid black;">
+      Please modify the ChoosePosition method to throw exceptions for errors rather than returning strings. Additionally, please provide an event we can subscribe to when one of the players wins or when there is a draw.
+    </td>
+    
+    <td style="border: 1px solid black;">
+      GUI Team
+    </td>
+  </tr></table>
+
+<p>
+  </p>
+
+<p>
+    As you may have discerned by now, following Test-Driven Development doesn’t ensure the code we produce will be free of errors. It does, however, ensure that our code meets the executable specifications we create to guide the application’s design and aids in the creation of code that&#8217;s maintainable and relevant (that is, to the extent we adhere to Test-Driven Development methodologies). Of course, the Test-Driven Development process is a framework into which we pour both our requirements and ourselves. The quality of both of these ingredients certainly affects the overall outcome. As we become better at gathering requirements, translating these requirements into executable specifications, identifying simple solutions and factoring out duplication, our yield from the TDD process will increase.
+  </p>
+
+<p>
+    Since our issues have no particular priority assigned, let’s read through them before we get started to see if any make sense to tackle first. Given a couple of the issues pertain to changes to the API, it might be best to address these first to minimize the possibility of writing new tests that could need to be modified later.
+  </p>
+
+<p>
+    The first of these issues pertain to adding a new method. Here’s the issue:
+  </p>
+
+<table style="border: 1px solid black;border-collapse:collapse;color:black;width:100%;">
+    <tr style="border: 1px solid black;background-color:#DFDFDF">
+      <th style="border: 1px solid black;">
+        Issue
+      </th>
+      
+      <th style="border: 1px solid black;">
+        Description
+      </th>
+      
+      <th style="border: 1px solid black;">
+        Owner
+      </th>
+    </tr>
+    
+    <tr style="border: 1px solid black;">
+      <td style="border: 1px solid black;">
+        <nobr>New Feature</nobr>
+      </td>
+      
+      <td style="border: 1px solid black;">
+        Add a method to the Game class for retrieving the last position selected by the game.
+      </td>
+      
+      <td style="border: 1px solid black;">
+        <nobr>GUI Team</nobr>
+      </td>
+    </tr></table>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  Upon integrating our component, the GUI team discovered there wasn’t an easy way to tell what positions the game was selecting in order to reflect this to the user. They were able to use techniques similar to those we used in the course of implementing our tests, but they didn’t consider this to be a very friendly API. While such an oversight may seem obvious within the context of the entire application, such issues occur when components are development in isolation. Fundamentally, the problem wasn’t with the Test-Driven Development methodologies we were following, but with the scope in which we were applying them. Later in our series, we’ll discuss an alternative to the approach we’ve taken with this effort that can help avoid misalignments such as this. Until then, we’ll address these issues the best we can with our existing approach.
+&lt;/p&gt;
+
+&lt;p&gt;
+  To address this issue, we’ll create a new test that describes the behavior for the requested method:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_retrieving_the_last_selected_position_for_the_game
+  {
+      [TestMethod]
+      public void it_should_return_the_last_position()
+      {
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+  As our method of validation, we’ll set up our assertion to verify that some expected position was selected:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_retrieving_the_last_selected_position_for_the_game
+  {
+      [TestMethod]
+      public void it_should_return_the_last_position()
+      {
+          &lt;b&gt;Assert.AreEqual(1, selection);&lt;/b&gt;
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+  Next, let’s choose what our API is going to look like and then set up the context of our test. Let’s call our new method GetLastChoiceBy(). We can make use of our existing Player enumeration as the parameter type:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_retrieving_the_last_selected_position_for_the_game
+  {
+      [TestMethod]
+      public void it_should_return_the_last_position()
+      {
+          &lt;b&gt;Game game = new Game(new GameAdvisorStub(new [] { 1 }));
+          game.GoFirst();
+          var selection = game.GetLastChoiceBy(Player.Game);&lt;/b&gt;
+          Assert.AreEqual(1, selection);
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+  Next, let’s add the new method to our Game class so this will compile:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class Game
+  {
+      // snip
+  
+      public int GetLastChoiceBy(Player player)
+      {
+          return 0;
+      }   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+  Now we’re ready to run the tests:
+&lt;/p&gt;
+
+&lt;div style="background: red"&gt;
+  &amp;nbsp;
+&lt;/div&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_retrieving_the_last_selected_position_for_the_game   Failed	it_should_return_the_last_position   Assert.AreEqual failed. Expected:&amp;lt;1&gt;. Actual:&amp;lt;0&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+  We can make the test pass by just returning a 1:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public int GetLastChoiceBy(Player player)
+      {
+          &lt;b&gt;return 1;&lt;/b&gt;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div style="background:#3C0"&gt;
+  &amp;nbsp;
+&lt;/div&gt;
+
+&lt;p&gt;
+  &amp;nbsp;
+&lt;/p&gt;
+
+&lt;p&gt;
+  Now, we’ll refactor the method to retrieve the value from a new dictionary field which we’ll set in the SelectAPositionFor() method:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class Game
+  {
+      &lt;b&gt;readonly Dictionary&amp;lt;Player, char&gt; _tokenAssignments = new Dictionary&amp;lt;Player, char&gt;();&lt;/b&gt;
+      ...
+  
+      void SelectAPositionFor(Player player)
+      {
+          int recommendedPosition = 
+              _advisor.WithLayout(new string(_layout)).SelectBestMoveForPlayer(GetTokenFor(player));
+          _layout[recommendedPosition - 1] = GetTokenFor(player);
+          &lt;b&gt;_lastPositionDictionary[player] = recommendedPosition;&lt;/b&gt;
+      }
+  
+      &lt;b&gt;public int GetLastChoiceBy(Player player)
+      {
+          return _lastPositionDictionary[player];
+      }&lt;/b&gt;
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div style="background:#3C0"&gt;
+  &amp;nbsp;
+&lt;/div&gt;
+
+&lt;p&gt;
+  &amp;nbsp;
+&lt;/p&gt;
+
+&lt;p&gt;
+  That was fairly simple. On to our next feature request:
+&lt;/p&gt;
+
+&lt;table style="border: 1px solid black;border-collapse: collapse;color: black;width=100%;"&gt;
+  &lt;tr style="border: 1px solid black;background-color:#DFDFDF"&gt;
+    &lt;th style="border: 1px solid black;"&gt;
+      Issue
+    &lt;/th&gt;
+    
+    &lt;th style="border: 1px solid black;"&gt;
+      Description
+    &lt;/th&gt;
+    
+    &lt;th style="border: 1px solid black;"&gt;
+      Owner
+    &lt;/th&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr style="border: 1px solid black;"&gt;
+    &lt;td style="border: 1px solid black;"&gt;
+      New Feature
+    &lt;/td&gt;
+    
+    &lt;td style="border: 1px solid black;"&gt;
+      Please modify the ChoosePosition method to throw exceptions for errors rather than returning strings. Additionally, please provide an event we can subscribe to when one of the players wins or when there is a draw.
+    &lt;/td&gt;
+    
+    &lt;td style="border: 1px solid black;"&gt;
+      GUI Team
+    &lt;/td&gt;
+  &lt;/tr&gt;&lt;/table&gt; 
+  
+  &lt;p&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    This is slightly embarrassing. While we’ve been striving to guide the design of our public interface from a consumer’s perspective, we seem to have made a poor choice in how the game communicates errors and the concluding status of the game. If our Game class had evolved within the context of the consuming application, perhaps we would have seen these choices in a different light.
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Let’s go ahead and get started on the first part of the request which involves changing how errors are reported. First, let’s take inventory of our existing tests which relate to reporting errors. We have two tests which pertain to error conditions:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_attempts_to_select_an_invalid_position
+  {
+      [TestMethod]
+      public void it_should_tell_the_player_the_position_is_invalid()
+      {
+          var game = new Game();
+          string message = game.ChoosePosition(10);
+          Assert.AreEqual("That spot is invalid!", message);
+      }
+  }
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_attempts_to_select_an_occupied_position
+  {
+      [TestMethod]
+      public void it_should_tell_the_player_the_position_is_occupied()
+      {
+          var game = new Game(new GameAdvisorStub(new[] { 1, 4, 7 }));
+          game.ChoosePosition(2);
+          string message = game.ChoosePosition(1);
+          Assert.AreEqual("That spot is taken!", message);      
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Starting with the first method, let’s modify it to check that an exception was thrown:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_attempts_to_select_an_invalid_position
+  {
+      [TestMethod]
+      public void it_should_tell_the_player_the_position_is_invalid()
+      {
+          var game = new Game();
+          string message = game.ChoosePosition(10);
+          &lt;b&gt;Assert.AreEqual("The position '10' was invalid.", exception.Message);&lt;/b&gt;
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Next, let’s wrap the call to the ChoosePosition() method with a try/catch block. We’ll call our exception an InvalidPositionException:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_attempts_to_select_an_invalid_position
+  {
+      [TestMethod]
+      public void it_should_tell_the_player_the_position_is_invalid()
+      {
+          &lt;b&gt;var exception = new InvalidPositionException(string.Empty);&lt;/b&gt;
+  
+          var game = new Game();
+          &lt;b&gt;try
+          {
+              game.ChoosePosition(10);
+          }
+          catch (InvalidPositionException ex)
+          {
+              exception = ex;
+          }&lt;/b&gt;
+  
+          Assert.AreEqual("The position '10' was invalid.", exception.Message);
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Next, let’s create our new Exception class:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class InvalidPositionException : Exception
+  {
+      public InvalidPositionException(string message) : base(message)
+      {
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now, let’s run our tests:
+  &lt;/p&gt;
+  
+  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_the_player_attempts_to_select_an_invalid_position   Failed	it_should_tell_the_player_the_position_is_invalid   Assert.AreEqual failed.    Expected:&amp;lt;The position '10' was invalid.&gt;. Actual:&amp;lt;&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Since all we need to do is to throw our new exception, we’ll use an Obvious Implementation:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public string ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              &lt;b&gt;throw new InvalidPositionException(
+                  string.Format("The position \'{0}\' was invalid.", position));&lt;/b&gt;
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              return "That spot is taken!";
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+          SelectAPositionFor(Player.Game);
+  
+          if (WinningPlayerIs(Player.Human))
+              return "Player wins!";
+  
+          if (WinningPlayerIs(Player.Game))
+              return "Game wins.";
+  
+          return string.Empty;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    In this case we haven’t introduced any duplication that I can see, so let’s move on to our next test. We’ll modify it to follow the same pattern as our previous one:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_attempts_to_select_an_occupied_position
+  {
+      [TestMethod]
+      public void it_should_tell_the_player_the_position_is_occupied()
+      {
+          &lt;b&gt;var exception = new OccupiedPositionException(string.Empty);&lt;/b&gt;
+          var game = new Game(new GameAdvisorStub(new[] {1, 4, 7}));
+          game.ChoosePosition(2);
+  
+          &lt;b&gt;try
+          {
+              game.ChoosePosition(1);
+          }
+          catch (OccupiedPositionException ex)
+          {
+              exception = ex;
+          }
+  
+          Assert.AreEqual("The position '1' is already occupied.", exception.Message);&lt;/b&gt;
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Here is our new exception:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class OccupiedPositionException : Exception
+  {
+      public OccupiedPositionException(string message): base(message)
+      {
+      }
+  }
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Here’s the results of our test execution:
+  &lt;/p&gt;
+  
+  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_the_player_attempts_to_select_an_occupied_position   Failed	it_should_tell_the_player_the_position_is_occupied	   Assert.AreEqual failed.   Expected:&amp;lt;The position '1' is already occupied.&gt;. Actual:&amp;lt;&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    To provide the implementation, we&amp;#8217;ll throw our new exception:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public string ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              &lt;b&gt;throw new OccupiedPositionException(
+                  string.Format("The position \'{0}\' is already occupied.", position));&lt;/b&gt;
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+          SelectAPositionFor(Player.Game);
+  
+          if (WinningPlayerIs(Player.Human))
+              return "Player wins!";
+  
+          if (WinningPlayerIs(Player.Game))
+              return "Game wins.";
+  
+          return string.Empty;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Again, there isn’t any noticeable duplication this time. Our next task is to send notifications to observers when the Game class detects a winner. Here are the existing tests we used for indicating a winner:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_player_as_the_winner()
+      {
+          var game = new Game(new GameAdvisorStub(new[] {1, 2, 3}));
+          game.ChoosePosition(4);
+          game.ChoosePosition(5);
+          string message = game.ChoosePosition(6);
+          Assert.AreEqual("Player wins!", message);
+      }
+  }
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_game_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_game_as_the_winner()
+      {
+          var game = new Game();
+          game.ChoosePosition(4);
+          game.ChoosePosition(6);
+          string message = game.ChoosePosition(8);
+          Assert.AreEqual("Game wins.", message);
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    We’ll start with the first one by modifying our Assert call. First, let’s change the value we’re comparing against from a string to a new GameResult enumeration with a value of PlayerWins:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_player_as_the_winner()
+      {
+          var game = new Game(new GameAdvisorStub(new[] {1, 2, 3}));
+          game.ChoosePosition(4);
+          game.ChoosePosition(5);
+          string message = game.ChoosePosition(6);
+          &lt;b&gt;Assert.AreEqual(GameResult.PlayerWins, result);&lt;/b&gt;
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Next, let’s create an instance of our as yet created GameResult enumeration and initialize it’s value to something we aren’t expecting:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_player_as_the_winner()
+      {
+          var game = new Game(new GameAdvisorStub(new[] {1, 2, 3}));
+          &lt;b&gt;var result = (GameResult) (-1);&lt;/b&gt;
+          game.ChoosePosition(4);
+          game.ChoosePosition(5);
+          string message = game.ChoosePosition(6);
+          Assert.AreEqual(GameResult.PlayerWins, result); 
+     }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Next, we need to decide how we would like to receive this value. Let’s assume we can subscribe to a GameComplete event. When invoked, we’ll assume the value can be retrieved from a property on the EventArgs supplied with the event:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_player_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_player_as_the_winner()
+      {
+          var game = new Game(new GameAdvisorStub(new[] {1, 2, 3}));
+          var result = (GameResult) (-1);
+          &lt;b&gt;game.GameComplete += (s, e) =&gt; result = e.Result;&lt;/b&gt;
+          game.ChoosePosition(4);
+          game.ChoosePosition(5);
+          game.ChoosePosition(6);
+          Assert.AreEqual(GameResult.PlayerWins, result);
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Our next steps are to create the new enum type and to add an event to our Game class. First, let’s create the enum:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public enum GameResult
+  {
+      PlayerWins,
+      GameWins,
+      Draw
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    I went ahead and added values for the other two possible states: GameWins and Draw. “Aren’t we getting ahead of ourselves”, you might ask? Perhaps, but we already know we have upcoming tests that will require these states and our GameResult represents the state of our game, not its behavior. We’ve been pretty good about not prematurely adding anything thus far, so this seems like a safe enough step to take without sending us down a slippery slope.
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Here’s our new Game event:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class Game
+  {
+      ...
+  
+      &lt;b&gt;public event EventHandler&amp;lt;GameCompleteEventArgs&gt; GameComplete;&lt;/b&gt;
+  
+      ...
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now that we’ve created this, we’ll also need to create a GameCompleteEventArgs:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class GameCompleteEventArgs : EventArgs
+  {
+      public GameResult Result { get; private set; }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now we’re ready to compile and run our tests:
+  &lt;/p&gt;
+  
+  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_the_player_gets_three_in_a_row   Failed	it_should_announce_the_player_as_the_winner	   Assert.AreEqual failed. Expected:&amp;lt;PlayerWins&gt;. Actual:&amp;lt;-1&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    There are well established patterns for raising events in .Net, so we’ll follow the standard pattern for this:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public string ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+          SelectAPositionFor(Player.Game);
+  
+          if (WinningPlayerIs(Player.Human))
+              &lt;b&gt;InvokeGameComplete(new GameCompleteEventArgs(GameResult.PlayerWins));&lt;/b&gt;
+  
+          if (WinningPlayerIs(Player.Game))
+              return "Game wins.";
+  
+          return string.Empty;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now we need to create our InvokeGameComplete() method and a GameCompleteEventArgs constructor that initializes the Result property:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class Game
+  {
+      ... 
+  
+      public event EventHandler&amp;lt;GameCompleteEventArgs&gt; GameComplete;
+  
+      &lt;b&gt;public void InvokeGameComplete(GameCompleteEventArgs e)
+      {
+          EventHandler&amp;lt;GameCompleteEventArgs&gt; handler = GameComplete;
+          if (handler != null) handler(this, e);
+      }&lt;/b&gt;
+  
+      ... 
+  
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class GameCompleteEventArgs : EventArgs
+  {
+      &lt;b&gt;public GameCompleteEventArgs(GameResult result)
+      {
+          Result = result;
+      }&lt;/b&gt;
+  
+      public GameResult Result { get; private set; }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Again, I don’t see any duplication to worry about. Next, we’ll follow similar steps for notifying the game as a winner:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_the_game_gets_three_in_a_row
+  {
+      [TestMethod]
+      public void it_should_announce_the_game_as_the_winner()
+      {
+          var game = new Game(new GameAdvisorStub(new[] {1, 2, 3}));
+          &lt;b&gt;var result = (GameResult) (-1);
+          game.GameComplete += (s, e) =&gt; result = e.Result;&lt;/b&gt;
+          game.ChoosePosition(4);
+          game.ChoosePosition(6);
+          game.ChoosePosition(8);
+          &lt;b&gt;Assert.AreEqual(GameResult.GameWins, result);&lt;/b&gt;
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_the_game_gets_three_in_a_row   Failed	it_should_announce_the_game_as_the_winner   Assert.AreEqual failed. Expected:&amp;lt;PlayerWins&gt;. Actual:&amp;lt;-1&gt;. 
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    To make the test pass, we should only need to modify the Game class to raise the event this time:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public string ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+          SelectAPositionFor(Player.Game);
+  
+          if (WinningPlayerIs(Player.Human))
+              InvokeGameComplete(new GameCompleteEventArgs(GameResult.PlayerWins));
+  
+          if (WinningPlayerIs(Player.Game))
+              &lt;b&gt;InvokeGameComplete(new GameCompleteEventArgs(GameResult.GameWins));&lt;/b&gt;
+  
+          return string.Empty;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Let’s run the tests again:
+  &lt;/p&gt;
+  
+  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_the_player_gets_three_in_a_row   Failed	it_should_announce_the_player_as_the_winner   Assert.AreEqual failed. Expected:&amp;lt;PlayerWins&gt;. Actual:&amp;lt;GameWins&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Our target test passed, but we broke our previous test. Looking at our implementation, the problem seems to be that both the player and game select positions on the board before we check to see if anyone is a winner. Additionally, we should return from the method once a winner is determined. Let’s fix this:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public string ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+          
+          &lt;b&gt;if (WinningPlayerIs(Player.Human))
+          {
+              InvokeGameComplete(new GameCompleteEventArgs(GameResult.PlayerWins));
+              return string.Empty;
+          }&lt;/b&gt;
+  
+          SelectAPositionFor(Player.Game);
+          
+          &lt;b&gt;if (WinningPlayerIs(Player.Game))
+          {
+              InvokeGameComplete(new GameCompleteEventArgs(GameResult.GameWins));
+              return string.Empty;
+          }&lt;/b&gt;
+  
+          return string.Empty;
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Let’s refactor now. First, let’s remove our unused return type:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public &lt;b&gt;void&lt;/b&gt; ChoosePosition(int position)
+      {
+          if (IsOutOfRange(position))
+          {
+              throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+          }
+  
+          if (_layout[position - 1] != '\0')
+          {
+              throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+          }
+  
+          _layout[position - 1] = GetTokenFor(Player.Human);
+  
+          if (WinningPlayerIs(Player.Human))
+          {
+              InvokeGameComplete(new GameCompleteEventArgs(GameResult.PlayerWins));
+              &lt;b&gt;return;&lt;/b&gt;
+          }
+  
+  
+          SelectAPositionFor(Player.Game);
+  
+          if (WinningPlayerIs(Player.Game))
+          {
+              InvokeGameComplete(new GameCompleteEventArgs(GameResult.GameWins));
+              &lt;b&gt;return;&lt;/b&gt;
+          }
+      }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Now that we’ve rearranged our code, we have a sequence of steps that are repeated between the player and the game. First we use a strategy for moving the player, then we check to see if the player wins. Let’s distill this down to checking for the first winning play from a collection of player strategies:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public void ChoosePosition(int position)   {
+  if (IsOutOfRange(position))
+  {
+      throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+  }
+  
+  if (_layout[position - 1] != '\0')
+  {
+      throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+  }
+  
+  &lt;b&gt;new Func&amp;lt;bool&gt;[]
+      {
+          () =&gt; CheckPlayerStrategy(Player.Human, () =&gt; _layout[position - 1] = GetTokenFor(Player.Human)),
+          () =&gt; CheckPlayerStrategy(Player.Game, () =&gt; SelectAPositionFor(Player.Game))
+      }.Any(winningPlay =&gt; winningPlay());&lt;/b&gt;   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Here’s our new CheckPlayerStrategy() method:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   bool CheckPlayerStrategy(Player player, Action strategy)   {
+  strategy();
+  if (WinningPlayerIs(player))
+  {
+      var result = (player == Player.Human) ? GameResult.PlayerWins : GameResult.GameWins;
+      InvokeGameComplete(new GameCompleteEventArgs(result));
+      return true;
+  }
+  
+  return false;   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Our final step for this issue is to raise an event when there is a draw. Following our normal procession, here’s the test we come up with:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   [TestClass]
+  public class When_a_move_results_in_a_draw
+  {
+      [TestMethod]
+      public void it_should_announce_the_game_is_a_draw()
+      {
+          var game = new Game(new GameAdvisorStub(new[] { 2, 3, 4, 9 }));
+          var result = (GameResult)(-1);
+          game.GameComplete += (s, e) =&gt; result = e.Result;
+          new[] {1, 5, 6, 7, 8}.ToList().ForEach(game.ChoosePosition);
+          Assert.AreEqual(GameResult.Draw, result);
+      }
+  }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_a_move_results_in_a_draw   Failed	it_should_announce_the_game_is_a_draw	   TestFirstExample.When_a_move_results_in_a_draw.it_should_announce_the_game_is_a_draw threw exception:    System.IndexOutOfRangeException: Index was outside the bounds of the array.
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    This test isn’t failing for the right reason, so let&amp;#8217;s address this before moving on. After investigating the exception, the issue is that we never accounted for the fact that their won’t be a position to choose when the player chooses the last remaining position. Let’s correct this issue by ensuring there is an empty spot left before selecting a position for the game:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   void SelectAPositionFor(Player player)   {
+  &lt;b&gt;if (_layout.Any(position =&gt; position == '\0'))
+  {&lt;/b&gt;
+      int recommendedPosition =
+          _advisor.WithLayout(new string(_layout)).SelectBestMoveForPlayer(GetTokenFor(player));
+      _layout[recommendedPosition - 1] = GetTokenFor(player);
+      _lastPositionDictionary[player] = recommendedPosition;
+  &lt;b&gt;}&lt;/b&gt;   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background: red"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFF;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   When_a_move_results_in_a_draw   Failed	it_should_announce_the_game_is_a_draw	   Failed	it_should_announce_the_game_is_a_draw   Assert.AreEqual failed. Expected:&amp;lt;Draw&gt;. Actual:&amp;lt;-1&gt;. 	
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now our test is failing for the right reason. To make the test pass, we can fire the event unless someone won or unless there’s any empty positions left:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public void ChoosePosition(int position)   {
+  if (IsOutOfRange(position))
+  {
+      throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+  }
+  
+  if (_layout[position - 1] != '\0')
+  {
+      throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+  }
+  
+  &lt;b&gt;var someoneWon =&lt;/b&gt; new Func&amp;lt;bool&gt;[]
+      {
+          () =&gt; CheckPlayerStrategy(Player.Human, () =&gt; _layout[position - 1] = GetTokenFor(Player.Human)),
+          () =&gt; CheckPlayerStrategy(Player.Game, () =&gt; SelectAPositionFor(Player.Game))
+      }.Any(winningPlay =&gt; winningPlay());
+  
+  &lt;b&gt;if (!(someoneWon || _layout.Any(pos =&gt; pos == '\0')))
+  {
+      InvokeGameComplete(new GameCompleteEventArgs(GameResult.Draw));
+  }&lt;/b&gt;   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Time to refactor. It looks like we have the same comparison for checking that the game is a draw and our new guard for selecting a position for the game. Let’s create a method for these which expresses the meaning of this check:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   bool PositionsAreLeft()   {
+  return _layout.Any(pos =&gt; pos == '\0');   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;p&gt;
+    Now we can replace the previous calls in the ChoosePosition() and SelectAPositionFor() methods:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public void ChoosePosition(int position)   {
+  if (IsOutOfRange(position))
+  {
+      throw new InvalidPositionException(string.Format("The position \'{0}\' was invalid.", position));
+  }
+  
+  if (_layout[position - 1] != '\0')
+  {
+      throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+  }
+  
+  bool someoneWon = new Func&amp;lt;&amp;lt;bool&gt;[]
+                          {
+                              () =&gt;
+                              CheckPlayerStrategy(Player.Human,
+                                                  () =&gt; _layout[position - 1] = GetTokenFor(Player.Human)),
+                              () =&gt; CheckPlayerStrategy(Player.Game, () =&gt; SelectAPositionFor(Player.Game))
+                          }.Any(winningPlay =&gt; winningPlay());
+  
+  if (!(someoneWon || &lt;b&gt;PositionsAreLeft()&lt;/b&gt;))
+  {
+      InvokeGameComplete(new GameCompleteEventArgs(GameResult.Draw));
+  }   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   void SelectAPositionFor(Player player)   {
+  if (&lt;b&gt;PositionsAreLeft()&lt;/b&gt;)
+  {
+      int recommendedPosition =
+          _advisor.WithLayout(new string(_layout)).SelectBestMoveForPlayer(GetTokenFor(player));
+      _layout[recommendedPosition - 1] = GetTokenFor(player);
+      _lastPositionDictionary[player] = recommendedPosition;
+  }   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    One thing that occurred to me while implementing this feature is that using a null character to represent an empty position isn’t particularly clear. Let’s define a constant named EmptyValue which we’ll substitute for our use of the null character:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;div style="overflow:auto;background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline"&gt;   public class Game
+  {
+      ...
+  
+      &lt;b&gt;const char EmptyValue = char.MinValue;&lt;/b&gt;
+  
+      ...
+  
+      public void ChoosePosition(int position)
+      {
+          ...
+  
+          if (_layout[position - 1] != &lt;b&gt;EmptyValue&lt;/b&gt;)
+          {
+              throw new OccupiedPositionException(string.Format("The position \'{0}\' is already occupied.", position));
+          }
+  
+          ...
+      }
+  
+      bool PositionsAreLeft()
+      {
+          return _layout.Any(pos =&gt; pos == &lt;b&gt;EmptyValue&lt;/b&gt; );
+      }
+  
+      string GetLayoutFor(Player player)
+      {
+          return new string(_layout.ToList()
+                                .Select(c =&gt; (c.Equals(GetTokenFor(player))) ? GetTokenFor(player) : &lt;b&gt;EmptyValue&lt;/b&gt; )
+                                .ToArray());
+      }
+  
+      …   }   &lt;br /&gt;
+</code></pre></div></div>
+
+<p>&lt;/div&gt;&lt;/pre&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="background:#3C0"&gt;
+    &amp;nbsp;
+  &lt;/div&gt;
+  
+  &lt;p&gt;
+    &amp;nbsp;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    That wraps up the two issues from the UI team. We’ll stop here and address the issues from the QA team next time.
+  &lt;/p&gt;
+</code></pre></div></div>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

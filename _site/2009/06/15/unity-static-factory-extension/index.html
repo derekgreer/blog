@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Unity: The Static Factory Extension &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Unity: The Static Factory Extension</h1>
+    <span class="post-meta">15 June, 2009. It was a Monday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>The Unity Inversion of Control container comes with an extension called the StaticFactoryExtension. The purpose of this extension is to add the ability to register types within the container while deferring the instantiation of the type to a factory method. This enables a number of scenarios where finer-grained control over the construction of an object is desired.</p>
+
+<p>As the name suggests, one example use of the extension is with a static factory method. In the following test, an ILoggingService is registered with the container by configuring it to call the LoggingService.GetLoggingService() static method via the IStaticFactoryConfiguration.</p>
+
+<pre class="brush:csharp">namespace &lt;noindex&gt;&lt;/noindex&gt; StaticFactoryExample
+{
+    public class StaticFactoryExampleSpecs
+    {
+        [TestFixture]
+        public class When_a_logging_service_is_resolved_using_a_static_factory_method
+        {
+            UnityContainer _container;
+
+            [SetUp]
+            public void SetUp()
+            {
+                _container = new UnityContainer();
+
+                _container
+                    .AddNewExtension()
+                    .Configure()
+                    .RegisterFactory(container =&gt;
+                                     LoggingService.GetLoggingService());
+            }
+
+            [Test]
+            public void A_logging_service_should_be_returned()
+            {
+                Assert.IsNotNull(_container.Resolve());
+            }
+        }
+    }
+
+    public interface ILoggingService
+    {
+    }
+
+    public sealed class LoggingService : ILoggingService
+    {
+        readonly Log4NetLogger _logger;
+
+        LoggingService(Log4NetLogger logger)
+        {
+            _logger = logger;
+        }
+
+        public static ILoggingService GetLoggingService()
+        {
+            return Nested.instance;
+        }
+
+        static class Nested
+        {
+            internal static readonly ILoggingService instance = new LoggingService(new Log4NetLogger());
+        }
+    }
+
+    public interface ILogger
+    {
+    }
+
+    public class Log4NetLogger : ILogger
+    {
+    }
+}
+</pre>
+
+<p>While use with actual static factory methods may have been the driving factor for the creation of this extension, there is nothing inherently prescriptive about the extension which necessitates that the methods used be static.</p>
+
+<p>Another example use of the StaticFactoryExtension is to conceal dependencies of resolved types which you may not want to be accessible through the container. Consider the following alternate example registration of the ILoggingService:</p>
+
+<pre class="brush:csharp">namespace StaticFactoryExample
+{
+    public class StaticFactoryExampleSpecs
+    {
+        [TestFixture]
+        public class When_a_logging_service_is_resolved_using_a_static_factory_method
+        {
+            UnityContainer _container;
+
+            [SetUp]
+            public void SetUp()
+            {
+                _container = new UnityContainer();
+
+                _container
+                    .AddNewExtension()
+                    .RegisterType(new ContainerControlledLifetimeManager())
+                    .Configure()
+                    .RegisterFactory(container =&gt;
+                                     new LoggingService(new Log4NetLogger()));
+            }
+
+            [Test]
+            public void A_logging_service_should_be_returned()
+            {
+                Assert.IsNotNull(_container.Resolve());
+            }
+
+            [Test]
+            public void The_logging_service_returned_should_always_be_the_same_instance()
+            {
+                Assert.AreSame(
+                    _container.Resolve(),
+                    _container.Resolve());
+            }
+        }
+    }
+
+    public interface ILoggingService
+    {
+    }
+
+    public class LoggingService : ILoggingService
+    {
+        readonly ILogger _logger;
+
+        public LoggingService(ILogger logger)
+        {
+            _logger = logger;
+        }
+    }
+
+    public interface ILogger
+    {
+    }
+
+    public class Log4NetLogger : ILogger
+    {
+    }
+}
+</pre>
+
+<p>In this example, the LoggingService is implemented as a class with an ILogger dependency which must be supplied through the constructor. The factory method responsible for returning the ILoggingService has been rewritten as an expression which returns a newly instantiated instance of the LoggingService and supplies an instance of Log4NetLogger as its dependency implementation. Additionally, the ILoggingService has been registered with a ContainerControlledLifetimeManager. A lifetime manager within Unity is a type responsible for governing how instances of types registered with the container are managed. The ContainerControlledLifetimeManager holds a single instance of the registered type once created and returns the same instance upon all requests. This effectively causes the container to manage the instance as a singleton without placing this responsibility upon the class itself, and without otherwise incurring the drawbacks that the singleton design pattern imposes upon a class.</p>
+
+<p>While enabling the ILoggingService to be resolved by the container could have been achieved without the use of the StaticFactoryExtension by simply registering the LoggingService implementation and the ILogger dependency type, this would have made the instance of ILogger available to types within the system which may not be desired. In this case, the ILoggingService is intended as the public API to be used by types within the system for logging needs. The ILogger type is simply a strategy for how this is accomplished. This approach enables the ILoggingService to be lazy-loaded by the container without exposing the ILogger type.</p>
+
+<p>While the StaticFactoryExtension provides useful behavior to the Unity container, one might argue that the API leaves something to be desired. One of the strengths of the Unity container is its extensibility model. In fact, all of Unity’s functionally is facilitated through extensions. Unfortunately, this means additional functionality such as that provided by the StaticFactoryExtension requires calling the Configure</p>
+
+<p>() method to obtain a reference to the extension. The result is that some degree of ceremony is required each time a factory method needs to be registered for a type.</p>
+
+<p>One approach to improving the API is to encapsulate the required calls to configure a factory method within an extension method. Consider the following extension methods:</p>
+
+<pre class="brush:csharp">public static class UnityExtensions
+    {
+        public static IUnityContainer RegisterType(this IUnityContainer container, FactoryDelegate factoryMethod)
+        {
+            container.Configure().RegisterFactory(factoryMethod);
+            return container;
+        }
+
+        public static IUnityContainer RegisterType(this IUnityContainer container, FactoryDelegate factoryMethod,
+                                                   LifetimeManager lifetimeManager)
+        {
+            container
+                .RegisterType(lifetimeManager)
+                .Configure().RegisterFactory(factoryMethod);
+            return container;
+        }
+    }
+</pre>
+
+<p>In the case of the eariler ILoggingService example, where the desired behavior is to always return the same instance, using the extension method which accepts a FactoryDelegate and a LifetimeManager allows the StaticFactoryExtension behavior to be used as follows:</p>
+
+<pre class="brush:csharp">[SetUp]
+        public void SetUp()
+        {
+            _container = new UnityContainer();
+
+            _container
+                .AddNewExtension()
+                .RegisterType(container =&gt; new LoggingService(new Log4NetLogger()),
+                              new ContainerControlledLifetimeManager());
+        }
+</pre>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

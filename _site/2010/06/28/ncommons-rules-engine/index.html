@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      NCommons Rules Engine &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">NCommons Rules Engine</h1>
+    <span class="post-meta">28 June, 2010. It was a Monday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>I recently decided to invest some time to learn how my team might leverage the <a href="http://mvccontrib.codeplex.com/" target="_blank">MvcContrib</a> <noindex></noindex> rules engine for our projects at work. I discovered this feature after browsing the <a href="http://codecampserver.codeplex.com/" target="_blank">CodeCampServer</a> source which seems to be the only publicly available example of the rules engine in use. I was impressed at how clean the controller actions were as a result of leveraging this feature in conjunction with some additional infrastructure sugar the CodeCampServer adds.</p>
+
+<p>While I liked the capabilities of the MvcContrib rules engine overall, there were a few aspects I wanted to change.  One of those things was the coupling to the validation strategy provided by the rules engine and another was the need for a bit of additional infrastructure code to help parse the results when mapping validation errors back to their corresponding UI elements.</p>
+
+<p>I also recently became aware of the <a href="http://fluentvalidation.codeplex.com/" target="_blank">Fluent Validation</a> library by Jeremy Skinner and thought to myself: “<em>I wonder how long it would take to just create my own rules engine leveraging the Fluent Validation framework</em>“, so I sat down last weekend to find out. Well, after getting something up and going, I thought I might as well share my results. I should note that given my effort was inspired by the MvcContrib rules engine, some of the same concepts are reflected in my effort (though perhaps with a more naive implementation).</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The basic rules engine works as follows:</p>
+
+<ol>
+  <li>A user invokes some Controller action.</li>
+  <li>The Controller takes the action’s parameter and invokes the RulesEngine.Process() method.</li>
+  <li>The RulesEngine invokes an injected implementation of IRuleValidator.Validate() on the object.</li>
+  <li>The IRulesValidator returns a RuleValidationResult denoting the status of the validation as well as containing any validation error messages.</li>
+  <li>The RulesEngine uses the Common Service Locator to find implementations of ICommand<T> where T matches the type of the object.</T></li>
+  <li>The implementations of ICommand<T> are executed and any results accumulated.</T></li>
+  <li>The RulesEngine returns a ProcessResult which contains the process status and any validation messages and return items.</li>
+  <li>The Controller uses the status to determine which action to display. In the event of a validation failure, the error messages are added to the ModelState with their associated property names.</li>
+</ol>
+
+<p>Here is an example usage:</p>
+
+<pre class="brush:csharp">[HttpPost]
+public ActionResult Create(ProductInput productInput)
+{
+    ProcessResult results = _rulesEngine.Process(productInput);
+
+    if (!results.Successful)
+    {
+        CopyValidationErrors(results);
+        return View(productInput);
+    }
+
+    return RedirectToAction("Index");
+}
+
+void CopyValidationErrors(ProcessResult results)
+{
+    foreach (RuleValidationFailure failure in results.ValidationFailures)
+    {
+        ModelState.AddModelError(failure.PropertyName, failure.Message);
+    }
+}
+</pre>
+
+<p>In an example application I’ve included with the source, I created an implementation of the IRulesValidator which adapts to the Fluent Validation library:</p>
+
+<pre class="brush:csharp">public class FluentValidationRulesValidator : IRulesValidator
+{
+    public RuleValidationResult Validate(object message)
+    {
+        var result = new RuleValidationResult();
+        Type validatorType = typeof (AbstractValidator&lt;&gt;).MakeGenericType(message.GetType());
+        var validator = (IValidator) ServiceLocator.Current.GetInstance(validatorType);
+        ValidationResult validationResult = validator.Validate(message);
+
+        if (!validationResult.IsValid)
+        {
+            foreach (ValidationFailure error in validationResult.Errors)
+            {
+                var failure = new RuleValidationFailure(error.ErrorMessage, error.PropertyName);
+                result.AddValidationFailure(failure);
+            }
+        }
+
+        return result;
+    }
+}
+</pre>
+
+<p>This uses the Common Service Locator to find types closing the Fluent Validation AbstractValidator generic type, validates the message with the validator, and adds any validation error messages to the RuleValidationResult.</p>
+
+<h2 id="mapping">Mapping</h2>
+
+<p>I also included the ability to map UI types to domain types using a library such as <a href="http://automapper.codeplex.com/" target="_blank">AutoMapper</a>. To express this as an optional feature, I created a MappingRulesEngine which has a dependency on an IMessageMapper. At first I went back and forth between expressing an IMessageMapper as an optional dependency to the RulesEngine, but I don’t really like property injection and the notion of using constructor injection for optional dependencies was a bit distasteful, so using inheritance felt like the cleanest and most expressive option.</p>
+
+<p>The MappingRulesEngine uses the Common Service Locator to find a type closing AssociationConfiguration<T> which provides the type to be converted to as well as configuration used by the MappingRulesEngine to associate validation error messages on the domain type back to the origin properties on the UI type. The following is an example usage:</T></p>
+
+<pre class="brush:csharp">public class ProductInputAssociationConfiguration : AssociationConfiguration&lt;ProductInput&gt;
+{
+    public ProductInputAssociationConfiguration()
+    {
+        ConfigureAssociationsFor&lt;Product&gt;(x =&gt;
+            {
+                x.For(output =&gt; output.Id).Use(input =&gt; input.Id);
+                x.For(output =&gt; output.Description).Use(input =&gt; input.Description);
+                x.For(output =&gt; output.Price).Use(input =&gt; input.Price);
+            });
+    }
+}
+</pre>
+
+<p>That’s about it. You can get the source at <a href="http://github.com/derekgreer/ncommons" target="_blank">http://github.com/derekgreer/ncommons</a>.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

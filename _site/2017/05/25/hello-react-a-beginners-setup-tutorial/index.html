@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Hello, React! - A Beginner's Setup Tutorial &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Hello, React! - A Beginner's Setup Tutorial</h1>
+    <span class="post-meta">25 May, 2017. It was a Thursday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>React <noindex></noindex> has been around for a few years now and there are quite a few tutorials available. Unfortunately, many are outdated, overly complex, or gloss over configuration for getting started. Tutorials which side-step configuration by using jsfiddle or code generator options are great when you’re wanting to just focus on the framework features itself, but many tutorials leave beginners struggling to piece things together when you’re ready to create a simple react application from scratch. This tutorial is intended to help beginners get up and going with React by manually walking through a minimal setup process.</p>
+
+<h2 id="a-simple-tutorial">A Simple Tutorial</h2>
+
+<p>This tutorial is merely intended to help walk you through the steps to getting a simple React example up and running. When you’re ready to dive into actually learning the React framework, a great list of tutorials can be found <a href="http://andrewhfarmer.com/getting-started-tutorials/">here.</a></p>
+
+<p>There are a several build, transpiler, or bundling tools from which to select when working with React. For this tutorial, we’ll be using be using Node, NPM, Webpack, and Babel.</p>
+
+<h2 id="step-1-install-node">Step 1: Install Node</h2>
+
+<p>Download and install Node for your target platform. Node distributions can be obtained <a href="https://nodejs.org/en/">here</a>.</p>
+
+<h2 id="step-2-create-a-project-folder">Step 2: Create a Project Folder</h2>
+
+<p>From a command line prompt, create a folder where you plan to develop your example.</p>
+
+<pre class="prettyprint">$&gt; mkdir hello-react
+</pre>
+
+<h2 id="step-3-initialize-project">Step 3: Initialize Project</h2>
+
+<p>Change directory into the example folder and use the Node Package Manager (npm) to initialize the project:</p>
+
+<pre class="prettyprint">$&gt; cd hello-react
+$&gt; npm init --yes
+</pre>
+
+<p>This results in the creation of a package.json file. While not technically necessary for this example, creating this file will allow us to persist our packaging and runtime dependencies.</p>
+
+<h2 id="step-4-install-react">Step 4: Install React</h2>
+
+<p>React is broken up into a core framework package and a package related to rendering to the Document Object Model (DOM).</p>
+
+<p>From the hello-react folder, run the following command to install these packages and add them to your package.json file:</p>
+
+<pre class="prettyprint">$&gt; npm install --save-dev react react-dom
+</pre>
+
+<h2 id="step-5-install-babel">Step 5: Install Babel</h2>
+
+<p>Babel is a transpiler, which is to say it’s a tool from converting one language or language version to another. In our case, we’ll be converting EcmaScript 2015 to EcmaScript 5.</p>
+
+<p>From the hello-react folder, run the following command to install babel:</p>
+
+<pre class="prettyprint">$&gt; npm install --save-dev babel-core
+</pre>
+
+<h2 id="step-6-install-webpack">Step 6: Install Webpack</h2>
+
+<p>Webpack is a module bundler. We’ll be using it to package all of our scripts into a single script we’ll include in our example Web page.</p>
+
+<p>From the hello-react folder, run the following command to install webpack globally:</p>
+
+<pre class="prettyprint">$&gt; npm install webpack --global
+</pre>
+
+<h2 id="step-7-install-babel-loader">Step 7: Install Babel Loader</h2>
+
+<p>Babel loader is a Webpack plugin for using Babel to transpile scripts during the bundling process.</p>
+
+<p>From the hello-react folder, run the following command to install babel loader:</p>
+
+<pre class="prettyprint">$&gt; npm install --save-dev babel-loader
+</pre>
+
+<h2 id="step-8-install-babel-presets">Step 8: Install Babel Presets</h2>
+
+<p>Babel presets are collections of plugins needed to support a given feature. For example, the latest version of babel-preset-es2015 at the time this writing will install 24 plugins which enables Babel to transpile ECMAScript 2015 to ECMAScript 5. We’ll be using presets for ES2015 as well as presets for React. The React presets are primarily needed for processing of <a href="https://facebook.github.io/react/docs/introducing-jsx.html">JSX</a>.</p>
+
+<p>From the hello-react folder, run the following command to install the babel presets for both ES2015 and React:</p>
+
+<pre class="prettyprint">$&gt; npm install --save-dev babel-preset-es2015 babel-preset-react
+</pre>
+
+<h2 id="step-9-configure-babel">Step 9: Configure Babel</h2>
+
+<p>In order to tell Babel which presets we want to use when transpiling our scripts, we need to provide a babel config file.</p>
+
+<p>Within the hello-react folder, create a file named .babelrc with the following contents:</p>
+
+<pre class="prettyprint">{                                    
+  "presets" : ["es2015", "react"]    
+}                                 
+</pre>
+
+<h2 id="step-10-configure-webpack">Step 10: Configure Webpack</h2>
+
+<p>In order to tell Webpack we want to use Babel, where our entry point module is, and where we want the output bundle to be created, we need to create a Webpack config file.</p>
+
+<p>Within the hello-react folder, create a file named webpack.config.js with the following contents:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">);</span>
+ 
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">entry</span><span class="p">:</span> <span class="s1">'./app/index.js'</span><span class="p">,</span>
+  <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'dist'</span><span class="p">),</span>
+    <span class="na">filename</span><span class="p">:</span> <span class="s1">'index_bundle.js'</span>
+  <span class="p">},</span>
+  <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">rules</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">js$/</span><span class="p">,</span> <span class="na">loader</span><span class="p">:</span> <span class="s1">'babel-loader'</span><span class="p">,</span> <span class="na">exclude</span><span class="p">:</span> <span class="sr">/node_modules/</span> <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="step-11-create-a-react-component">Step 11: Create a React Component</h2>
+
+<p>For our example, we’ll just be creating a simple component which renders the text “Hello, React!”.</p>
+
+<p>First, create an app sub-folder:</p>
+
+<pre class="prettyprint">$&gt; mkdir app
+</pre>
+
+<p>Next, create a file named app/index.js with the following content:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">import React from 'react';
+import ReactDOM from 'react-dom';
+ 
+class HelloWorld extends React.Component {
+    render() {
+          return (
+                  <span class="nt">&lt;div&gt;</span>
+                    Hello, React!
+                  <span class="nt">&lt;/div&gt;</span>
+                )
+        }
+};
+ 
+ReactDOM.render(<span class="nt">&lt;HelloWorld</span> <span class="nt">/&gt;</span>, document.getElementById('root'));</code></pre></figure>
+
+<p>Briefly, this code includes the react and react-dom modules, defines a HelloWorld class which returns an element containing the text “Hello, React!” expressed using <a href="https://facebook.github.io/react/docs/introducing-jsx.html">JSX syntax</a>, and finally renders an instance of the HelloWorld element (also using JSX syntax) to the DOM.</p>
+
+<p>If you’re completely new to React, don’t worry too much about trying to fully understand the code. Once you’ve completed this tutorial and have an example up and running, you can move on to one of the aforementioned tutorials, or work through <a href="https://facebook.github.io/react/docs/hello-world.html">React’s Hello World example</a> to learn more about the syntax used in this example.</p>
+
+<div class="note">
+  <p>
+    Note: In many examples, you will see the following syntax:
+  </p>
+  
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">var HelloWorld = React.createClass( {
+    render() {
+          return (
+                  <span class="nt">&lt;div&gt;</span>
+                    Hello, React!
+                  <span class="nt">&lt;/div&gt;</span>
+                )
+        }
+});</code></pre></figure>
+
+  
+  <p>
+    This syntax is how classes were defined in older versions of React and will therefore be what you see in older tutorials. As of React version 15.5.0 use of this syntax will produce the following warning:
+  </p>
+  
+  <p style="color: red">
+    Warning: HelloWorld: React.createClass is deprecated and will be removed in version 16. Use plain JavaScript classes instead. If you&#8217;re not yet ready to migrate, create-react-class is available on npm as a drop-in replacement.
+  </p>
+</div>
+
+<h2 id="step-12-create-a-webpage">Step 12: Create a Webpage</h2>
+
+<p>Next, we’ll create a simple html file which includes the bundled output defined in step 10 and declare a &lt;div&gt; element with the id “root” which is used by our react source in step 11 to render our HelloWorld component.</p>
+
+<p>Within the hello-react folder, create a file named index.html with the following contents:</p>
+
+<pre class="prettyprint">&lt;html&gt;
+  &lt;div id="root"&gt;&lt;/div&gt;
+  &lt;script src="./dist/index_bundle.js"&gt;&lt;/script&gt;
+&lt;/html&gt;
+</pre>
+
+<h2 id="step-13-bundle-the-application">Step 13: Bundle the Application</h2>
+
+<p>To convert our app/index.js source to ECMAScript 5 and bundle it with the react and react-dom modules we’ve included, we simply need to execute webpack.</p>
+
+<p>Within the hello-react folder, run the following command to create the dist/index_bundle.js file reference by our index.html file:</p>
+
+<pre class="prettyprint">$&gt; webpack
+</pre>
+
+<h2 id="step-14-run-the-example">Step 14: Run the Example</h2>
+
+<p>Using a browser, open up the index.html file. If you’ve followed all the steps correctly, you should see the following text displayed:</p>
+
+<pre class="prettyprint">Hello, React!
+</pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Congratulations! After completing this tutorial, you should have a pretty good idea about the steps involved in getting a basic React app up and going. Hopefully this will save some absolute beginners from spending too much time trying to piece these steps together.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

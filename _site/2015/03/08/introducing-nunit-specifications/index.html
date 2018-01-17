@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Introducing NUnit.Specifications &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Introducing NUnit.Specifications</h1>
+    <span class="post-meta">8 March, 2015. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p> </p>
+
+<p>I <noindex></noindex> recently started working with a new team that uses NUnit as their testing framework.  While I think NUnit is a solid framework, I don’t think the default API and style lead to <a href="http://lostechies.com/derekgreer/2011/03/07/effective-tests-introduction/">effective tests</a>.</p>
+
+<p>As an advocate of Test-Driven Development, I’ve always appreciated how <a href="http://www.codemag.com/article/0805061">context/specification-style</a> frameworks such as <a href="https://github.com/machine/machine.specifications">Machine.Specifications (MSpec)</a> allow for the expression of executable specifications which model how a system is expected to be used rather than the typical unit-test style of testing which tends to obscure the overall purpose of the system.</p>
+
+<p>To facilitate a context/specification-style API, I created a base class which makes use of the hooks provided by the NUnit testing framework to emulate MSpec.  I’ve published this code under the project name <a href="https://www.nuget.org/packages/NUnit.Specifications/">NUnit.Specifications</a>.</p>
+
+<p>The following is an example NUnit test written using the ContextSpecification based class from NUnit.Specifications using the <a href="https://github.com/erichexter/Should">Should</a> assertion library:</p>
+
+<p><a href="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image01.png"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="image01" src="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image01.png" alt="image01" width="574" height="379" border="0" /></a>{.thickbox}</p>
+
+<p>One nice benefit of building on top of NUnit is the wide-spread tool support available.  Here is the test as seen through various test runners:</p>
+
+<p><strong>Resharper Test Runner:</strong></p>
+
+<p><a href="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image03.png"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="image03" src="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image03_thumb.png" alt="image03" width="574" height="196" border="0" /></a>{.thickbox}</p>
+
+<p><strong>TestDriven.Net:</strong> (see notes below)</p>
+
+<p><a href="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image04.png"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="image04" src="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image04_thumb.png" alt="image04" width="574" height="47" border="0" /></a>{.thickbox}</p>
+
+<p><strong>NUnit Test Runner:</strong></p>
+
+<p><a href="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image00.png"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="image00" src="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image00_thumb.png" alt="image00" width="574" height="175" border="0" /></a>{.thickbox}</p>
+
+<p><strong>NUnit Test Adaptor for Visual Studio:</strong></p>
+
+<p><a href="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image02.png"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="image02" src="http://aspiringcraftsman.com/wp-content/uploads/2015/03/image02_thumb.png" alt="image02" width="574" height="519" border="0" /></a>{.thickbox}</p>
+
+<p> </p>
+
+<table border="1" width="400" cellspacing="0" cellpadding="2">
+  <tr>
+    <td valign="top" width="400">
+    </td>
+  </tr>
+</table>
+
+<table border="1" width="400" cellspacing="0" cellpadding="2">
+  <tr>
+    <td valign="top" width="400">
+    </td>
+  </tr>
+</table>
+
+<div class="note">
+  <p>
+    One caveat I discovered with the TestDriven.Net runner is it’s failure to recognize tests without the specification referencing types from the NUnit.Framework namespace (e.g. TestFixtureAttribute, CategoryAttribute, use of Assert, etc.).  That is to say, it didn’t seem to be enough that the spec inherited from a base type with NUnit attributes, but something in the derived class had to reference a type from the NUnit.Framework namespace for the test to be recognized.  Therefore, the TestDriven.Net results shown above were actually achieved by annotating the class with [Category(“component”)] explicitly.
+  </p>
+</div>
+
+<p> </p>
+
+<p><strong>Other Stuff</strong></p>
+
+<p>As a convenience, NUnit.Specifications also provides attributes for denoting categories of Unit, Component, Integration, Acceptance, and Subcutaneous as well as a Catch class (as provided by the MSpec library) for working with exceptions.</p>
+
+<p>You can obtain the NUnit.Specifications from <a href="https://www.nuget.org/packages/NUnit.Specifications/1.0.1">NuGet</a> or grab the source from <a href="https://github.com/derekgreer/nunit.specifications">github</a>.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      RabbitMQ for Windows: Hello World Review &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">RabbitMQ for Windows: Hello World Review</h1>
+    <span class="post-meta">18 March, 2012. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>This <noindex></noindex> is the third installment to the series: RabbitMQ for Windows.  In the <a href="http://aspiringcraftsman.com/2012/03/08/rabbitmq-for-windows-building-your-first-application/">last installment</a>, we discussed some basic messaging concepts and created our first RabbitMQ application.  In this installment, we’ll be taking a closer look at our Hello World application to help round out our understanding of the basic concepts involved.</p>
+
+<h2 id="hello-world-review">Hello World Review</h2>
+
+<p>In the previous installment, we walked through creating a Hello World example.  Let’s review the Producer and Consumer code again:</p>
+
+<p><strong>Producer</strong></p>
+
+<pre class="prettyprint">class Program
+{
+  static void Main(string[] args)
+  {
+    var connectionFactory = new ConnectionFactory();
+    IConnection connection = connectionFactory.CreateConnection();
+    IModel channel = connection.CreateModel();
+    channel.QueueDeclare("hello-world-queue", false, false, false, null);
+    byte[] message = Encoding.UTF8.GetBytes("Hello, World!");
+    channel.BasicPublish(string.Empty, "hello-world-queue", null, message);
+    Console.WriteLine("Press any key to exit");
+    Console.ReadKey();
+    channel.Close();
+    connection.Close();
+  }
+}</pre>
+
+<font style="font-weight: bold">Consumer</font>
+
+<pre class="prettyprint">class Program
+{
+  static void Main(string[] args)
+  {
+    var connectionFactory = new ConnectionFactory();
+    IConnection connection = connectionFactory.CreateConnection();
+    IModel channel = connection.CreateModel();
+    channel.QueueDeclare("hello-world-queue", false, false, false, null);
+    BasicGetResult result = channel.BasicGet("hello-world-queue", true);
+    if (result != null)
+    {
+      string message = Encoding.UTF8.GetString(result.Body);
+      Console.WriteLine(message);
+    }
+    Console.WriteLine("Press any key to exit");
+    Console.ReadKey();
+    channel.Close();
+    connection.Close();
+  }
+}</pre>
+
+<p>In both the Producer and Consumer projects, we started our Main() method by establishing a Connection to the RabbitMQ server.  We then created a Channel to establish a line of communication with the server and declared a Queue to send and receive our messages.  In our Producer, we called BasicPublish() to place a message on the queue.  In our Consumer, we called BasicGet() to retrieve a message from the queue and print the message to the console.  In both the Producer and Consumer projects, we ended the Main() method by closing the channel and connection to the server.</p>
+
+<h2 id="establishing-the-connection">Establishing the Connection</h2>
+
+<p>Let’s first discuss how our example connects to the RabbitMQ server.  In our example, we’re establishing a connection using the default connection settings.</p>
+
+<pre class="prettyprint">var connectionFactory = new ConnectionFactory();</pre>
+
+<p>This assumes we have a RabbitMQ server running on our local development machine.  To connect to this instance, the ConnectionFactory uses a default host name of “localhost” and a default port of 5672.  A user name and password must also be provided to connect to the server.  When not specified, the ConnectionFactory uses a default user name and password of “guest”.  The “guest” user was pre-configured with full administrator rights when we first installed our  instance of RabbitMQ.  The final parameter of interest is the Virtual Host.  RabbitMQ utilizes virtual hosts (i.e. virtual instances of RabbitMQ) to allow multiple projects or teams to manage and secure their own set of queues from within a single RabbitMQ installation. </p>
+
+<p>When we first installed RabbitMQ, a default virtual host named “/” was created.  The ConnectionFactory uses this virtual host when one is not specified.</p>
+
+<p>Specified explicitly, we might have configured these default values as follows:</p>
+
+<pre class="prettyprint">var connectionFactory = new ConnectionFactory
+                          {
+                            HostName = "localhost",
+                            Port = 5672,
+                            UserName = "guest",
+                            Password = "guest",
+                            VirtualHost = "/"
+                          };
+IConnection connection = connectionFactory.CreateConnection();</pre>
+
+<p>RabbitMQ also supports the <a href="http://www.rabbitmq.com/uri-spec.html">AMQP URI Specification</a> which allows these parameters to be specified as a single URI.  Using the URI option, we need to <a href="http://en.wikipedia.org/wiki/Percent-encoding">percent-encode</a> the virtual host as “%2f”.  The following is how me might have established our connection using the amqp URI:</p>
+
+<pre class="prettyprint">var connectionFactory = new ConnectionFactory {Uri = "amqp://guest:guest@localhost:5672/%2f"};
+IConnection connection = connectionFactory.CreateConnection();</pre>
+
+<h2 id="creating-a-channel">Creating a Channel</h2>
+
+<p>After establishing a connection with the server, the next step we take in both the Producer and Consumer projects is to create a Channel.</p>
+
+<pre class="prettyprint">IModel channel = connection.CreateModel();</pre>
+
+<p>A channel is a light-weight connection used by RabbitMQ to enable multiple communication sessions through a single TCP/IP connection.  Operating systems have a limit to the number of TCP/IP connections that can be opened simultaneously, and creating these connections can be relatively expensive.  Through the use of channels, we are free to create as many virtual connections with the server as we want without incurring this overhead or being limited by the number of available TCP/IP connections.</p>
+
+<p>Channels are intended to be used for sequencing communication with the server such as declaring queues or the sending and receiving of messages.  A single channels should not be used by multiple threads simultaneously. For this reason, it is recommended that channels simply not be shared across threads.</p>
+
+<h2 id="declaring-the-queue">Declaring the Queue</h2>
+
+<p>After opening a channel within our connection, the next step we take is to declare a Queue. </p>
+
+<pre class="prettyprint">channel.QueueDeclare("hello-world-queue", false, false, false, null);</pre>
+
+<p>A queue can be thought of as a sort of “mailbox”.  Messages put in the mailbox sit there until a recipient retrieves the mail.</p>
+
+<p>In our example, we named our queue “hello-world-queue”.  The queue name (along with the RabbitMQ host name and port number) serves as a sort of “mailbox address”.  When we publish the encoded string “Hello, World!”, it is placed in the queue named “hello-world-queue’ and awaits until a consumer retrieves and acknowledges the message.</p>
+
+<p>Before discussing the parameters used in our call to QueueDeclare, it will be helpful to take a short detour and discuss how our message actually gets routed from the Producer to the Consumer.</p>
+
+<h2 id="message-routing">Message Routing</h2>
+
+<p>When looking at our example, it appears as though the Producer sends our message directly to the “hello-world-queue”.  What actually occurs, however, is that the message is routed to the “hello-world-queue” through an Exchange.</p>
+
+<p>When using RabbitMQ, messages aren’t actually published to a queue, but rather are published to an exchange which then routes messages to queues.  An exchange can be thought as a “post office”.  Just as we don’t generally put mail directly in a recipient’s mailbox, in RabbitMQ we don’t publish messages directly to a queue.</p>
+
+<p>To receive messages, a queue must first have an exchange binding established.  Part of establishing the binding includes specifying which messages should be routed to the queue.  In most cases, this is achieved by specifying a routing key which serves as a filter for which messages are delivered to which queues.</p>
+
+<p>The following diagram depicts how messages are published in RabbitMQ:</p>
+
+<p><img src="https://lh5.googleusercontent.com/wUX8EymHUHNBMJt5J8aqrOiyA3UHB0B7nPNTrNr9XDJgvGNehba3y0b-bBNtVDiiLuACOsRYmHI31AMhtrcYB62wVAQHTDrmhxENzWesrg2K7yk-ra8" width="601" height="227" /></p>
+
+<p>The reason our code looks like it sends messages directly to the queue is due to the fact that we’re taking advantage of a convenience provided by the RabbitMQ server.  Whenever a queue is declared, it is automatically bound to a default exchange with a routing key equal to the queue name.  Messages published to the default exchange with a routing key equal to the value of a declared queue name are routed to the associated queue.</p>
+
+<p>In addition to being implicitly bound to all queues, the default exchange also cannot be unbound, deleted, or explicitly declared through code.  The only operation that is allowed is the publishing of messages.</p>
+
+<h2 id="queue-parameters">Queue Parameters</h2>
+
+<p>Returning to our discussion of queue declaration, the parameters used in our call to QueueDeclare() creates our queue as a non-durable, non-exclusive, non-auto-deleted queue. </p>
+
+<p>The durability flag pertains to what happens to our queue if the server is restarted.  Queues marked as durable will be recreated upon a server restart, while non-durable queues will not be.</p>
+
+<p>The exclusive flag pertains to whether a queue can be declared by more than one channel.  Since messages are actually published to exchanges, not queues, there may be cases where you only want a single client instance to be capable of declaring a queue bound to a particular exchange (for example, when using queues to facilitate an RPC call). </p>
+
+<p>Lastly, the auto-delete flag pertains to whether the queue is automatically deleted once all consumers are removed.  This flag can be a little misleading since we might suppose setting this to true would cause our “hello-world-queue” to be automatically deleted after our application exists.  In fact, it wouldn’t be.</p>
+
+<p>There are two different approaches to receiving messages: pulling and pushing.  With the pull API, messages are retrieved on demand through a call to BasicGet().  This is the method used in our example.  With the pull API, available messages are delivered to a local queue when a Consumer is bound to the channel.  When setting the auto-delete flag to true, a queue will be deleted once it detects that all consumers have been removed.  While we named the project which receives messages from our queue “Consumer”, the pull API doesn’t actually declare a consumer to retrieve messages.  Therefore, the server is never alerted to the fact that the queue is no longer being used.</p>
+
+<h2 id="publishing-the-message">Publishing the Message</h2>
+
+<p>The last noteworthy point in our Producer project is the parameters to our call to BasicPublish().</p>
+
+<pre class="prettyprint">channel.BasicPublish(string.Empty, "hello-world-queue", null, message);</pre>
+
+<p>The first parameter is the name of the exchange to publish the message to.  An empty string is the designation for the default exchange discussed earlier in the section on message routing.  The second parameter is the routing key.  As previously discussed, all queues are bound to the default exchange using a routing key equal to the value of the bound queue name.  The third parameter is an instance of IBasicProperties.  This class is used to associate a number of properties with the message, such as the message encoding, content-type, and durability.  We’ll take a look at some of the uses of this class further in our series.  Lastly, the fourth parameter is the byte array representing the message body.</p>
+
+<h2 id="getting-the-message">Getting the Message</h2>
+
+<p>The last noteworthy point in our Consumer project is the parameters to our call to BasicGet().</p>
+
+<pre class="prettyprint">BasicGetResult result = channel.BasicGet("hello-world-queue", true);</pre>
+
+<p>The first parameter is the queue to pull a message from which should be self-explanatory.  The second parameter is a flag which controls the auto-acknowledgement of the message. </p>
+
+<p>When a message is retrieved from a queue with an auto-acknowledge flag set to false, the server holds the message in an unacknowledged state until an acknowledgement or rejection of the message is received on the open channel (note that messages must be accepted or rejected on the same channel they were received on).  This is useful when a consumer needs to ensure the message is processed successfully before it’s fully removed from the server.  If the channel is closed without receiving an acknowledgment, the message will be requeued and delivered to the next consumer (using pull or get).  In the event that a consumer determines it can’t process the message, it can reject the message with a flag indicating whether to requeue the message or not.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That’s it for our Hello World example review.  Next time, we’ll take a look at the four basic exchange types.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

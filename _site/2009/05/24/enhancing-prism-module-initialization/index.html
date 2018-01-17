@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Enhancing the Prism Module Initialization Lifecycle &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Enhancing the Prism Module Initialization Lifecycle</h1>
+    <span class="post-meta">24 May, 2009. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>The <a href="http://codeplex.com/CompositeWPF">Composite <noindex></noindex> Application Library</a>, better known as Prism, is a framework for developing composite-style applications for WPF and Silverlight. Prism facilitates simple module initialization upon application startup, but this is not always adequate for every application. This article discusses an enhanced approach for module initialization within Prism-based applications.</p>
+
+<p>Within Prism, modules are identified by registering types which implement the IModule interface. This interface defines a single Initialize() method which provides an opportunity to perform any module-level configuration needed by the application. This might include such things as configuring a dependency injection container, registering views with the Region Manager, initializing a module-level <a href="http://msdn.microsoft.com/en-us/library/cc304764.aspx">Application Controller</a>, and other module-level initialization needs.</p>
+
+<p>The IModule interface is defined as follows:</p>
+
+<pre class="brush:csharp">public interface IModule
+    {
+        void Initialize();
+    }</pre>
+
+<p>While the specifics of module initialization can vary depending upon which dependency injection container (if any) is chosen, the initialization process followed by the UnityBoostrapper provided with Prism iterates over an enumeration of ModuleInfo instances derived from an instance of IModuleCatalog and delegates initialization to an instance of IModuleInitializer for each module. Within the default implementation of IModuleInitializer, the type derived from IModule is retrieved from the ModuleInfo instance, resolved through the Common Service Locator, and the IModule.Initialize() method is invoked on the resolved instance.</p>
+
+<p>The following sequence diagram depicts a simplified view of this process:</p>
+
+<p style="text-align: center;">
+  <a href="/wp-content/uploads/2010/01/PrismInitSequence.png"><img class="size-full wp-image-51 aligncenter" title="PrismInitSequence" src="/wp-content/uploads/2010/01/PrismInitSequence.png" alt="Prism Initialization Sequence" width="548" height="337" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/PrismInitSequence.png 913w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/PrismInitSequence-300x184.png 300w" sizes="(max-width: 548px) 100vw, 548px" /></a>
+</p>
+
+<p>While this process enables basic module initialization, it does not facilitate the ability to initialize modules which may have interdependencies with other modules. One example requiring a multi-phased initialization strategy would be the use of components which initialize application-scoped objects based upon information registered by other modules within the application. For instance, consider an infrastructure module whose purpose is to initialize a database context based upon object-relational mapping information specific to each module. To achieve this within a single-phased initialization strategy, the object-relational mapping information would need to be centralized in one location. This could negatively impact the overall decoupling provided by the Prism framework, and would violate the Open/Closed principle for registering information for newly created modules. With a multi-phased initialization strategy, such a component could register a service used as the object-relational mapping registry, and on a later phase retrieve any registered mapping information to initialize a single database context to be used later by all modules.</p>
+
+<p>One approach to achieving a multi-phased initialization strategy would be to register custom implementations of the Prism types involved in the module initialization process. While this strategy is possible, there are a few disadvantages to this approach.</p>
+
+<p>While many types used within the Prism library enable alternate implementations, the responsibility of initializing modules is not encapsulated by a single type, and the types which encapsulate the module initialization responsibility are not limited to this responsibility alone. To be fair, this statement is only partially true, and only realized upon attempting to replace the assumed single-phased strategy with a multi-phased strategy. The responsibility of initializing each module is assigned to an IModuleInitializer type, but unfortunately alternate implementations are limited to alternate single-phase strategies. This is because the responsibility of iterating over the module metadata resides within the IModuleManager type. Additionally, the methods responsible for iterating over the modules cannot be overridden within a derived type. Providing a new initialization strategy would thus require custom types to be implemented for both interfaces, or for the existing codebase to be modified.</p>
+
+<p>It would be ideal if an alternate initialization strategy could be provided without modifying or rewriting existing framework code, but in lieu this, the existing single-phased strategy can still be leveraged to enable a separate initialization strategy.</p>
+
+<p>While initially considering use of the EventAggregator to raise specific events representing each initialization phase, I chose to encapsulate the phase sequencing responsibilities within an IStagedSequenceService to arrive at a more cohesive, intention revealing, and reusable approach.</p>
+
+<p>The IStagedSequenceService is declared as follows:</p>
+
+<pre class="brush:csharp">/// &lt;summary&gt;
+    /// Defines a service for providing a staged sequence of events.
+    /// &lt;/summary&gt;
+    public interface IStagedSequenceService
+    {
+        void RegisterForStage(Action action, TStageEnum stage);
+    }</pre>
+
+<p>The purpose of this interface is to allow components to register an Action delegate to be associated with a supplied generic enumeration stage.</p>
+
+<p>The implementation of the IStagedSequenceService is declared as follows:</p>
+
+<pre class="brush:csharp">/// &lt;summary&gt;
+    /// Provides the default implementation for &lt;see cref="IStagedSequenceService"/&gt;.
+    /// &lt;/summary&gt;
+    public class StagedSequenceService : IStagedSequenceService
+    {
+        readonly List[] stages;
+
+        public StagedSequenceService()
+        {
+            stages = new List[NumberOfEnumValues()];
+
+            for (int i = 0; i &lt; stages.Length; ++i)
+            {
+                stages[i] = new List();
+            }
+        }
+
+        public virtual void ProcessSequence()
+        {
+            foreach (var stage in stages)
+            {
+                foreach (var action in stage)
+                {
+                    action();
+                }
+            }
+        }
+
+        public virtual void RegisterForStage(Action action, TStageEnum stage)
+        {
+            stages[Convert.ToInt32(stage)].Add(action);
+        }
+
+        int NumberOfEnumValues()
+        {
+            return typeof (TStageEnum).GetFields(BindingFlags.PublicBindingFlags.Static).Length;
+        }
+    }</pre>
+
+<p>This implementation initializes a two-dimensional array based upon the number of stages in a sequence (i.e. the number of enumeration values representing the stages). The implementation of the RegisterForStage() method is then able to store each registered Action delegate in the appropriate collection for each stage. A ProcessSequence() method is supplied with a simple two-level loop which executes the registered delegates for each stage.</p>
+
+<p>Next, an enumeration type is required to define the desired stages for the application:</p>
+
+<pre class="brush:csharp">/// &lt;summary&gt;
+    /// Defines stages used by modules requiring staged initialization.
+    /// &lt;/summary&gt;
+    public enum ModuleInitializationStage
+    {
+        /// &lt;summary&gt;
+        /// The preinitialization stage is used to perform initialization
+        /// required before external module initialization.
+        /// &lt;/summary&gt;
+        PreInitialization,
+
+        /// &lt;summary&gt;
+        /// The initialization stage is used to perform
+        /// initialization required by the current module.
+        /// &lt;/summary&gt;
+        Initialization,
+
+        /// &lt;summary&gt;
+        /// The post-initialization stage is used to perform
+        /// initialization required after external module initialization.
+        /// &lt;/summary&gt;
+        PostInitialization,
+
+        /// &lt;summary&gt;
+        /// The startup stage is used to perform perform initial
+        /// tasks after all initialization is complete.
+        /// &lt;/summary&gt;
+        StartUp
+    }</pre>
+
+<p>Next, an IModuleInitializationService and implementation is defined specifying the ModuleInitializationStage enumeration:</p>
+
+<pre class="brush:csharp">public interface IModuleInitializationService : IStagedSequenceService
+    {
+    }
+
+    public class ModuleInitializationService : StagedSequenceService, IModuleLifecycleService
+    {
+        public virtual void Initialize()
+        {
+            base.ProcessSequence();
+        }
+    }</pre>
+
+<p>An Initialize() method is provided to wrap the ProcessSequence call. This is done to provide a more meaningful API to the specific context for this manifestation of the IStagedSequenceService.</p>
+
+<p>To provide the base implementation required to take advantage of the new staged-initialization capabilities, a ModuleBase abstract class is defined which registers a protected virtual method corresponding to each of the defined stages:</p>
+
+<pre class="brush:csharp">public abstract class ModuleBase : IModule
+    {
+        public void Initialize()
+        {
+            var moduleLifecycleService = ServiceLocator.Current.GetInstance();
+
+            moduleLifecycleService.RegisterForStage(OnPreInitialization, ModuleInitializationStage.PreInitialization);
+
+            moduleLifecycleService.RegisterForStage(OnInitialization, ModuleInitializationStage.Initialization);
+
+            moduleLifecycleService.RegisterForStage(OnPostInitialization, ModuleInitializationStage.PostInitialization);
+
+            moduleLifecycleService.RegisterForStage(OnStartUp, ModuleInitializationStage.StartUp);
+        }
+
+        protected virtual void OnPreInitialization()
+        {
+        }
+
+        protected virtual void OnInitialization()
+        {
+        }
+
+        protected virtual void OnPostInitialization()
+        {
+        }
+
+        protected virtual void OnStartUp()
+        {
+        }
+    }</pre>
+
+<p>To drive the new initialization strategy, the new ModuleInitializationSerivce is registered with the container and the UnityBootstrapper.InitializeModules() method is overridden in the main bootstrapper class to invoke the service’s Initialize() method:</p>
+
+<pre class="brush:csharp">public class DesktopBootstrapper : UnityBootstrapper
+    {
+        // other methods
+
+        protected override void ConfigureContainer()
+        {
+            _moduleInitializationService = new ModuleInitializationService();
+
+            Container.RegisterInstance(_moduleInitializationService, new ContainerControlledLifetimeManager());
+
+            // other configuration
+        }
+
+        protected override void InitializeModules()
+        {
+            base.InitializeModules();
+            _moduleInitializationService.Initialize();
+        }
+    }</pre>
+
+<p>From here, modules requiring participation within the staged-initialized strategy need only implement the abstract ModuleBase class and override the appropriate method based upon the specific scenario required:</p>
+
+<pre class="brush:csharp">public class ExampleModule : ModuleBase
+    {
+        protected override void OnPreInitialization()
+        {
+            // TODO Register services required by other modules.
+        }
+
+        protected override void OnInitialization()
+        {
+            // TODO perform initialization requiring services from other modules.
+        }
+    }</pre>
+
+<p>In conclusion, while the Composite Application Library does not provide a multi-phased initialization strategy, this can still be achieved by leveraging the existing behavior to facilitate a new strategy.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

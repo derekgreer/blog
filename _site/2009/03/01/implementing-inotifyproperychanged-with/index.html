@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Implementing INotifyProperyChanged  with Unity Interception &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Implementing INotifyProperyChanged  with Unity Interception</h1>
+    <span class="post-meta">1 March, 2009. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>Inspired by Sebastien Lambla’s post, <a href="http://serialseb.blogspot.com/2008/05/implementing-inotifypropertychanged.html">Implementing <noindex></noindex> INotifyPropertyChanged with DynamicProxy2</a>, I decided to provide an example of how <a href="http://msdn.microsoft.com/en-%20%%20%2020us/library/system.componentmodel.inotifypropertychanged.aspx">INotifyPropertyChanged</a> can be implemented using Unity’s new <a href="http://msdn.microsoft.com/en-us/library/dd140045.aspx">interception capabilities</a>.</p>
+
+<h2 id="prolegomena">Prolegomena</h2>
+
+<p>While not necessary for using the Unity container, some may find a basic understanding of how Unity works to be helpful when registering objects for interception or using other capabilities of Unity.</p>
+
+<p>The Unity container is best understood as a façade for a highly configurable, yet complex object factory named Object Builder. Object Builder made its debut within the <a href="http://msdn.microsoft.com/en-us/library/aa480450.aspx">Composite UI Application Block</a> in November 2005 and was subsequently incorporated into <a href="http://msdn.microsoft.com/en-us/library/cc467893.aspx">Enterprise Library 2.0</a> with its January 2006 release as its internal configuration strategy.</p>
+
+<p>At its core, Object Builder is based upon the <a href="http://en.wikipedia.org/wiki/Chain-of-responsibility_pattern">Chain-of-Responsibility</a> pattern. The Object Builder chain-of-responsibility utilizes two primary concepts for configuring how objects are constructed: namely, Strategies and Policies. Strategies serve as the concrete handlers within the chain-of-responsibility implementation, and are the objects which encapsulate the behavior performed during the construction process. Policies serve as the rules for how and when Strategies apply to a given type. Strategies and Policies are the essence of Object Builder’s extensibility, and by extension Unity’s extensibility.</p>
+
+<p>While Object Builder can be used directly to provide advanced dependency injection and other inversion of control needs, due to the fact that it waswritten to serve the internal needs of the guidance assets provided by the Microsoft Patterns &amp; Practices group, it wasn’t developed with ease of use in mind and didn’t provide the same API nomenclature used by other containers. This is where Unity comes in.</p>
+
+<p>Unity was written to provide an easy to use and more traditional container interface to Object Builder. Part of this interface includes a more simplified end-user extensibility API in the form of Unity Extensions. These extensions encapsulate the lower-level Strategy and Policy configuration for Object Builder.</p>
+
+<p>The 1.2 release of Unity in October 2008 included a new extension for facilitating aspect-oriented programming through method interception. The remainder of this article demonstrates how this new extension can be used to implement the <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.aspx">INotifyPropertyChanged</a> interface.</p>
+
+<h2 id="interception-example">Interception Example</h2>
+
+<p>To start, we’ll create a test fixture skeleton to drive our example:</p>
+
+<pre class="brush:csharp">[TestFixture]
+public class When_model_property_changes
+{
+    [SetUp]
+    public void SetUp()
+    {
+        EstablishContext();
+        Because();
+    }
+
+    protected override void EstablishContext()
+    {
+    }
+
+    protected override void Because()
+    {
+    }
+
+    [Test]
+    public void A_notify_property_changed_event_should_be_raised()
+    {
+    }
+}
+</pre>
+
+<p>Next, we’ll establish the context of our test by configuring an instance of the Unity container to intercept methods for a type named IModel:</p>
+
+<pre class="brush:csharp">[TestFixture]
+public class When_model_property_changes : ContextSpecification
+{
+    IUnityContainer container;
+    IModel model;
+
+    /** snip **/
+
+    protected void EstablishContext()
+    {
+        container = new UnityContainer();
+
+        container.AddNewExtension()
+        .RegisterType&lt;IModel, Model&gt;()
+        .Configure()
+        .SetDefaultInterceptorFor&lt;IModel&gt;(new TransparentProxyInterceptor());
+
+        model = container.Resolve&lt;IModel&gt;();
+    }
+
+    /** snip **/
+}
+</pre>
+
+<p>We configure our container by first adding the Interception extension. Next, we register the type we will be resolving from the container. Finally, we set a default interceptor for our type.</p>
+
+<p>By adding the Interception extension, two new build strategies are added to the chain-of-responsibility for facilitating interception. Additionally, the extension registers an instance of an AttributeDrivenPolicy which is used by the interception strategies to provide the ability to identify which methods should be intercepted through the use of attributes. We will later create a custom attribute derived from HandlerAttribute which will match our type with the AttributeDrivenPolicy.</p>
+
+<p>Note: The AttributeDrivenPolicy is a policy type internal to the Interception extension and is not related to the IBuilderPolicy types used by the Object Builder component.</p>
+
+<p>Our last step in establishing the context for our test is to have the container create an instance of our registered type.</p>
+
+<p>Next, we’ll define the behavior of our test to be observed:</p>
+
+<pre class="brush:csharp">protected override void Because()
+{
+    model.PropertyChanged += (sender, args) =&gt; { propertyChangedEventRaised = true; };
+    model.TestProperty = "[any value]";
+}
+</pre>
+
+<p>Here, we establish that the model should have a public event named PropertyChanged and a public writable string member named TestProperty. When the event is fired, we’ll set a Boolean named propertyChangedEventRaised to true which we’ll test for later in our observation.</p>
+
+<p>Our next step is to go ahead and create the types we’ve registered with the container and declare our propertyChangedEventRaised Boolean member:</p>
+
+<pre class="brush:csharp">[TestFixture]
+public class When_model_property_changes
+{
+    IUnityContainer container;
+    IModel model;
+    bool propertyChangedEventRaised;
+
+    internal interface IModel : INotifyPropertyChanged
+    {
+        string TestProperty { get; set; }
+    }
+
+    internal class Model : IModel
+    {
+        public string TestProperty { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    /** snip **/
+}
+</pre>
+
+<p>Notice that we currently have no code within the Model type to actually raise the PropertyChanged event.</p>
+
+<p>Next, we need to provide the observation portion of our test:</p>
+
+<pre class="brush:csharp">bool propertyChangedEventRaised;
+
+[Test]
+public void Should_raise_notify_property_changed_event()
+{
+    Assert.That(propertyChangedEventRaised, Is.True);
+}
+</pre>
+
+<p>Running the test at this point produces the expected failure result:</p>
+
+<p style="text-align: center;">
+  <a href="/wp-content/uploads/2010/01/unity_interception_nunit_fail.png"><img class="aligncenter size-full wp-image-54" title="unity_interception_nunit_fail" src="/wp-content/uploads/2010/01/unity_interception_nunit_fail.png" alt="" width="568" height="149" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/unity_interception_nunit_fail.png 946w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/unity_interception_nunit_fail-300x78.png 300w" sizes="(max-width: 568px) 100vw, 568px" /></a>
+</p>
+
+<p>To make the test pass, we need to configure our type to match an interception policy and provide an interception handler which will raise the</p>
+
+<p>PropertyChanged event on behalf of our type. Since we’re using the default AttributeDrivenPolicy to have the interception strategies recognize our type as one to be intercepted, we need to create an attribute derived from the extension’s HandlerAttribute:</p>
+
+<pre class="brush:csharp">/// &lt;summary&gt;
+/// This attribute is used to denote that the event is to be intercepted.
+/// &lt;/summary&gt;
+public class NotifyAttribute : HandlerAttribute
+{
+    readonly ICallHandler handler;
+
+    public NotifyAttribute()
+    {
+        handler = new NotifyPropertyChangedCallHandler();
+    }
+
+    public override ICallHandler CreateHandler(IUnityContainer container)
+    {
+        return handler;
+    }
+}
+</pre>
+
+<p>The HandlerAttribute is used by the AttributeDrivenPolicy to return an ICallHandler. The ICallHandler type encapsulates the behavior used to intercept method calls for the configured types within Unity. Here, we return a NotifyPropertyChangedCallHandler() which will intercept all call to methods adorned with our custom attribute.</p>
+
+<p>Next, we create our NotifyPropertyChangedCallHandler to raise the PropertyChanged event for our property:</p>
+
+<pre class="brush:csharp">/// &lt;summary&gt;
+/// This class handler is used in conjunction with Unity to handle INotifiyPropertyChanged
+/// implementations as an aspect.
+/// &lt;/summary&gt;
+class NotifyPropertyChangedCallHandler : ICallHandler
+{
+    public int Order
+    {
+        get { return 0; }
+        set { }
+    }
+
+    public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
+    {
+        IMethodReturn result = getNext.Invoke().Invoke(input, getNext);
+        MethodBase method = input.MethodBase;
+
+        if (method.IsSpecialName &amp;&amp; method.Name.StartsWith("set_"))
+        {
+            // Get the property name
+            string propertyName = method.Name.Substring(4);
+
+            // Get the private event backing field
+            FieldInfo info = input.Target.GetType()
+            .GetFields(BindingFlags.InstanceBindingFlags.NonPublic)
+            .Where(f =&gt; f.FieldType == typeof (PropertyChangedEventHandler))
+            .FirstOrDefault();
+
+            if (info != null)
+            {
+                var handler = info.GetValue(input.Target) as PropertyChangedEventHandler;
+
+                // Ensure subscriptions
+                if (handler != null)
+                {
+                    handler.Invoke(input.Target, new PropertyChangedEventArgs(propertyName));
+                }
+            }
+        }
+
+        return result;
+    }
+}</pre>
+
+<p>Finally, we need to add our custom attribute to the property of our type for which we want our interception to occur:</p>
+
+<pre class="brush:csharp">internal class Model : IModel
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+    public string TestProperty { get; [Notify] set; }
+}
+</pre>
+
+<p>Running our test again shows that it now passes!</p>
+
+<p style="text-align: center;">
+  <a href="/wp-content/uploads/2010/01/unity_interception_nunit_pass.png"><img class="aligncenter size-full wp-image-55" title="unity_interception_nunit_pass" src="/wp-content/uploads/2010/01/unity_interception_nunit_pass.png" alt="" width="474" height="139" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/unity_interception_nunit_pass.png 790w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/unity_interception_nunit_pass-300x87.png 300w" sizes="(max-width: 474px) 100vw, 474px" /></a>
+</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

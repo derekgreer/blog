@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      TDD Best Practices: Write Assertions First &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">TDD Best Practices: Write Assertions First</h1>
+    <span class="post-meta">5 March, 2012. It was a Monday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>When <noindex></noindex> practicing Test-Driven Development, developers often organize their tests following a style first described by Bill Wake as <em>Arrange, Act, Assert</em>.  This division between the setup, the exercising the System Under Test, and the assertions are also reflected in the Context/Specification and Given/When/Then (GWT) styles of Behavior-Driven Development (with the GWT style often containing multiple “Act” steps).  This division is generally a Good Thing, as it guides the developer toward the authoring of well-organized and readable tests which provide a good template for modeling most specifications.  Unfortunately, developers are often lead to implement tests in the order of Arrange, Act, Assert which serves to undermine the purpose of practicing TDD: to allow the needs of the test to guide the design of the system.</p>
+
+<p>When transforming a requirement into an executable specification, after establishing the logical class or object which will contain the test implementation, the first step should be to determine how the specification (i.e. the test) is to be validated.  That is to say, the first step is to write an assertion.</p>
+
+<p>The goal of Test-Driven Development is to produce clean code that works.  By ‘clean’, we mean code that’s free of unnecessary behavior or abstractions.  The TDD techniques of first doing the simplest thing that could possibly work, refactoring to remove duplication, and using triangulation for identifying the need for generalizations are set forth to <em>restrain</em> developers from writing code that isn’t actually needed.  This leads to simpler, more maintainable code.  Starting with the setup implementation before determining how you’re going to verify the desired outcome is putting the cart before the horse.  How do you know a particular setup implementation will be needed to test the desired outcome before you’ve established what that is?  Perhaps you’ll be building upon the existing type you’re jumping ahead to setup, but perhaps it should be a new type altogether.  Figure out how you’re going to verify the desired outcome first and then determine what components make sense to fulfill the desired outcome.</p>
+
+<p>To help illustrate this flow, let’s consider the following example.  Let’s say we’re writing an application which allows employee’s at a company to register for a training class.  When an employee registers for a class, they should be provided with a registration receipt.  Let’s start by establishing the shell of our specification:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  Establish context;
+
+  Because of;
+
+  It should_return_a_registration_receipt;
+}</pre>
+
+<p>Next, we need to determine how we want to verify that the logical condition “<em>It should return a registration receipt</em>” will be fulfilled.  Let’s assert that a variable named _registrationReceipt is not null:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  Establish context;
+
+  Because of;
+
+  It should_return_a_registration_receipt = () =&gt; _registrationReceipt.ShouldNotBeNull();
+}</pre>
+
+<p>It’s at this point some may have an objection to typing out an assertion without the aid of auto-completion (i.e. Intellisense).  Some are so dependent upon auto-completion that they’ll actually stop after typing _registrationReceipt, and go declare a variable just so their auto-completion will be there.  Resist that urge.  Assertions shouldn’t be difficult and this will actually force you to keep it simple.</p>
+
+<p>Next, we need to decide how we are going to assign our variable, so we’ll move to our Because delegate.  At this point, we’ll also determine what component and usage API we’d like to use to retrieve our receipt:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  Establish context;
+
+  Because of = () =&gt; _registrationReceipt = _registrar.Register(EmployeeId, ClassId);
+
+  It should_return_a_registration_receipt = () =&gt; _registrationReceipt.ShouldNotBeNull();
+}</pre>
+
+<p>Next, we need to establish our context.  We’ll initialize the _registrar to a non-existent type named Registrar:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  Establish context = () =&gt; { _registrar = new Registrar(); };
+
+  Because of = () =&gt; _registrationReceipt = _registrar.Register(EmployeeId, ClassId);
+
+  It should_return_a_registration_receipt = () =&gt; _registrationReceipt.ShouldNotBeNull();
+}</pre>
+
+<p>At this point, we can use ReSharper to generate a field name _registrar, generate the Registrar class, and generate the Registrar.Register() method.  Once the Register() method is generated, we need to choose the type we’ll use for the return value and parameters and then replace the throw statement with a return of null so our assertion will fail for the right reason later.  Let’s make the receipt be a RegistrationReceipt type and use integers for our Ids:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  static Registrar _registrar;
+
+  Establish context = () =&gt; { _registrar = new Registrar(); };
+
+  Because of = () =&gt; _registrationReceipt = _registrar.Register(EmployeeId, ClassId);
+
+  It should_return_a_registration_receipt = () =&gt; _registrationReceipt.ShouldNotBeNull();
+}
+
+class Registrar
+{
+  public RegistrationReceipt Register(int employeeId, int classId)
+  {
+  }
+}</pre>
+
+<p>Continuing, we generate the RegistrationReceipt type, _registrationReceipt field, and create some constants for our Ids:</p>
+
+<pre class="prettyprint">public class when_registering_for_a_class
+{
+  const int EmployeeId = 1;
+  const int ClassId = 2;
+  static Registrar _registrar;
+  static RegistrationReceipt _registrationReceipt;
+
+  Establish context = () =&gt; { _registrar = new Registrar(); };
+  
+  Because of = () =&gt; _registrationReceipt = _registrar.Register(EmployeeId, ClassId);
+
+  It should_return_a_registration_receipt = () =&gt; _registrationReceipt.ShouldNotBeNull();
+}
+
+class Registrar
+{
+  public RegistrationReceipt Register(int employeeId, int classId)
+  {
+    return null;
+  }
+}
+
+class RegistrationReceipt
+{
+}</pre>
+
+<p> </p>
+
+<p>At this point everything compiles cleanly.  Running our test with the ReSharper test runner produces the following:</p>
+
+<pre class="prettyprint">should return a registration receipt : Failed
+Should be [not null] but is [null]</pre>
+
+<p>We’re now ready to make our test pass (which we can do by just returning a new RegistrationReceipt from our Register method), factor out any duplication, and move on to our next assertion or specification either to flesh out this design or to move on to our next feature.</p>
+
+<p>By starting with our assertion first, moving to the execution of our System Under Test, and ending with our context setup, we’ve allowed our test to guide our design rather than allowing an existing design (coded or in our heads) to guide the implementation of our test.</p>
+
+<p>In summary, organize your tests using <em>Arrange, Act, Assert</em>, but implement them in the order of <em>Assert, Act, Arrange</em>.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

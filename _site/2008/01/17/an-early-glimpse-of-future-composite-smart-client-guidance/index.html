@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      An Early Glimpse of Future Composite Smart Client Guidance &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">An Early Glimpse of Future Composite Smart Client Guidance</h1>
+    <span class="post-meta">17 January, 2008. It was a Thursday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>This week the Patterns &amp; Practices team invited a small group of members from the composite application development community to discuss ideas surrounding composite development using Windows Presentation Foundation, and to solicit feedback on the team’s latest design ideas and planned direction for the next release of composite guidance assets for the .Net community.</p>
+
+<div id="attachment_100" style="max-width: 310px" class="wp-caption aligncenter">
+  <a href="/wp-content/uploads/2008/01/Seattle-009.jpg"><img class="size-medium wp-image-100" title="Seattle 009" src="/wp-content/uploads/2008/01/Seattle-009-300x225.jpg" alt="" width="300" height="225" /></a>
+  
+  <p class="wp-caption-text">
+    Glenn Block (left) and Blaine Wastell (right)
+  </p>
+</div>
+
+<p>One <noindex></noindex> of the first topics of the meeting included a discussion of new user interface design approaches enabled through the power of Windows Presentation Foundation, demonstrations of how some companies are currently utilizing these abilities, and the solicitation of information on future design plans from the attendees. This was in part to introduce the audience to the notion of what is being referred to as “Differentiated UI”, but was primarily a continuation of advanced WPF design research the team has been conducting over the past few weeks to ensure that the architecture choices made for any new composite guidance assets would not be a road-block for how WPF applications may be developed going forward.</p>
+
+<p>The next major topic surrounded the existing features of the Composite UI Application Block and Smart Client Software Factory. Glenn, Blaine, and Francis shared some of the feedback their team has received on the existing composite guidance, and attendees were asked to list those features they felt should be carried forward, those that should be removed, and features that should be added. Attendees were then broken up into teams to discuss some of the technical challenges faced in current composite design in order to enumerate issues the team should focus on going forward.</p>
+
+<div class="wp-caption">
+  <a href="/wordpress/wp-content/uploads/2008/01/Seattle-010.jpg"><img class="aligncenter size-medium wp-image-101" style="float: left; padding-right:4px;" title="Seattle 010" src="/default/wp-content/uploads/2008/01/Seattle-010-300x225.jpg" alt="" width="300" height="225" /></a><a href="/wordpress/wp-content/uploads/2008/01/Seattle-006.jpg"><img class="aligncenter size-medium wp-image-102" title="Seattle 006" src="/default/wp-content/uploads/2008/01/Seattle-006-300x225.jpg" alt="" width="300" height="225" /></a>&lt;/p&gt; 
+  
+  <p class="wp-caption-text">
+    The results of the existing CAB/SCSF feature survey can be seen in the above pictures of Glenn Block (left) and Brad Abrams (right).
+  </p>
+</div>
+
+<p>Following this discussion, Glenn and his team presented a high level overview of the general direction being considered for their new guidance surrounding WPF composite development, and presented three spikes demonstrating the new ideas for module loading, managing Workspaces, and brokering events.</p>
+
+<p>The current direction of the team surrounds the simplification of the existing architecture to make composite development more approachable by the masses. While still in a somewhat malleable state, some of the goals include minimizing the use of dependency injection, separating the former responsibilities of the CAB work item (i.e. the former management of smart parts, work items, event publications and subscriptions, etc.), improving component extensibility, and enabling features to be more easily replaced and possibly used independently.</p>
+
+<p>Some of the notable changes being proposed include a new Dependency Injection façade for enabling other containers to be exchanged for Object Builder, the proposal of a Scope type which would provide the contextual scoping boundary association previously provided by the work item, and a new delegate-based event notification system where publications and subscriptions are associated through the use of registered interfaces.</p>
+
+<p>The meeting also featured an overview of Acropolis by its chief Project Manager and Architect David Hill, and included lots of interesting conversations sprinkled throughout including such topics as Dependency Injection techniques, XAML debugging challenges, Model-View-Presenter and Presentation Model recommendations, whether the Model-View-View-Model pattern is really a rebranded Presentation Model pattern, and many other geeky goodies.</p>
+
+<p>Overall, the meeting was very informative and demonstrated the Pattern &amp; Practices team to be sincerely interested in the needs and desires of the greater .Net development community. Thanks Glenn, Blaine, Francis, and all the guest presenters that took this time to help ensure your group continues its track record of providing great guidance and assets to the .Net community.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

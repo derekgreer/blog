@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Acronyms and Ubiquitous Language &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Acronyms and Ubiquitous Language</h1>
+    <span class="post-meta">11 December, 2011. It was a Sunday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>Acronyms <noindex></noindex> are often employed within organizations as a way to abbreviate frequently used phrases in an attempt to expedite communication.  Unfortunately, their use often does the exact opposite.  Many programming language style guides discourage the use of acronyms.  For instance, here’s what the .Net Framework <a href="http://msdn.microsoft.com/en-us/library/ms229045.aspx">General Naming Conventions</a> has to say on the use of acronyms:</p>
+
+<blockquote>
+  <p><strong>Do not use any acronyms that are not widely accepted, and then only when necessary.</strong></p>
+</blockquote>
+
+<p>The reasoning for this is that acronyms tend to present a barrier to understanding rather than their intended goal of expediting communication.  When used in conversation, if you’re confronted with an unfamiliar acronym then you at least have an opportunity to ask “<em>What does XYZ stand for?</em>”, but when a developer is reading through a new code base and encounters unfamiliar acronyms then there isn’t always an expedient way of bridging that communication barrier.</p>
+
+<p>Some might ask: “<em>But what do we do when acronyms are a deeply rooted part of the business’s day-to-day language?</em>”</p>
+
+<p>The use of a common language between developers and the business is referred to in Domain Driven Design as “<em>Ubiquitous Language</em>”.  The book <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215/ref=sr_1_1?ie=UTF8&amp;qid=1323619169&amp;sr=8-1">Domain-Driven Design</a> by Eric Evans has this to say concerning the use of a shared language with the business:</p>
+
+<blockquote>
+  <p>A project faces serious problems when its language is fractured.  Domain experts use their jargon while technical team members have their own language tuned for discussing the domain in terms of design.</p>
+
+  <p>The terminology of day-to-day discussions is disconnected from the terminology embedded in the code (ultimately the most important product of a software project).  And even the same person uses different language in speech and in writing, so that the most incisive expression of the domain often emerge in a transient form that is never captured in the code or even in writing.</p>
+
+  <p>Translation blunts communication and makes knowledge crunching anemic.  Yet none of these dialects can be a common language because none serves all needs.</p>
+
+  <p>…</p>
+
+  <p>Therefore:</p>
+
+  <p>Use the model as the backbone of a language.  Commit the team to exercising that language relentlessly in all communication within the team and in the code.  Use the same language in diagrams, written, and especially speech.</p>
+
+  <p>Iron out difficulties by experimenting with alternative expressions, which reflect alternative models.  The refactor the code, renaming classes, methods, and modules to conform to the new model.  Resolve confusion over terms in conversation, in just the way we come to agree on the meaning of ordinary words.</p>
+
+  <p>Recognize that a change in the UBIQUITOUS LANGUAGE is a change to the model.</p>
+
+  <p>Domain experts should object to terms or structures that are awkward or inadequate to convey domain understanding; developers should watch for ambiguity or inconsistency that will trip up design.</p>
+</blockquote>
+
+<p> </p>
+
+<p>At first, some may see this as a call to adopt the business’s acronyms as part of the Ubiquitous Language, and in some cases this might be the right thing to do (I’ll touch on this more in a bit), but let’s first consider a few things about what’s intended by using a Ubiquitous Language.</p>
+
+<p>First, the avocation of a Ubiquitous Language is first and foremost to facilitate communication and understanding.  The job of the developer is to model the domain of the business in code, so adopting a common language with the business helps facilitate the creation of, and conversations about the model in ways that promote communication and understanding.  That said, if the Ubiquitous Language isn’t promoting communication and understanding then you’re doing it wrong.</p>
+
+<p> </p>
+
+<p align="center">
+  <a href="http://www.aspiringcraftsman.com/wp-content/uploads/2011/12/cargo_cult_3.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="cargo_cult_3" border="0" alt="cargo_cult_3" src="http://www.aspiringcraftsman.com/wp-content/uploads/2011/12/cargo_cult_3_thumb.jpg" width="500" height="256" /></a>&#160; <strong>Other people doing it wrong</strong>&#160;&#160;
+</p>
+
+<p>Second, the fractured language Evans is referring to is the use of technical jargon to describe business concepts, not whether the concepts are expressed in abbreviated form or not.  Expansion of business acronyms within the code doesn’t necessarily constitute a departure from the Ubiquitous Language.</p>
+
+<p>Third, the formation of the Ubiquitous Language is a two-way street.  Business experts don’t always share a consistent language amongst themselves, and sometimes the terms they’ve grown accustomed to are ambiguous, confusing, or simply wrong.  In these cases, the role of the development team should be to help forge a Ubiquitous Language with the user by agreeing upon terminology which clearly conveys understanding of the domain for both parties.</p>
+
+<p>That said, there are times when the use of business-specific acronyms may be appropriate.  In cases where the use of acronyms are minimal and perhaps central to the identity of the business, using the acronyms in code may even be desirable.  For example, imagine your company has won a bid to write an application for the <a href="http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship">Ultimate Fighting Championship</a> company to keep track of tournament brackets for Pay Per View events.  For such an application, it would be completely appropriate to use the commonly used abbreviation for the company: UFC.  </p>
+
+<p>If there are only a few acronyms used in the business which wouldn’t be prohibitive to learn then their use probably won’t pose much of an issue, but if the language of the business is flooded with acronyms then it’s best to use their expanded forms.</p>
+
+<p>I once worked at a company whose primary contract was with the United States Military.  If you’ve never been exposed to military jargon before, I can tell you they take the use of acronyms to the extreme.  The use of acronyms were littered throughout the code which made understanding the domain difficult for all.  I recall several of the senior members of the team which had been with the company for years admitting that they only understood a small percentage of what the acronyms meant, and one junior developer explained that they didn’t know what a certain acronym used for a property meant, but they knew that that it always had to start with a certain sequence of letters.  As it turned out, there was actually some correlation between the sequence of letters and the meaning of the acronym which was lost on all.  Recommendations to stop using acronyms were met with objections that the team should continue using them because it was the “Ubiquitous Language”.  Ironically, due to the way the U.S. Military conducted business with the company, only the management staff ever met with the generals for which a real Ubiquitous Language would have become useful, and then only rarely.  Unfortunately, these choices among others lead to low quality and a high turn over rate among the development staff.</p>
+
+<p>In summary, acronyms may sound like a good idea because they save a few key strokes or syllables here and there, but before you use them in your code ask yourself if the code will be more or less understandable to the other developers who come after you.  Additionally, if you’re using them under the banner of adhering to a “Ubiquitous Language” then ask yourself whether their use is really achieving a goal of promoting communication and understanding.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

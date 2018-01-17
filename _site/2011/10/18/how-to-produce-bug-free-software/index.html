@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      How To Produce Bug-Free Software &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">How To Produce Bug-Free Software</h1>
+    <span class="post-meta">18 October, 2011. It was a Tuesday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>Many <noindex></noindex> are resigned to the fact that all software is destined to contain some “bugs”, but did you know it’s possible (and arguably pretty easy) to always produce “bug-free” software?  In this article, I’ll explain how.</p>
+
+<h2 id="terms">Terms</h2>
+
+<p>To begin, let’s consider the definition of a software “bug”.  Merriam-Webster’s dictionary defines a bug as follows:</p>
+
+<blockquote>
+  <p><strong>bug</strong> – “an unexpected defect, fault, flaw, or imperfection”</p>
+</blockquote>
+
+<p>This definition may be fine for casual use, but you certainly wouldn’t want to use this as the basis for any contractual obligations.  The problem with this definition is that it lacks objectivity.  The terms ‘defect’, ‘fault’, ‘flaw’, and ‘imperfection’ are all relative terms, but what are they relative to?  Based upon this definition, these designations are made based upon some deviation from an unstated set of expectations, but upon what are these expectations based?  What if different expectations are held independently by your users, testing groups, mangers, product owners and yourself?  Should all differences between any of these expectations and the actual behavior be considered bugs?  Clearly a more objective definition is needed if we are to ever be capable of producing bug-free software.</p>
+
+<p>To this end, I submit the following definition:</p>
+
+<blockquote>
+  <p><strong>bug</strong> – “a deviation from an objective set of specifications set forth at the outset of a development effort.”</p>
+</blockquote>
+
+<p>In order for a development team to consistently write bug-free software, an objective set of specifications must exist by which the software may be measured by prior to delivery.  Unfortunately, such specifications are rarely created … not in any objective form.  This problem often stems from the application of an incorrect process control model.</p>
+
+<h2 id="process-control-theory">Process Control Theory</h2>
+
+<p>There are two primary approaches to controlling processes:  The <a href="http://en.wikipedia.org/wiki/Defined_process">defined process control model</a> and the <a href="http://en.wikipedia.org/wiki/Empirical_process_(process_control_model)">empirical process control model</a>.</p>
+
+<p>The <strong>defined process control model</strong> is applicable to processes where all the work involved is completely understood at the outset of production and the result of each stage of production is predictable and repeatable.  An assembly-line production of automobiles is a example where a defined process model might be applied.</p>
+
+<p>The <strong>empirical process control model</strong> is applicable to processes where the product of the work has a high degree of unpredictability and/or the product’s specifications aren’t completely defined and understood at the outset of production.  This model is characterized by the use of frequent inspection and adaptation during the production process.  The research and initial formulation of medications to treat diseases are examples where an empirical process control model would be applied.</p>
+
+<p>Unfortunately, it’s been the defined process control model which has been the predominate approach to software development throughout its history.  The most prevalent manifestation of the defined process control model has been the  <a href="http://en.wikipedia.org/wiki/Waterfall_model">Waterfall model</a>, a process control model characterized by sequential stages of development which include requirements gathering, analysis, design, implementation, and verification.  Fortunately some within the industry have come to understand that software development requires an empirical process control model and the rest of the industry appears to be slowly coming around<sup>1</sup>.</p>
+
+<p>In the book <em>Agile Software Development with Scrum</em>, Ken Schwaber discusses some feedback he received upon consulting with process theory experts concerning his lack of success in applying commercial methodologies within his company.  The following is his account of this feedback:</p>
+
+<blockquote>
+  <p><em>They inspected the systems development processes that I brought them.  I have rarely provided a group with so much laughter.  They were amazed and appalled that my industry, systems development, was trying to do its work using a completely inappropriate process control model.  They said systems development had so much complexity and unpredictability that it had to be managed by a process control model they referred to as “empirical.”  They said this was nothing new, and all complex processes that weren’t completely understood required the empirical model.  They helped me go through a book that is the Bible of industrial process control theory, Process Dynamics, Modeling and Control [Tunde] to understand why I was off track.</em></p>
+
+  <p><em>In a nutshell, there are two major approaches to controlling any process.  The “defined” process control model requires that every piece of work be completely understood.  Given a well-defined set of inputs, the same outputs are generated every time. … Tunde told me the empirical model of process, on the other hand, expects the unexpected.  It provides and exercises control through frequent inspection and adaptation for processes that are imperfectly defined and generate unpredictable and unrepeatable outputs.</em></p>
+</blockquote>
+
+<p>When software development is correctly understood to be an inherently empirical process in need of frequent inspection and adjustment, many naturally conclude that an objective, repeatable inspection process is need.  Enter executable specifications …</p>
+
+<h2 id="executable-specifications">Executable Specifications</h2>
+
+<p>In the <a href="http://en.wikipedia.org/wiki/Scientific_method">Scientific Method</a>, empirical data is collected through repeatable processes to guard against mistakes or confusion by experimenters.  To ensure our software is defect-free, we need to employ a similar set of repeatable processes.  Not only should such processes guard against mistakes or confusion during the development effort, but such processes can and should themselves be the agreed-upon specifications.  In the software development world, these sets of controlled processes can be fulfilled by Executable Specifications. </p>
+
+<p>Simply, executable specifications are a set of automated tests which encapsulate the context, actions, and observable outcomes defined and agreed upon between a customer and a development team. Without such specifications, no objective measure exists by which to weigh the integrity of a software system.  With such specifications, the development team has an objective measure by which to weigh the software behavior against prior to it being delivered to a customer … thus equipping the development team with the ability to always produce bug-free software.</p>
+
+<p> </p>
+
+<hr />
+
+<ol>
+  <li>‘Agile’ Development Winning Over ‘Waterfall’ Method – <a href="http://itmanagement.earthweb.com/entdev/article.php/3841636/Agile-Development-Winning-Over-Waterfall-Method.htm">http://itmanagement.earthweb.com/entdev/article.php/3841636/Agile-Development-Winning-Over-Waterfall-Method.htm</a></li>
+</ol>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>

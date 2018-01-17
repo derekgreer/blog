@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel="stylesheet" href="/assets/css/normalize.css"/>
+  <link rel="stylesheet" href="/assets/css/bulma.css"/>
+  <link rel="stylesheet" href="/assets/css/highlight.css"/>
+  <link rel="stylesheet" href="/assets/css/custom.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <title>
+    
+      Effective Tests: Auto-mocking Containers &middot; Aspiring Craftsman
+    
+  </title>
+
+</head>
+
+
+<body>
+
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Aspiring Craftsman</h1><div>pursuing well-crafted software</div>
+<!--
+          <span class="typewrite" data-period="2000" data-type='[ "pursuing well-crafted software"]'>
+            <span class="wrap"></span>
+          </span>
+-->
+      <!--
+      <h4 class="subtitle" id="quote">
+      </h4>
+      -->
+    </div>
+  </div>
+</section>
+
+<div class="main-container">
+  <div class="tile is-ancestor is-vertical">
+
+
+    <nav class="nav has-shadow">
+
+      <div class="nav-left">
+
+        <a href="/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-home" aria-hidden="true" title="Homepage"></i>
+          </span>
+        </a>
+
+        <a href="https://github.com/" class="nav-item">
+          <span class="icon">
+            <i class="fa fa-github" aria-hidden="true" title="Github"></i>
+          </span>
+        </a>
+
+        <div class="nav-item" id="searchFieldNav">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input is-small" type="text" placeholder="Find an article" id="search-text">
+            </p>
+            <p class="control">
+              <a class="button is-dark is-small" onclick="searchHandler();">
+                Search
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nav-right nav-menu" id='nav-menu'>
+        <a href="/archive" class="nav-item">Archive</a>
+        <a href="/tags" class="nav-item">Tags</a>
+      </div>
+
+      <span class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+    </nav>
+
+    <div class="tile is-parent">
+      <div class="tile is-8 is-child main">
+
+        <div class="box">
+    <h1 class="post-title">Effective Tests: Auto-mocking Containers</h1>
+    <span class="post-meta">31 May, 2011. It was a Tuesday. <a style="color:grey" href="#disqus_thread"></a></span><hr/>
+
+    <span class="post-text"><p>In <noindex></noindex> the <a href="http://www.aspiringcraftsman.com/2011/05/26/effective-tests-double-strategies/">last installment</a>, I set forth some recommendations for using Test Doubles effectively. In this article, I’ll discuss a class of tools which can aid in reducing some of the coupling and obscurity that comes with the use of Test Doubles: Auto-mocking Containers.</p>
+
+<h2 id="auto-mocking-containers">Auto-mocking Containers</h2>
+
+<p>Executable specifications can provide valuable documentation of a system’s behavior. When written well, they can not only clearly describe what the system does, but also serve as an example for how the system is intended to be used. Unfortunately, it is this aspect of our specifications which can often end up working against our goal of writing maintainable software.</p>
+
+<p>Ideally, an executable specification would describe the expected behavior of a system in such a way as to also clearly demonstrate it’s intended use without obscuring its purpose with extraneous implementation details. One class of tools which aid in achieving this goal are Auto-mocking Containers.</p>
+
+<p>An <em>Auto-mocking Container</em> is a specialized <a href="http://en.wikipedia.org/wiki/Inversion_of_control">inversion of control</a> container for constructing a System Under Test with Test Doubles automatically supplied for any dependencies. By using an auto-mocking container, details such as the declaration of test double fields and test double instantiation can be removed from the specification, rendering a cleaner implementation void of such extraneous details.</p>
+
+<p>Consider the following class which displays part details to a user and is responsible for retrieving the details requested form a cached copy if present:</p>
+
+<pre class="brush:csharp; gutter:false; wrap-lines:false; tab-size:2;">public class DisplayPartDetailsAction
+    {
+        readonly ICachingService _cachingService;
+        readonly IPartDisplayAdaptor _partDisplayAdaptor;
+        readonly IPartRepository _partRepository;
+
+        public DisplayPartDetailsAction(
+            ICachingService cachingService,
+            IPartRepository partRepository,
+            IPartDisplayAdaptor partDisplayAdaptor)
+        {
+            _cachingService = cachingService;
+            _partRepository = partRepository;
+            _partDisplayAdaptor = partDisplayAdaptor;
+        }
+
+        public void Display(string partId)
+        {
+            PartDetail details = _cachingService.RetrievePartDetails(partId) ??
+                                 _partRepository.GetPartDetailByPartId(partId);
+
+            _partDisplayAdaptor.Display(details);
+        }
+    }
+</pre>
+
+<p>The specification for this behavior would need to verify that the System Under Test attempts to retrieve the PartDetail from the ICachingService, but would also need to supply implementations for the IPartRepository and IPartDisplayAdaptor as shown in the following listing:</p>
+
+<pre class="brush:csharp; gutter:false; wrap-lines:false; tab-size:2;">public class when_displaying_part_details
+    {
+        const string PartId = "12345";
+        static Mock&lt;ICachingService&gt; _cachingServiceMock;
+        static DisplayPartDetailsAction _subject;
+
+        Establish context = () =&gt;
+            {
+                _cachingServiceMock = new Mock&lt;ICachingService&gt;();
+                var partRepositoryDummy = new Mock&lt;IPartRepository&gt;();
+                var partDisplayAdaptorDummy = new Mock&lt;IPartDisplayAdaptor&gt;();
+                _subject = new DisplayPartDetailsAction(_cachingServiceMock.Object, partRepositoryDummy.Object,
+                                                        partDisplayAdaptorDummy.Object);
+            };
+
+        Because of = () =&gt; _subject.Display(PartId);
+
+        It should_retrieve_the_part_information_from_the_cache =
+            () =&gt; _cachingServiceMock.Verify(x =&gt; x.RetrievePartDetails(PartId), Times.Exactly(1));
+    }
+</pre>
+
+<p>By using an auto-mocking container, the specification can be written without the need of an explicit Mock field, or instantiating Dummy instances for the IPartRepository and IPartDisplayAdaptor dependencies. The following demonstrates such an example using <a href="http://code.google.com/p/moq-contrib/wiki/Automocking">AutoMock</a>, an auto-mocking container which leverages the Moq framework:</p>
+
+<pre class="brush:csharp; gutter:false; wrap-lines:false; tab-size:2;">public class when_displaying_part_details
+    {
+        const string PartId = "12345";
+        static AutoMockContainer _container;
+        static DisplayPartDetailsAction _subject;
+
+        Establish context = () =&gt;
+            {
+                _container = new AutoMockContainer(new MockFactory(MockBehavior.Loose));
+                _subject = _container.Create&lt;DisplayPartDetailsAction&gt;();
+            };
+
+        Because of = () =&gt; _subject.Display(PartId);
+
+        It should_retrieve_the_part_information_from_the_cache =
+            () =&gt; _container.GetMock&lt;ICachingService&gt;().Verify(x =&gt; x.RetrievePartDetails(PartId), Times.Exactly(1));
+    }
+</pre>
+
+<p>While this implementation eliminates references to the extraneous dependencies, it does impose a bit of extraneous implementation details of its own. To further relieve this specification of implementation details associated with the auto-mocking container, a reusable base context can be extracted:</p>
+
+<pre class="brush:csharp; gutter:false; wrap-lines:false; tab-size:2;">public abstract class WithSubject&lt;T&gt; where T : class
+    {
+        protected static AutoMockContainer Container;
+        protected static T Subject;
+
+         Establish context = () =&gt;
+            {
+                Container = new AutoMockContainer(new MockFactory(MockBehavior.Loose));
+                Subject = Container.Create&lt;T&gt;();
+            };
+
+        protected static Mock&lt;TDouble&gt; For&lt;TDouble&gt;() where TDouble : class
+        {
+            return Container.GetMock&lt;TDouble&gt;();
+        }
+    }
+</pre>
+
+<p>By extending the auto-mocking base context, the specification can be written more concisely:</p>
+
+<pre class="brush:csharp; gutter:false; wrap-lines:false; tab-size:2;">public class when_displaying_part_details : WithSubject&lt;DisplayPartDetailsAction&gt;
+    {
+        const string PartId = "12345";
+
+        Because of = () =&gt; Subject.Display(PartId);
+
+        It should_retrieve_the_part_information_from_the_cache =
+            () =&gt; For&lt;ICachingService&gt;().Verify(x =&gt; x.RetrievePartDetails(PartId), Times.Exactly(1));
+    }
+</pre>
+
+<p>Another advantage gained by the use of auto-mocking containers is decoupling. By inverting the concern of how the System Under Test is constructed, dependencies can be added, modified, or deleted without affecting specifications for which the dependency has no bearing.</p>
+
+<h2 id="trade-offs">Trade-offs</h2>
+
+<p>While auto-mocking containers can make specifications cleaner, easier to write, and more adaptable to change, their use can come at a slight cost. By using mocking frameworks and hand-rolled doubles directly, there is always at least one point of reference where the requirements of instantiating the System Under Test provides feedback about its design as a whole.</p>
+
+<p>Use of auto-mocking containers allows us to produce contextual slices of how the system works, limiting the information about the system’s dependencies to that knowledge required by the context in question. From a documentation perspective, this can aid in understanding how the system is used to facilitate a particular feature. From a design perspective, however, their use can eliminate one source of feedback about the evolving design of the system. Without such inversion of control, hints of violating the Single Responsibility Principle can be seen within the specifications, evidenced by overly complex constructor initialization. By removing the explicit declaration of the system’s dependencies from the specifications, we also remove this point of feedback.</p>
+
+<p>That said, the benefits of leveraging auto-mocking containers tend to outweigh the cost of removing this point of feedback. Cases of mutually-exclusive dependencies are usually in the minority and each addition and/or modification to a constructor provides an equal level of feedback about a class’s potential complexity.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this article, we looked at the use of auto-mocking containers as a tool for reducing obscurity and coupling within our specifications. Next time, we’ll look at a technique for reducing the obscurity that comes from overly complex assertions.</p>
+</span>
+</div>
+
+<!--<div class="box">-->
+    <!-- google ads code box -->
+<!--</div>-->
+
+
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'aspiringcraftsman'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+
+      <div class="tile is-4 is-child">
+        <div class="tile is-parent is-vertical sidebar">
+
+          <div class="tile is-child widget">
+
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recent Posts
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                  
+                  <li><a href="/2017/05/25/hello-react-a-beginners-setup-tutorial/">
+                    Hello, React! - A Beginner's Setup Tutorial
+                  </a></li>
+                  
+                  <li><a href="/2016/08/30/exploring-typescript/">
+                    Exploring TypeScript
+                  </a></li>
+                  
+                  <li><a href="/2016/08/22/git-on-windows-whence-cometh-configuration/">
+                    Git on Windows: Whence Cometh Configuration
+                  </a></li>
+                  
+                  <li><a href="/2016/02/28/separation-of-concerns-application-builds-continuous-integration/">
+                    Separation of Concerns: Application Builds & Continuous Integration
+                  </a></li>
+                  
+                  <li><a href="/2015/11/01/survey-of-entity-framework-unit-of-work-patterns/">
+                    Survey of Entity Framework Unit of Work Patterns
+                  </a></li>
+                  
+                  <li><a href="/2015/03/08/introducing-nunit-specifications/">
+                    Introducing NUnit.Specifications
+                  </a></li>
+                  
+                  <li><a href="/2014/03/05/being-agile/">
+                    Being Agile
+                  </a></li>
+                  
+                  <li><a href="/2013/11/17/expected-objects-custom-comparisons/">
+                    Expected Objects Custom Comparisons
+                  </a></li>
+                  
+                  <li><a href="/2013/04/17/rabbitbus-an-example/">
+                    RabbitBus: An Example
+                  </a></li>
+                  
+                  <li><a href="/2013/01/27/adventures-in-debugging-the-nhibernate-dont-flush-the-session-error/">
+                    Adventures in Debugging: The NHibernate 'don't flush the Session' Error
+                  </a></li>
+                  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child widget">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title nice-title">
+                  Recommended Websites
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content nice-text">
+                  <ul>
+                    <li>
+                      <a href="https://lostechies.com">Los Techies</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+      <a class="icon" href="https://github.com/derekgreer">
+          <i class="fa fa-github" title="Github"></i>
+        </a>
+        <a class="icon" href="https://in.linkedin.com/in/derekgreer">
+          <i class="fa fa-linkedin" title="Linkedin"></i>
+        </a>
+        <a class="icon" href="mailto:dbgreer@gmail.com">
+          <i class="fa fa-envelope" title="Email"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- js -->
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/typewriter.js"></script>
+</body>
+</html>
