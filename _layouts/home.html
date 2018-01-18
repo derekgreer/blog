@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  {{ content }}
+
+<ul class="posts">
+    {% for post in site.posts limit:10 %}
+    <div class="box">
+      <h1 class="post-title">
+        <a style="color:#4a4a4a;" href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+      </h1>
+      <span class="post-meta">{{ post.date | date: "%-d %B, %Y. It was a %A." }} <a style="color:grey" href="{{ BASE_PATH }}{{ post.url }}"></a></span><hr/>
+
+      <span class="post-text">{{ post.content }}</span>
+    </div>
+
+    {% endfor %}
+</ul>
+
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+
+</div>
+
+
