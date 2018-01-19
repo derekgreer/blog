@@ -12,7 +12,7 @@ dsq_thread_id:
 category: "Unspecified"
 tags: [react]
 ---
-React <noindex></noindex> has been around for a few years now and there are quite a few tutorials available. Unfortunately, many are outdated, overly complex, or gloss over configuration for getting started. Tutorials which side-step configuration by using jsfiddle or code generator options are great when you’re wanting to just focus on the framework features itself, but many tutorials leave beginners struggling to piece things together when you’re ready to create a simple react application from scratch. This tutorial is intended to help beginners get up and going with React by manually walking through a minimal setup process.
+React <noindex></noindex> has been around for a few years now and there are quite a few tutorials available. Unfortunately, many are outdated, overly complex, or gloss over configuration for getting started. Tutorials which side-step configuration by using jsfiddle or code generator options are great when you’re wanting to just focus on the framework features itself, but many tutorials leave beginners struggling to piece things together when you’re ready to create a simple react application from scratch. This tutorial is intended to help beginners get up and going with React by manually walking through a minimal setup process..
 
 ## A Simple Tutorial
 
