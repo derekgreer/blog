@@ -9,7 +9,7 @@ guid: http://www.aspiringcraftsman.com/wordpress/?page_id=2
 <div>
   <div>
    <div id="photo">
-      <a href="http://www.aspiringcraftsman.com/wp-content/uploads/2010/01/Derek_sepia02.png"><img class="size-full wp-image-91 alignright" title="Derek_sepia02" src="http://www.aspiringcraftsman.com/wp-content/uploads/2010/01/Derek_sepia02.png" alt="" width="226" height="273" /></a>
+      <a href="http://www.aspiringcraftsman.com/wp-content/uploads/2010/01/Derek_sepia02.png"><img class="size-full wp-image-91 alignright" title="Derek_sepia02" src="{{site.baseurl}}/assets/images/profile.jpg" alt="" width="226" height="273" /></a>
     </div>
 
     <div id="social" style="display:flex">
