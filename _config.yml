@@ -28,10 +28,11 @@ disqus:
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
 theme: minima
 plugins:
-  - jekyll-feed
-
+  - jekyll-redirect-from
+  - jekyll-gist
 JB:
   comments:
       provider: disqus
