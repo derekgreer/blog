@@ -13,7 +13,66 @@ categories:
 tags:
   - Testing
 ---
-This <noindex></noindex> is part 1 of a series discussing&#160; topics surrounding effective automated testing.&#160; Automated testing can be instrumental to both the short and long-term success of a project.&#160; Unfortunately, it is too often overlooked due to either a lack of knowledge of how to incorporate test into an existing process, or a lack of recognition of the deficiencies within an existing process.&#160; As with any new pursuit, learning how to use automated testing effectively within a development process can take time.&#160; The goal of this series is to help those new to the practice of automated testing by gradually introducing concepts which aid in the creation of working, maintainable software that matters.
+
+## Posts In This Series
+
+<div>
+  <ul>
+    <li>
+      Effective Tests: Introduction
+    </li>
+    <li>
+      <a href="/2011/03/14/effective-tests-a-unit-test-example/">Effective Tests: A Unit Test Example</a>
+    </li>
+    <li>
+      <a href="/2011/03/21/effective-tests-test-first/">Effective Tests: Test First</a>
+    </li>
+    <li>
+      <a href="/2011/03/28/effective-tests-a-test-first-example-part-1/">Effective Tests: A Test-First Example – Part 1</a>
+    </li>
+    <li>
+      <a href="/2011/03/29/effective-tests-how-faking-it-can-help-you/">Effective Tests: How Faking It Can Help You</a>
+    </li>
+    <li>
+      <a href="/2011/04/04/effective-tests-a-test-first-example-part-2/">Effective Tests: A Test-First Example – Part 2</a>
+    </li>
+    <li>
+      <a href="/2011/04/11/effective-tests-a-test-first-example-part-3/">Effective Tests: A Test-First Example – Part 3</a>
+    </li>
+    <li>
+      <a href="/2011/04/24/effective-tests-a-test-first-example-part-4/">Effective Tests: A Test-First Example – Part 4</a>
+    </li>
+    <li>
+      <a href="/2011/05/01/effective-tests-a-test-first-example-part-5/">Effective Tests: A Test-First Example – Part 5</a>
+    </li>
+    <li>
+      <a href="/2011/05/12/effective-tests-a-test-first-example-part-6/">Effective Tests: A Test-First Example – Part 6</a>
+    </li>
+    <li>
+      <a href="/2011/05/15/effective-tests-test-doubles/">Effective Tests: Test Doubles</a>
+    </li>
+    <li>
+      <a href="/2011/05/26/effective-tests-double-strategies/">Effective Tests: Double Strategies</a>
+    </li>
+    <li>
+      <a href="/2011/05/31/effective-tests-auto-mocking-containers/">Effective Tests: Auto-mocking Containers</a>
+    </li>
+    <li>
+      <a href="/2011/06/11/effective-tests-custom-assertions/">Effective Tests: Custom Assertions</a>
+    </li>
+    <li>
+      <a href="/2011/06/24/effective-tests-expected-objects/">Effective Tests: Expected Objects</a>
+    </li>
+    <li>
+      <a href="/2011/07/19/effective-tests-avoiding-context-obscurity/">Effective Tests: Avoiding Context Obscurity</a>
+    </li>
+    <li>
+      <a href="/2011/09/05/effective-tests-acceptance-tests/">Effective Tests: Acceptance Tests</a>
+    </li>
+  </ul>
+</div>
+
+This is the first installment of a series discussing&#160; topics surrounding effective automated testing.&#160; Automated testing can be instrumental to both the short and long-term success of a project.&#160; Unfortunately, it is too often overlooked due to either a lack of knowledge of how to incorporate test into an existing process, or a lack of recognition of the deficiencies within an existing process.&#160; As with any new pursuit, learning how to use automated testing effectively within a development process can take time.&#160; The goal of this series is to help those new to the practice of automated testing by gradually introducing concepts which aid in the creation of working, maintainable software that matters.
 
 This introduction will start things off by discussing some of the fundamental types of automated tests.
 
