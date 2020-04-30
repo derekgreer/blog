@@ -14,8 +14,9 @@ tags:
   - BDD
   - TDD
   - Testing
-redirect_from: "/2011/03/22/effective-tests-test-first.aspx/"
-redirect_from: "/2011/03/22/effective-tests-test-first/"
+redirect_from: 
+  - /2011/03/22/effective-tests-test-first.aspx/
+  - /2011/03/22/effective-tests-test-first/
 ---
 
 ## Posts In This Series
