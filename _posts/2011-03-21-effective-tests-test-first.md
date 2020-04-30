@@ -15,6 +15,7 @@ tags:
   - TDD
   - Testing
 redirect_from: "/2011/03/22/effective-tests-test-first.aspx/"
+redirect_from: "/2011/03/22/effective-tests-test-first/
 ---
 
 ## Posts In This Series
