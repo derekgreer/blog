@@ -25,35 +25,35 @@ The following examples demonstrate the capabilities of the library:
 ### Comparing Flat Objects
 
 ```C#
-public class when_retrieving_a_customer
-{
-	static Customer _actual;
-	static ExpectedObject _expected;
+    public class when_retrieving_a_customer
+    {
+        static Customer _actual;
+        static ExpectedObject _expected;
 
-	Establish context = () =>
-	{
-		_expected = new Customer
-			            {
-			            	Name = "Jane Doe",
-			            	PhoneNumber = "5128651000"
-			            }.ToExpectedObject();
+        Establish context = () =>
+        {
+            _expected = new Customer
+            {
+                Name = "Jane Doe",
+                PhoneNumber = "5128651000"
+            }.ToExpectedObject();
 
-		_actual = new Customer
-			          {
-			          	Name = "John Doe",
-			          	PhoneNumber = "5128654242"
-			          };
-	};
+            _actual = new Customer
+            {
+                Name = "John Doe",
+                PhoneNumber = "5128654242"
+            };
+        };
 
-	It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
-}
+        It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
+    }
 
 
-class Customer
-{
-	public string Name { get; set; }
-	public string PhoneNumber { get; set; }
-}
+    class Customer
+    {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+    }  
 ```
 
 Results:
@@ -72,63 +72,61 @@ Results:
 
 ```C#
 public class when_retrieving_a_customer_with_address
-{
-	static Customer _actual;
-	static ExpectedObject _expected;
+    {
+        static Customer _actual;
+        static ExpectedObject _expected;
 
-	Establish context = () =>
-	{
-		_expected = new Customer
-			            {
-			            	Name = "Jane Doe",
-			            	PhoneNumber = "5128651000",
-			            	Address = new Address
-			            		          {
-			            		          	AddressLineOne = "123 Street",
-			            		          	AddressLineTwo = string.Empty,
-			            		          	City = "Austin",
-			            		          	State = "TX",
-			            		          	Zipcode = "78717"
-			            		          }
-			            }.ToExpectedObject();
+        Establish context = () =>
+        {
+            _expected = new Customer
+            {
+                Name = "Jane Doe",
+                PhoneNumber = "5128651000",
+                Address = new Address
+                {
+                    AddressLineOne = "123 Street",
+                    AddressLineTwo = string.Empty,
+                    City = "Austin",
+                    State = "TX",
+                    Zipcode = "78717"
+                }
+            }.ToExpectedObject();
 
-		_actual = new Customer
-			          {
-			          	Name = "John Doe",
-			          	PhoneNumber = "5128654242",
-			          	Address = new Address
-			          		          {
-			          		          	AddressLineOne = "456 Street",
-			          		          	AddressLineTwo = "Apt. 3",
-			          		          	City = "Waco",
-			          		          	State = "TX",
-			          		          	Zipcode = "76701"
-			          		          }
-			          };
-	};
+            _actual = new Customer
+            {
+                Name = "John Doe",
+                PhoneNumber = "5128654242",
+                Address = new Address
+                {
+                    AddressLineOne = "456 Street",
+                    AddressLineTwo = "Apt. 3",
+                    City = "Waco",
+                    State = "TX",
+                    Zipcode = "76701"
+                }
+            };
+        };
 
-	It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
-}
-
-
-
-class Customer
-{
-	public string Name { get; set; }
-	public string PhoneNumber { get; set; }
-	public Address Address { get; set; }
-}
+        It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
+    }
 
 
+    class Customer
+    {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public Address Address { get; set; }
+    }
 
-class Address
-{
-	public string AddressLineOne { get; set; }
-	public string AddressLineTwo { get; set; }
-	public string City { get; set; }
-	public string State { get; set; }
-	public string Zipcode { get; set; }
-}
+
+    class Address
+    {
+        public string AddressLineOne { get; set; }
+        public string AddressLineTwo { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zipcode { get; set; }
+    }
 ```
 
 Results:
@@ -158,16 +156,16 @@ public class when_retrieving_a_collection_of_customers
 	Establish context = () =>
 	{
 		_expected = new List&lt;Customer>
-			            {
-			            	new Customer {Name = "Customer A"},
-			            	new Customer {Name = "Customer B"}
-			            }.ToExpectedObject();
+						{
+							new Customer {Name = "Customer A"},
+							new Customer {Name = "Customer B"}
+						}.ToExpectedObject();
 
 		_actual = new List&lt;Customer>
-			          {
-			          	new Customer {Name = "Customer A"},
-			          	new Customer {Name = "Customer C"}
-			          };
+					  {
+					  	new Customer {Name = "Customer A"},
+					  	new Customer {Name = "Customer C"}
+					  };
 	};
 
 	It should_return_the_expected_customers = () => _expected.ShouldEqual(_actual);
@@ -277,27 +275,27 @@ public class when_retrieving_a_customer
 	Establish context = () =>
 	{
 		_expected = new
-			            {
-			            	Name = "Jane Doe",
-			            	Address = new
-			            		          {
-			            		          	City = "Austin"
-			            		          }
-			            }.ToExpectedObject();
+						{
+							Name = "Jane Doe",
+							Address = new
+										  {
+										  	City = "Austin"
+										  }
+						}.ToExpectedObject();
 
 		_actual = new Customer
-			          {
-			          	Name = "John Doe",
-			          	PhoneNumber = "5128654242",
-			          	Address = new Address
-			          		          {
-			          		          	AddressLineOne = "456 Street",
-			          		          	AddressLineTwo = "Apt. 3",
-			          		          	City = "Waco",
-			          		          	State = "TX",
-			          		          	Zipcode = "76701"
-			          		          }
-			          };
+					  {
+					  	Name = "John Doe",
+					  	PhoneNumber = "5128654242",
+					  	Address = new Address
+					  				  {
+					  				  	AddressLineOne = "456 Street",
+					  				  	AddressLineTwo = "Apt. 3",
+					  				  	City = "Waco",
+					  				  	State = "TX",
+					  				  	Zipcode = "76701"
+					  				  }
+					  };
 	};
 
 	It should_have_the_correct_name_and_address = () => _expected.ShouldMatch(_actual);
@@ -314,36 +312,36 @@ Results:
   
   
   <h3>
-    &nbsp;
+	&nbsp;
   </h3>
   
   
   <h2>
-    Extensibility
+	Extensibility
   </h2>
   
   
   <p>
-    The Expected Objects library is extensible, so if it doesn’t provide the exact comparison strategies you need then you’re free to add our own.
+	The Expected Objects library is extensible, so if it doesn’t provide the exact comparison strategies you need then you’re free to add our own.
   </p>
   
   
   <p>
-    The main extensibility point is the IComparisonStrategy which is declared as follows:
+	The main extensibility point is the IComparisonStrategy which is declared as follows:
   </p>
   
   
 ```C#
 public interface IComparisonStrategy
 {
-    bool CanCompare(Type type);
-    bool AreEqual(object expected, object actual, IComparisonContext comparisonContext);
+	bool CanCompare(Type type);
+	bool AreEqual(object expected, object actual, IComparisonContext comparisonContext);
 }
 ```
   
   
   <p>
-    To register a custom strategy, simply call the Configure() method and use the supplied ConfigurationContext to call the PushStrategy<t>() method:
+	To register a custom strategy, simply call the Configure() method and use the supplied ConfigurationContext to call the PushStrategy<t>() method:
   </p>
   
   
@@ -355,22 +353,22 @@ _expected = new Foo("Bar")
   
   
   <p>
-    This will push the custom strategy onto the stack used by the Expected Objects library during its comparisons.
+	This will push the custom strategy onto the stack used by the Expected Objects library during its comparisons.
   </p>
   
   
   <h2>
-    Custom Comparison Strategy Example
+	Custom Comparison Strategy Example
   </h2>
   
   
   <p>
-    The following demonstrates how the Expected Objects library could be extended to compare an expected object to the contents of a Web page.
+	The following demonstrates how the Expected Objects library could be extended to compare an expected object to the contents of a Web page.
   </p>
   
   
   <p>
-    Consider the following specification:
+	Consider the following specification:
   </p>
   
   
@@ -411,12 +409,12 @@ public class when_displaying_the_customer_view
   
   
   <p>
-    Here, the Selenium 2 IWebDriver type is being stubbed to emulate an active Selenium testing session. Next, a custom ExpectedView type is instantiated and configured to expect one value to be located by an Id, one by a CSS Selector and one by an XPath. Lastly, the expected object is compared to the actual object (in this case, the IWebDriver stub).
+	Here, the Selenium 2 IWebDriver type is being stubbed to emulate an active Selenium testing session. Next, a custom ExpectedView type is instantiated and configured to expect one value to be located by an Id, one by a CSS Selector and one by an XPath. Lastly, the expected object is compared to the actual object (in this case, the IWebDriver stub).
   </p>
   
   
   <p>
-    Executing the specification produces the following results:
+	Executing the specification produces the following results:
   </p>
   
   
@@ -433,12 +431,12 @@ public class when_displaying_the_customer_view
   
   
   <h3>
-    &nbsp;
+	&nbsp;
   </h3>
   
   
   <p>
-    Here is the ExpectedView and ExpectedViewComparisonStrategy implementation:
+	Here is the ExpectedView and ExpectedViewComparisonStrategy implementation:
   </p>
   
   
@@ -523,20 +521,20 @@ class ExpecedViewComparisonStrategy : IComparisonStrategy
   
   
   <p>
-    Note: This example is for demonstration purposes only.
+	Note: This example is for demonstration purposes only.
   </p>
   
   
   <h3>
-    &nbsp;
+	&nbsp;
   </h3>
   
   
   <h2>
-    Conclusion
+	Conclusion
   </h2>
   
   
   <p>
-    The Expected Objects library is published as a <a href="http://nuget.org/List/Packages/ExpectedObjects">NuGet package</a> and the source is hosted on <a href="https://github.com/derekgreer/expectedObjects">github</a>. Feel free to provide feedback.
+	The Expected Objects library is published as a <a href="http://nuget.org/List/Packages/ExpectedObjects">NuGet package</a> and the source is hosted on <a href="https://github.com/derekgreer/expectedObjects">github</a>. Feel free to provide feedback.
   </p>
