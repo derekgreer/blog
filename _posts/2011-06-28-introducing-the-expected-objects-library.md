@@ -150,18 +150,18 @@ Results:
 ```C#
 public class when_retrieving_a_collection_of_customers
 {
-	static List&lt;Customer> _actual;
+	static List<Customer> _actual;
 	static ExpectedObject _expected;
 
 	Establish context = () =>
 	{
-		_expected = new List&lt;Customer>
+		_expected = new List<Customer>
 						{
 							new Customer {Name = "Customer A"},
 							new Customer {Name = "Customer B"}
 						}.ToExpectedObject();
 
-		_actual = new List&lt;Customer>
+		_actual = new List<Customer>
 					  {
 					  	new Customer {Name = "Customer A"},
 					  	new Customer {Name = "Customer C"}
@@ -187,15 +187,15 @@ Results:
 ```C#
 public class when_retrieving_a_dictionary
 {
-	static IDictionary&lt;string, string> _actual;
-	static IDictionary&lt;string, string> _expected;
+	static IDictionary<string, string> _actual;
+	static IDictionary<string, string> _expected;
 
 	static bool _result;
 
 	Establish context = () =>
 	{
-		_expected = new Dictionary&lt;string, string> {{"key1", "value1"}};
-		_actual = new Dictionary&lt;string, string> {{"key1", "value1"}, {"key2", "value2"}};
+		_expected = new Dictionary<string, string> {{"key1", "value1"}};
+		_actual = new Dictionary<string, string> {{"key1", "value1"}, {"key2", "value2"}};
 	};
 
 	It should_return_the_expected_dictionary = () => _expected.ToExpectedObject().ShouldEqual(_actual);
@@ -217,15 +217,15 @@ Results:
 ```C#
 public class when_retrieving_a_type_with_an_index
 {
-	static IndexType&lt;int> _actual;
-	static IndexType&lt;int> _expected;
+	static IndexType<int> _actual;
+	static IndexType<int> _expected;
 
 	static bool _result;
 
 	Establish context = () =>
 	{
-		_expected = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 6});
-		_actual = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 5});
+		_expected = new IndexType<int>(new List<int> {1, 2, 3, 4, 6});
+		_actual = new IndexType<int>(new List<int> {1, 2, 3, 4, 5});
 	};
 
 	It should_return_the_expected_type = () => _expected.ToExpectedObject().ShouldEqual(_actual);
@@ -233,11 +233,11 @@ public class when_retrieving_a_type_with_an_index
 
 
 
-class IndexType&lt;T>
+class IndexType<T>
 {
-	readonly IList&lt;T> _ints;
+	readonly IList<T> _ints;
 
-	public IndexType(IList&lt;T> ints)
+	public IndexType(IList<T> ints)
 	{
 		_ints = ints;
 	}
@@ -348,7 +348,7 @@ public interface IComparisonStrategy
 ```C#
 _expected = new Foo("Bar")
 	.ToExpectedObject()
-	.Configure(ctx => ctx.PushStrategy&lt;FooComparisonStrategy>());
+	.Configure(ctx => ctx.PushStrategy<FooComparisonStrategy>());
 ```
   
   
@@ -375,18 +375,18 @@ _expected = new Foo("Bar")
 ```C#
 public class when_displaying_the_customer_view
 {
-	static Mock&lt;IWebDriver> _actual;
+	static Mock<IWebDriver> _actual;
 	static ExpectedObject _expected;
 
 	Establish context = () =>
 	{
-		var nameElementStub = new Mock&lt;IWebElement>();
+		var nameElementStub = new Mock<IWebElement>();
 		nameElementStub.Setup(x => x.Text).Returns("Jane Doe");
-		var addressElementStub = new Mock&lt;IWebElement>();
+		var addressElementStub = new Mock<IWebElement>();
 		addressElementStub.Setup(x => x.Text).Returns("456 Street");
-		var buttonElementStub = new Mock&lt;IWebElement>();
+		var buttonElementStub = new Mock<IWebElement>();
 		buttonElementStub.Setup(x => x.Text).Returns("Cancel");
-		_actual = new Mock&lt;IWebDriver>();
+		_actual = new Mock<IWebDriver>();
 		_actual.Setup(x => x.FindElement(By.Id("name"))).Returns(nameElementStub.Object);
 		_actual.Setup(x => x.FindElement(By.CssSelector("input[name='address']"))).Returns(addressElementStub.Object);
 		_actual.Setup(x => x.FindElement(By.XPath("//input[@value='submit']"))).Returns(buttonElementStub.Object);
@@ -398,7 +398,7 @@ public class when_displaying_the_customer_view
 			.ToExpectedObject()
 			.Configure(ctx =>
 				{
-					ctx.PushStrategy&lt;ExpecedViewComparisonStrategy>();
+					ctx.PushStrategy<ExpecedViewComparisonStrategy>();
 					ctx.IgnoreTypes();
 				});
 	};
@@ -445,30 +445,30 @@ class ExpectedView
 {
 	public ExpectedView()
 	{
-		Ids = new List&lt;Tuple&lt;string, string>>();
-		CssSelectors = new List&lt;Tuple&lt;string, string>>();
-		XPaths = new List&lt;Tuple&lt;string, string>>();
+		Ids = new List<Tuple<string, string>>();
+		CssSelectors = new List<Tuple<string, string>>();
+		XPaths = new List<Tuple<string, string>>();
 	}
 
-	public List&lt;Tuple&lt;string, string>> Ids { get; private set; }
-	public List&lt;Tuple&lt;string, string>> CssSelectors { get; private set; }
-	public List&lt;Tuple&lt;string, string>> XPaths { get; private set; }
+	public List<Tuple<string, string>> Ids { get; private set; }
+	public List<Tuple<string, string>> CssSelectors { get; private set; }
+	public List<Tuple<string, string>> XPaths { get; private set; }
 
 	public ExpectedView WithId(string name, string value)
 	{
-		Ids.Add(new Tuple&lt;string, string>(name, value));
+		Ids.Add(new Tuple<string, string>(name, value));
 		return this;
 	}
 
 	public ExpectedView WithCssSelector(string selector, string value)
 	{
-		CssSelectors.Add(new Tuple&lt;string, string>(selector, value));
+		CssSelectors.Add(new Tuple<string, string>(selector, value));
 		return this;
 	}
 
 	public ExpectedView WithXPath(string path, string value)
 	{
-		XPaths.Add(new Tuple&lt;string, string>(path, value));
+		XPaths.Add(new Tuple<string, string>(path, value));
 		return this;
 	}
 }
@@ -493,7 +493,7 @@ class ExpecedViewComparisonStrategy : IComparisonStrategy
 		return areEqual;
 	}
 
-	static bool CompareIds(IWebDriver driver, Tuple&lt;string, string> expected, IComparisonContext comparisonContext)
+	static bool CompareIds(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
 	{
 		bool areEqual = true;
 		IWebElement idElement = driver.FindElement(By.Id(expected.Item1));
@@ -501,7 +501,7 @@ class ExpecedViewComparisonStrategy : IComparisonStrategy
 		return areEqual;
 	}
 
-	static bool CompareCssSelectors(IWebDriver driver, Tuple&lt;string, string> expected, IComparisonContext comparisonContext)
+	static bool CompareCssSelectors(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
 	{
 		bool areEqual = true;
 		IWebElement idElement = driver.FindElement(By.CssSelector(expected.Item1));
@@ -509,7 +509,7 @@ class ExpecedViewComparisonStrategy : IComparisonStrategy
 		return areEqual;
 	}
 
-	static bool CompareXPaths(IWebDriver driver, Tuple&lt;string, string> expected, IComparisonContext comparisonContext)
+	static bool CompareXPaths(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
 	{
 		bool areEqual = true;
 		IWebElement idElement = driver.FindElement(By.XPath(expected.Item1));
