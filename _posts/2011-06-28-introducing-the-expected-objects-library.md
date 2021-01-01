@@ -59,13 +59,12 @@ The following examples demonstrate the capabilities of the library:
 
 Results:
 
-<pre><div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
+<div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should return the expected customer : Failed</b>
   For Customer.Name, expected "Jane Doe" but found "John Doe".
   For Customer.PhoneNumber, expected "5128651000" but found "5128654242". 
   
 </div>
-</pre>
 
 ### &nbsp;
 
@@ -132,7 +131,7 @@ public class when_retrieving_a_customer_with_address
 
 Results:
 
-<pre><div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
+<div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should return the expected customer : Failed</b>
   For Customer.Name, expected "Jane Doe" but found "John Doe". 
   For Customer.PhoneNumber, expected "5128651000" but found "5128654242". 
@@ -142,7 +141,6 @@ Results:
   For Customer.Address.Zipcode, expected "78717" but found "76701".
   
 </div>
-</pre>
 
 ### &nbsp;
 
@@ -175,11 +173,10 @@ Results:
 
 Results:
 
-<pre><div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
+<div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should return the expected customers : Failed</b>
   For List`1[1].Name, expected "Customer B" but found "Customer C". 
 </div>
-</pre>
 
 ### &nbsp;
 
@@ -205,11 +202,10 @@ Results:
 
 Results:
 
-<pre><div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
+<div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should return the expected dictionary : Failed</b>
   For Dictionary`2[1], expected nothing but found [[key2, value2]]. 
 </div>
-</pre>
 
 ### &nbsp;
 
@@ -250,11 +246,10 @@ Results:
 
 Results:
 
-<pre><div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
+<div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should return the expected type : Failed</b>
   For IndexType`1.Item[4], expected [6] but found [5]. 
 </div>
-</pre>
 
 ### &nbsp;
 
@@ -298,11 +293,10 @@ Results:
 
 Results: 
 
-<pre>
+
   <b>should have the correct name and address : Failed</b>
   For Customer.Name, expected "Jane Doe" but found "John Doe".
   For Customer.Address.City, expected "Austin" but found "Waco".
-  </pre>
   
   
   <h3>
@@ -400,9 +394,6 @@ Consider the following specification:
 	Executing the specification produces the following results:
   </p>
   
-  
-  <pre>
-
 
 <div style="overflow: auto; border-bottom: black 1px solid; text-align: left; border-left: black 1px solid; padding-bottom: 5px; background-color: #fcc; padding-left: 5px; padding-right: 5px; border-collapse: collapse; border-top: black 1px solid; border-right: black 1px solid">
   <b>should display the expected view : Failed</b>
@@ -410,7 +401,6 @@ Consider the following specification:
   For IWebDriverProxy.FindElement(By.CssSelector("input[name='address']")), expected "123 Street" but found "456 Street".
   For IWebDriverProxy.FindElement(By.XPath("//input[@value='submit']")), expected "Submit" but found "Cancel".
 </div>
-</pre>
   
   
   <h3>
