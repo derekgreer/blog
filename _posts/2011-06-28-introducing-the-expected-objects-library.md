@@ -334,9 +334,7 @@ public interface IComparisonStrategy
 ```
   
   
-  <p>
-	To register a custom strategy, simply call the Configure() method and use the supplied ConfigurationContext to call the PushStrategy<t>() method:
-  </p>
+To register a custom strategy, simply call the Configure() method and use the supplied ConfigurationContext to call the PushStrategy<t>() method:
   
   
 ```csharp
@@ -346,24 +344,14 @@ _expected = new Foo("Bar")
 ```
   
   
-  <p>
-	This will push the custom strategy onto the stack used by the Expected Objects library during its comparisons.
-  </p>
+This will push the custom strategy onto the stack used by the Expected Objects library during its comparisons.
+  
+<h2>Custom Comparison Strategy Example</h2>
   
   
-  <h2>
-	Custom Comparison Strategy Example
-  </h2>
+The following demonstrates how the Expected Objects library could be extended to compare an expected object to the contents of a Web page.
   
-  
-  <p>
-	The following demonstrates how the Expected Objects library could be extended to compare an expected object to the contents of a Web page.
-  </p>
-  
-  
-  <p>
-	Consider the following specification:
-  </p>
+Consider the following specification:
   
   
 ```csharp
