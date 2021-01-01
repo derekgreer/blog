@@ -31,23 +31,22 @@ public class when_retrieving_a_customer
 	static ExpectedObject _expected;
 
 	Establish context = () =>
-		{
-			_expected = new Customer
-				            {
-				            	Name = "Jane Doe",
-				            	PhoneNumber = "5128651000"
-				            }.ToExpectedObject();
+	{
+		_expected = new Customer
+			            {
+			            	Name = "Jane Doe",
+			            	PhoneNumber = "5128651000"
+			            }.ToExpectedObject();
 
-			_actual = new Customer
-				          {
-				          	Name = "John Doe",
-				          	PhoneNumber = "5128654242"
-				          };
-		};
+		_actual = new Customer
+			          {
+			          	Name = "John Doe",
+			          	PhoneNumber = "5128654242"
+			          };
+	};
 
 	It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
 }
-
 
 
 class Customer
@@ -78,35 +77,35 @@ public class when_retrieving_a_customer_with_address
 	static ExpectedObject _expected;
 
 	Establish context = () =>
-		{
-			_expected = new Customer
-				            {
-				            	Name = "Jane Doe",
-				            	PhoneNumber = "5128651000",
-				            	Address = new Address
-				            		          {
-				            		          	AddressLineOne = "123 Street",
-				            		          	AddressLineTwo = string.Empty,
-				            		          	City = "Austin",
-				            		          	State = "TX",
-				            		          	Zipcode = "78717"
-				            		          }
-				            }.ToExpectedObject();
+	{
+		_expected = new Customer
+			            {
+			            	Name = "Jane Doe",
+			            	PhoneNumber = "5128651000",
+			            	Address = new Address
+			            		          {
+			            		          	AddressLineOne = "123 Street",
+			            		          	AddressLineTwo = string.Empty,
+			            		          	City = "Austin",
+			            		          	State = "TX",
+			            		          	Zipcode = "78717"
+			            		          }
+			            }.ToExpectedObject();
 
-			_actual = new Customer
-				          {
-				          	Name = "John Doe",
-				          	PhoneNumber = "5128654242",
-				          	Address = new Address
-				          		          {
-				          		          	AddressLineOne = "456 Street",
-				          		          	AddressLineTwo = "Apt. 3",
-				          		          	City = "Waco",
-				          		          	State = "TX",
-				          		          	Zipcode = "76701"
-				          		          }
-				          };
-		};
+		_actual = new Customer
+			          {
+			          	Name = "John Doe",
+			          	PhoneNumber = "5128654242",
+			          	Address = new Address
+			          		          {
+			          		          	AddressLineOne = "456 Street",
+			          		          	AddressLineTwo = "Apt. 3",
+			          		          	City = "Waco",
+			          		          	State = "TX",
+			          		          	Zipcode = "76701"
+			          		          }
+			          };
+	};
 
 	It should_return_the_expected_customer = () => _expected.ShouldEqual(_actual);
 }
@@ -157,19 +156,19 @@ public class when_retrieving_a_collection_of_customers
 	static ExpectedObject _expected;
 
 	Establish context = () =>
-		{
-			_expected = new List&lt;Customer>
-				            {
-				            	new Customer {Name = "Customer A"},
-				            	new Customer {Name = "Customer B"}
-				            }.ToExpectedObject();
+	{
+		_expected = new List&lt;Customer>
+			            {
+			            	new Customer {Name = "Customer A"},
+			            	new Customer {Name = "Customer B"}
+			            }.ToExpectedObject();
 
-			_actual = new List&lt;Customer>
-				          {
-				          	new Customer {Name = "Customer A"},
-				          	new Customer {Name = "Customer C"}
-				          };
-		};
+		_actual = new List&lt;Customer>
+			          {
+			          	new Customer {Name = "Customer A"},
+			          	new Customer {Name = "Customer C"}
+			          };
+	};
 
 	It should_return_the_expected_customers = () => _expected.ShouldEqual(_actual);
 }
@@ -196,10 +195,10 @@ public class when_retrieving_a_dictionary
 	static bool _result;
 
 	Establish context = () =>
-		{
-			_expected = new Dictionary&lt;string, string> {{"key1", "value1"}};
-			_actual = new Dictionary&lt;string, string> {{"key1", "value1"}, {"key2", "value2"}};
-		};
+	{
+		_expected = new Dictionary&lt;string, string> {{"key1", "value1"}};
+		_actual = new Dictionary&lt;string, string> {{"key1", "value1"}, {"key2", "value2"}};
+	};
 
 	It should_return_the_expected_dictionary = () => _expected.ToExpectedObject().ShouldEqual(_actual);
 }
@@ -226,10 +225,10 @@ public class when_retrieving_a_type_with_an_index
 	static bool _result;
 
 	Establish context = () =>
-		{
-			_expected = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 6});
-			_actual = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 5});
-		};
+	{
+		_expected = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 6});
+		_actual = new IndexType&lt;int>(new List&lt;int> {1, 2, 3, 4, 5});
+	};
 
 	It should_return_the_expected_type = () => _expected.ToExpectedObject().ShouldEqual(_actual);
 }
@@ -276,30 +275,30 @@ public class when_retrieving_a_customer
 	static ExpectedObject _expected;
 
 	Establish context = () =>
-		{
-			_expected = new
-				            {
-				            	Name = "Jane Doe",
-				            	Address = new
-				            		          {
-				            		          	City = "Austin"
-				            		          }
-				            }.ToExpectedObject();
+	{
+		_expected = new
+			            {
+			            	Name = "Jane Doe",
+			            	Address = new
+			            		          {
+			            		          	City = "Austin"
+			            		          }
+			            }.ToExpectedObject();
 
-			_actual = new Customer
-				          {
-				          	Name = "John Doe",
-				          	PhoneNumber = "5128654242",
-				          	Address = new Address
-				          		          {
-				          		          	AddressLineOne = "456 Street",
-				          		          	AddressLineTwo = "Apt. 3",
-				          		          	City = "Waco",
-				          		          	State = "TX",
-				          		          	Zipcode = "76701"
-				          		          }
-				          };
-		};
+		_actual = new Customer
+			          {
+			          	Name = "John Doe",
+			          	PhoneNumber = "5128654242",
+			          	Address = new Address
+			          		          {
+			          		          	AddressLineOne = "456 Street",
+			          		          	AddressLineTwo = "Apt. 3",
+			          		          	City = "Waco",
+			          		          	State = "TX",
+			          		          	Zipcode = "76701"
+			          		          }
+			          };
+	};
 
 	It should_have_the_correct_name_and_address = () => _expected.ShouldMatch(_actual);
 }
@@ -382,29 +381,29 @@ public class when_displaying_the_customer_view
 	static ExpectedObject _expected;
 
 	Establish context = () =>
-		{
-			var nameElementStub = new Mock&lt;IWebElement>();
-			nameElementStub.Setup(x => x.Text).Returns("Jane Doe");
-			var addressElementStub = new Mock&lt;IWebElement>();
-			addressElementStub.Setup(x => x.Text).Returns("456 Street");
-			var buttonElementStub = new Mock&lt;IWebElement>();
-			buttonElementStub.Setup(x => x.Text).Returns("Cancel");
-			_actual = new Mock&lt;IWebDriver>();
-			_actual.Setup(x => x.FindElement(By.Id("name"))).Returns(nameElementStub.Object);
-			_actual.Setup(x => x.FindElement(By.CssSelector("input[name='address']"))).Returns(addressElementStub.Object);
-			_actual.Setup(x => x.FindElement(By.XPath("//input[@value='submit']"))).Returns(buttonElementStub.Object);
+	{
+		var nameElementStub = new Mock&lt;IWebElement>();
+		nameElementStub.Setup(x => x.Text).Returns("Jane Doe");
+		var addressElementStub = new Mock&lt;IWebElement>();
+		addressElementStub.Setup(x => x.Text).Returns("456 Street");
+		var buttonElementStub = new Mock&lt;IWebElement>();
+		buttonElementStub.Setup(x => x.Text).Returns("Cancel");
+		_actual = new Mock&lt;IWebDriver>();
+		_actual.Setup(x => x.FindElement(By.Id("name"))).Returns(nameElementStub.Object);
+		_actual.Setup(x => x.FindElement(By.CssSelector("input[name='address']"))).Returns(addressElementStub.Object);
+		_actual.Setup(x => x.FindElement(By.XPath("//input[@value='submit']"))).Returns(buttonElementStub.Object);
 
-			_expected = new ExpectedView()
-				.WithId("name", "John Doe")
-				.WithCssSelector("input[name='address']", "123 Street")
-				.WithXPath("//input[@value='submit']", "Submit")
-				.ToExpectedObject()
-				.Configure(ctx =>
-					{
-						ctx.PushStrategy&lt;ExpecedViewComparisonStrategy>();
-						ctx.IgnoreTypes();
-					});
-		};
+		_expected = new ExpectedView()
+			.WithId("name", "John Doe")
+			.WithCssSelector("input[name='address']", "123 Street")
+			.WithXPath("//input[@value='submit']", "Submit")
+			.ToExpectedObject()
+			.Configure(ctx =>
+				{
+					ctx.PushStrategy&lt;ExpecedViewComparisonStrategy>();
+					ctx.IgnoreTypes();
+				});
+	};
 
 	It should_display_the_expected_view = () => _expected.ShouldEqual(_actual.Object);
 }
