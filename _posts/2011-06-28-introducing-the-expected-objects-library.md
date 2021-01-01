@@ -149,28 +149,28 @@ Results:
 ### Comparing Collections
 
 ```C#
-public class when_retrieving_a_collection_of_customers
-{
-	static List<Customer> _actual;
-	static ExpectedObject _expected;
+    public class when_retrieving_a_collection_of_customers
+    {
+        static List<Customer> _actual;
+        static ExpectedObject _expected;
 
-	Establish context = () =>
-	{
-		_expected = new List<Customer>
-						{
-							new Customer {Name = "Customer A"},
-							new Customer {Name = "Customer B"}
-						}.ToExpectedObject();
+        Establish context = () =>
+        {
+            _expected = new List<Customer>
+            {
+                new Customer {Name = "Customer A"},
+                new Customer {Name = "Customer B"}
+            }.ToExpectedObject();
 
-		_actual = new List<Customer>
-					  {
-					  	new Customer {Name = "Customer A"},
-					  	new Customer {Name = "Customer C"}
-					  };
-	};
+            _actual = new List<Customer>
+            {
+                new Customer {Name = "Customer A"},
+                new Customer {Name = "Customer C"}
+            };
+        };
 
-	It should_return_the_expected_customers = () => _expected.ShouldEqual(_actual);
-}
+        It should_return_the_expected_customers = () => _expected.ShouldEqual(_actual);
+    }
 ```
 
 Results:
@@ -186,21 +186,21 @@ Results:
 ### Comparing Dictionaries
 
 ```C#
-public class when_retrieving_a_dictionary
-{
-	static IDictionary<string, string> _actual;
-	static IDictionary<string, string> _expected;
+    public class when_retrieving_a_dictionary
+    {
+        static IDictionary<string, string> _actual;
+        static IDictionary<string, string> _expected;
 
-	static bool _result;
+        static bool _result;
 
-	Establish context = () =>
-	{
-		_expected = new Dictionary<string, string> {{"key1", "value1"}};
-		_actual = new Dictionary<string, string> {{"key1", "value1"}, {"key2", "value2"}};
-	};
+        Establish context = () =>
+        {
+            _expected = new Dictionary<string, string> {{"key1", "value1"}};
+            _actual = new Dictionary<string, string> {{"key1", "value1"}, {"key2", "value2"}};
+        };
 
-	It should_return_the_expected_dictionary = () => _expected.ToExpectedObject().ShouldEqual(_actual);
-}
+        It should_return_the_expected_dictionary = () => _expected.ToExpectedObject().ShouldEqual(_actual);
+    }
 ```
 
 Results:
@@ -216,43 +216,36 @@ Results:
 ### Comparing Types with Indexes
 
 ```C#
-public class when_retrieving_a_type_with_an_index
-{
-	static IndexType<int> _actual;
-	static IndexType<int> _expected;
+    public class when_retrieving_a_type_with_an_index
+    {
+        static IndexType<int> _actual;
+        static IndexType<int> _expected;
 
-	static bool _result;
+        static bool _result;
 
-	Establish context = () =>
-	{
-		_expected = new IndexType<int>(new List<int> {1, 2, 3, 4, 6});
-		_actual = new IndexType<int>(new List<int> {1, 2, 3, 4, 5});
-	};
+        Establish context = () =>
+        {
+            _expected = new IndexType<int>(new List<int> {1, 2, 3, 4, 6});
+            _actual = new IndexType<int>(new List<int> {1, 2, 3, 4, 5});
+        };
 
-	It should_return_the_expected_type = () => _expected.ToExpectedObject().ShouldEqual(_actual);
-}
+        It should_return_the_expected_type = () => _expected.ToExpectedObject().ShouldEqual(_actual);
+    }
 
 
+    class IndexType<T>
+    {
+        readonly IList<T> _ints;
 
-class IndexType<T>
-{
-	readonly IList<T> _ints;
+        public IndexType(IList<T> ints)
+        {
+            _ints = ints;
+        }
 
-	public IndexType(IList<T> ints)
-	{
-		_ints = ints;
-	}
+        public T this[int index] => _ints[index];
 
-	public T this[int index]
-	{
-		get { return _ints[index]; }
-	}
-
-	public int Count
-	{
-		get { return _ints.Count; }
-	}
-}
+        public int Count => _ints.Count;
+    }
 ```
 
 Results:
@@ -268,39 +261,39 @@ Results:
 ### Comparing Partial Objects
 
 ```C#
-public class when_retrieving_a_customer
-{
-	static Customer _actual;
-	static ExpectedObject _expected;
+    public class when_retrieving_a_customer
+    {
+        static Customer _actual;
+        static ExpectedObject _expected;
 
-	Establish context = () =>
-	{
-		_expected = new
-						{
-							Name = "Jane Doe",
-							Address = new
-										  {
-										  	City = "Austin"
-										  }
-						}.ToExpectedObject();
+        Establish context = () =>
+        {
+            _expected = new
+            {
+                Name = "Jane Doe",
+                Address = new
+                {
+                    City = "Austin"
+                }
+            }.ToExpectedObject();
 
-		_actual = new Customer
-					  {
-					  	Name = "John Doe",
-					  	PhoneNumber = "5128654242",
-					  	Address = new Address
-					  				  {
-					  				  	AddressLineOne = "456 Street",
-					  				  	AddressLineTwo = "Apt. 3",
-					  				  	City = "Waco",
-					  				  	State = "TX",
-					  				  	Zipcode = "76701"
-					  				  }
-					  };
-	};
+            _actual = new Customer
+            {
+                Name = "John Doe",
+                PhoneNumber = "5128654242",
+                Address = new Address
+                {
+                    AddressLineOne = "456 Street",
+                    AddressLineTwo = "Apt. 3",
+                    City = "Waco",
+                    State = "TX",
+                    Zipcode = "76701"
+                }
+            };
+        };
 
-	It should_have_the_correct_name_and_address = () => _expected.ShouldMatch(_actual);
-}
+        It should_have_the_correct_name_and_address = () => _expected.ShouldMatch(_actual);
+    }
 ```
 
 Results: 
@@ -335,8 +328,8 @@ Results:
 ```C#
 public interface IComparisonStrategy
 {
-	bool CanCompare(Type type);
-	bool AreEqual(object expected, object actual, IComparisonContext comparisonContext);
+    bool CanCompare(Type type);
+    bool AreEqual(object expected, object actual, IComparisonContext comparisonContext);
 }
 ```
   
@@ -374,38 +367,39 @@ _expected = new Foo("Bar")
   
   
 ```C#
-public class when_displaying_the_customer_view
-{
-	static Mock<IWebDriver> _actual;
-	static ExpectedObject _expected;
+    public class when_displaying_the_customer_view
+    {
+        static Mock<IWebDriver> _actual;
+        static ExpectedObject _expected;
 
-	Establish context = () =>
-	{
-		var nameElementStub = new Mock<IWebElement>();
-		nameElementStub.Setup(x => x.Text).Returns("Jane Doe");
-		var addressElementStub = new Mock<IWebElement>();
-		addressElementStub.Setup(x => x.Text).Returns("456 Street");
-		var buttonElementStub = new Mock<IWebElement>();
-		buttonElementStub.Setup(x => x.Text).Returns("Cancel");
-		_actual = new Mock<IWebDriver>();
-		_actual.Setup(x => x.FindElement(By.Id("name"))).Returns(nameElementStub.Object);
-		_actual.Setup(x => x.FindElement(By.CssSelector("input[name='address']"))).Returns(addressElementStub.Object);
-		_actual.Setup(x => x.FindElement(By.XPath("//input[@value='submit']"))).Returns(buttonElementStub.Object);
+        Establish context = () =>
+        {
+            var nameElementStub = new Mock<IWebElement>();
+            nameElementStub.Setup(x => x.Text).Returns("Jane Doe");
+            var addressElementStub = new Mock<IWebElement>();
+            addressElementStub.Setup(x => x.Text).Returns("456 Street");
+            var buttonElementStub = new Mock<IWebElement>();
+            buttonElementStub.Setup(x => x.Text).Returns("Cancel");
+            _actual = new Mock<IWebDriver>();
+            _actual.Setup(x => x.FindElement(By.Id("name"))).Returns(nameElementStub.Object);
+            _actual.Setup(x => x.FindElement(By.CssSelector("input[name='address']")))
+                .Returns(addressElementStub.Object);
+            _actual.Setup(x => x.FindElement(By.XPath("//input[@value='submit']"))).Returns(buttonElementStub.Object);
 
-		_expected = new ExpectedView()
-			.WithId("name", "John Doe")
-			.WithCssSelector("input[name='address']", "123 Street")
-			.WithXPath("//input[@value='submit']", "Submit")
-			.ToExpectedObject()
-			.Configure(ctx =>
-				{
-					ctx.PushStrategy<ExpecedViewComparisonStrategy>();
-					ctx.IgnoreTypes();
-				});
-	};
+            _expected = new ExpectedView()
+                .WithId("name", "John Doe")
+                .WithCssSelector("input[name='address']", "123 Street")
+                .WithXPath("//input[@value='submit']", "Submit")
+                .ToExpectedObject()
+                .Configure(ctx =>
+                {
+                    ctx.PushStrategy<ExpecedViewComparisonStrategy>();
+                    ctx.IgnoreTypes();
+                });
+        };
 
-	It should_display_the_expected_view = () => _expected.ShouldEqual(_actual.Object);
-}
+        It should_display_the_expected_view = () => _expected.ShouldEqual(_actual.Object);
+    }
 ```
   
   
@@ -444,79 +438,79 @@ public class when_displaying_the_customer_view
 ```C#
 class ExpectedView
 {
-	public ExpectedView()
-	{
-		Ids = new List<Tuple<string, string>>();
-		CssSelectors = new List<Tuple<string, string>>();
-		XPaths = new List<Tuple<string, string>>();
-	}
+    public ExpectedView()
+    {
+        Ids = new List<Tuple<string, string>>();
+        CssSelectors = new List<Tuple<string, string>>();
+        XPaths = new List<Tuple<string, string>>();
+    }
 
-	public List<Tuple<string, string>> Ids { get; private set; }
-	public List<Tuple<string, string>> CssSelectors { get; private set; }
-	public List<Tuple<string, string>> XPaths { get; private set; }
+    public List<Tuple<string, string>> Ids { get; private set; }
+    public List<Tuple<string, string>> CssSelectors { get; private set; }
+    public List<Tuple<string, string>> XPaths { get; private set; }
 
-	public ExpectedView WithId(string name, string value)
-	{
-		Ids.Add(new Tuple<string, string>(name, value));
-		return this;
-	}
+    public ExpectedView WithId(string name, string value)
+    {
+      Ids.Add(new Tuple<string, string>(name, value));
+      return this;
+    }
 
-	public ExpectedView WithCssSelector(string selector, string value)
-	{
-		CssSelectors.Add(new Tuple<string, string>(selector, value));
-		return this;
-	}
+    public ExpectedView WithCssSelector(string selector, string value)
+    {
+      CssSelectors.Add(new Tuple<string, string>(selector, value));
+      return this;
+    }
 
-	public ExpectedView WithXPath(string path, string value)
-	{
-		XPaths.Add(new Tuple<string, string>(path, value));
-		return this;
-	}
+    public ExpectedView WithXPath(string path, string value)
+    {
+      XPaths.Add(new Tuple<string, string>(path, value));
+      return this;
+    }
 }
 
 
 
 class ExpecedViewComparisonStrategy : IComparisonStrategy
 {
-	public bool CanCompare(Type type)
-	{
-		return typeof (ExpectedView).IsAssignableFrom(type);
-	}
+    public bool CanCompare(Type type)
+    {
+        return typeof (ExpectedView).IsAssignableFrom(type);
+    }
 
-	public bool AreEqual(object expected, object actual, IComparisonContext comparisonContext)
-	{
-		bool areEqual = true;
-		var view = (ExpectedView) expected;
-		var driver = (IWebDriver) actual;
-		view.Ids.ForEach(id => areEqual = CompareIds(driver, id, comparisonContext) && areEqual);
-		view.CssSelectors.ForEach(selector => areEqual = CompareCssSelectors(driver, selector, comparisonContext) && areEqual);
-		view.XPaths.ForEach(path => areEqual = CompareXPaths(driver, path, comparisonContext) && areEqual);
-		return areEqual;
-	}
+    public bool AreEqual(object expected, object actual, IComparisonContext comparisonContext)
+    {
+        bool areEqual = true;
+        var view = (ExpectedView) expected;
+        var driver = (IWebDriver) actual;
+        view.Ids.ForEach(id => areEqual = CompareIds(driver, id, comparisonContext) && areEqual);
+        view.CssSelectors.ForEach(selector => areEqual = CompareCssSelectors(driver, selector, comparisonContext) && areEqual);
+        view.XPaths.ForEach(path => areEqual = CompareXPaths(driver, path, comparisonContext) && areEqual);
+        return areEqual;
+    }
 
-	static bool CompareIds(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
-	{
-		bool areEqual = true;
-		IWebElement idElement = driver.FindElement(By.Id(expected.Item1));
-		areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.Id(\"" + expected.Item1 + "\"))") && areEqual;
-		return areEqual;
-	}
+  static bool CompareIds(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
+  {
+      bool areEqual = true;
+      IWebElement idElement = driver.FindElement(By.Id(expected.Item1));
+      areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.Id(\"" + expected.Item1 + "\"))") && areEqual;
+      return areEqual;
+  }
 
-	static bool CompareCssSelectors(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
-	{
-		bool areEqual = true;
-		IWebElement idElement = driver.FindElement(By.CssSelector(expected.Item1));
-		areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.CssSelector(\"" + expected.Item1 + "\"))") && areEqual;
-		return areEqual;
-	}
+  static bool CompareCssSelectors(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
+  {
+      bool areEqual = true;
+      IWebElement idElement = driver.FindElement(By.CssSelector(expected.Item1));
+      areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.CssSelector(\"" + expected.Item1 + "\"))") && areEqual;
+      return areEqual;
+  }
 
-	static bool CompareXPaths(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
-	{
-		bool areEqual = true;
-		IWebElement idElement = driver.FindElement(By.XPath(expected.Item1));
-		areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.XPath(\"" + expected.Item1 + "\"))") && areEqual;
-		return areEqual;
-	}
+  static bool CompareXPaths(IWebDriver driver, Tuple<string, string> expected, IComparisonContext comparisonContext)
+  {
+      bool areEqual = true;
+      IWebElement idElement = driver.FindElement(By.XPath(expected.Item1));
+      areEqual = comparisonContext.AreEqual(expected.Item2, idElement.Text, "FindElement(By.XPath(\"" + expected.Item1 + "\"))") && areEqual;
+      return areEqual;
+  }
 }
 ```
   
