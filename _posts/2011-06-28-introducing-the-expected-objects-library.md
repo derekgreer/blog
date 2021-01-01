@@ -25,7 +25,7 @@ The following examples demonstrate the capabilities of the library:
 
 ### Comparing Flat Objects
 
-```C#
+```csharp
     public class when_retrieving_a_customer
     {
         static Customer _actual;
@@ -71,7 +71,7 @@ Results:
 
 ### Comparing Composed Objects
 
-```C#
+```csharp
 public class when_retrieving_a_customer_with_address
     {
         static Customer _actual;
@@ -148,7 +148,7 @@ Results:
 
 ### Comparing Collections
 
-```C#
+```csharp
     public class when_retrieving_a_collection_of_customers
     {
         static List<Customer> _actual;
@@ -185,7 +185,7 @@ Results:
 
 ### Comparing Dictionaries
 
-```C#
+```csharp
     public class when_retrieving_a_dictionary
     {
         static IDictionary<string, string> _actual;
@@ -215,7 +215,7 @@ Results:
 
 ### Comparing Types with Indexes
 
-```C#
+```csharp
     public class when_retrieving_a_type_with_an_index
     {
         static IndexType<int> _actual;
@@ -260,7 +260,7 @@ Results:
 
 ### Comparing Partial Objects
 
-```C#
+```csharp
     public class when_retrieving_a_customer
     {
         static Customer _actual;
@@ -325,7 +325,7 @@ Results:
   </p>
   
   
-```C#
+```csharp
 public interface IComparisonStrategy
 {
     bool CanCompare(Type type);
@@ -339,7 +339,7 @@ public interface IComparisonStrategy
   </p>
   
   
-```C#
+```csharp
 _expected = new Foo("Bar")
 	.ToExpectedObject()
 	.Configure(ctx => ctx.PushStrategy<FooComparisonStrategy>());
@@ -366,7 +366,7 @@ _expected = new Foo("Bar")
   </p>
   
   
-```C#
+```csharp
     public class when_displaying_the_customer_view
     {
         static Mock<IWebDriver> _actual;
@@ -435,7 +435,7 @@ _expected = new Foo("Bar")
   </p>
   
   
-```C#
+```csharp
 class ExpectedView
 {
     public ExpectedView()
