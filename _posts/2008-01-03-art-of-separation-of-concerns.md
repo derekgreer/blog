@@ -14,7 +14,7 @@ tags:
   - SoC
 ---
 <p style="text-align: center;">
-  <a href="/wp-content/uploads/2010/01/Monk.png"><img class="size-full wp-image-140  aligncenter" title="Monk" src="/wp-content/uploads/2010/01/Monk.png" alt="" width="480" height="360" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/Monk.png 800w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/Monk-300x225.png 300w" sizes="(max-width: 480px) 100vw, 480px" /></a>
+  <a href="/wp-content/uploads/2008/01/Monk.png"><img class="size-full wp-image-140  aligncenter" title="Monk" src="/wp-content/uploads/2008/01/Monk.png" alt="" width="480" height="360" srcset="http://aspiringcraftsman.com/wp-content/uploads/2008/01/Monk.png 800w, http://aspiringcraftsman.com/wp-content/uploads/2008/01/Monk-300x225.png 300w" sizes="(max-width: 480px) 100vw, 480px" /></a>
 </p>
 
 ## Introduction
