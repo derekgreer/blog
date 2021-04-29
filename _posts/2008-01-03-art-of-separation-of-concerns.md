@@ -52,7 +52,7 @@ Horizontal Separation of Concerns refers to the process of dividing an applicati
 One common division for graphical user interface applications is the separation of processes into the layers of Presentation, Business, and Resource Access. These categories encompass the main types of concerns for most application needs, and represent an organization of concerns which minimizes the level of dependencies within an application. Figure 1 depicts a typical three-layered application:
 
 <div id="attachment_141" style="max-width: 392px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/horizontalLayers.png"><img class="size-full wp-image-141" title="horizontalLayers" src="/wp-content/uploads/2010/01/horizontalLayers.png" alt="" width="382" height="314" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalLayers.png 382w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalLayers-300x246.png 300w" sizes="(max-width: 382px) 100vw, 382px" /></a>
+  <a href="/wp-content/uploads/2010/01/horizontalLayers.png"><img class="size-full wp-image-141" title="horizontalLayers" src="/wp-content/uploads/2010/01/horizontalLayers.png" alt="" width="382" height="314"/></a>
   
   <p class="wp-caption-text">
     Figure 1
@@ -70,7 +70,7 @@ goal of the Resource Access Layer is to provide a layer of abstraction around th
 Another common division used by Service Oriented Applications is the division of the application into the layers of Service Interface, Business, and Resource Access as depicted in Figure 2:
 
 <div id="attachment_142" style="max-width: 392px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/horizontalLayers2.png"><img class="size-full wp-image-142" title="horizontalLayers2" src="/wp-content/uploads/2010/01/horizontalLayers2.png" alt="" width="382" height="314" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalLayers2.png 382w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalLayers2-300x246.png 300w" sizes="(max-width: 382px) 100vw, 382px" /></a>
+  <a href="/wp-content/uploads/2010/01/horizontalLayers2.png"><img class="size-full wp-image-142" title="horizontalLayers2" src="/wp-content/uploads/2010/01/horizontalLayers2.png" alt="" width="382" height="314"/></a>
   
   <p class="wp-caption-text">
     Figure 2
@@ -86,7 +86,7 @@ By grouping processing concerns based on their role within the application, a nu
 Vertical Separation of Concerns refers to the process of dividing an application into modules of functionality that relate to the same feature or sub-system within an application. Vertical separation divides the features of an application holistically, associating any interface, business, and resource access concerns within a single boundary. Figure 3 depicts an application separated into three modules:
 
 <div id="attachment_143" style="max-width: 374px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/verticalLayers.png"><img class="size-full wp-image-143" title="verticalLayers" src="/wp-content/uploads/2010/01/verticalLayers.png" alt="" width="364" height="311" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers.png 364w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers-300x256.png 300w" sizes="(max-width: 364px) 100vw, 364px" /></a>
+  <a href="/wp-content/uploads/2010/01/verticalLayers.png"><img class="size-full wp-image-143" title="verticalLayers" src="/wp-content/uploads/2010/01/verticalLayers.png" alt="" width="364" height="311"/></a>
   
   <p class="wp-caption-text">
     Figure 3
@@ -98,7 +98,7 @@ Separating the features of an application into modules clarifies the responsibly
 Logical boundaries imply the existence of modularity, though the methods used to denote separation may have no bearing on the actual deployment or runtime behavior of an application. This can be useful for improving the maintainability of an application as well easing any future efforts for physically separating features. Figure 4 depicts an application containing logical boundaries:
 
 <div id="attachment_144" style="max-width: 408px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/verticalLayers2.png"><img class="size-full wp-image-144" title="verticalLayers2" src="/wp-content/uploads/2010/01/verticalLayers2.png" alt="" width="398" height="334" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers2.png 398w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers2-300x251.png 300w" sizes="(max-width: 398px) 100vw, 398px" /></a>
+  <a href="/wp-content/uploads/2010/01/verticalLayers2.png"><img class="size-full wp-image-144" title="verticalLayers2" src="/wp-content/uploads/2010/01/verticalLayers2.png" alt="" width="398" height="334"/></a>
   
   <p class="wp-caption-text">
     Figure 4
@@ -108,7 +108,7 @@ Logical boundaries imply the existence of modularity, though the methods used to
 Physical boundaries are generally used in the context of developing add-ins or composite applications, and can enable features to be managed by disparate development teams. Applications supporting add-in modules often employ techniques such as auto-discovery, or initializing modules based on an external configuration source. Figure 5 depicts a hosting framework containing modules developed by separate development teams:
 
 <div id="attachment_145" style="max-width: 635px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/verticalLayers3.png"><img class="size-full wp-image-145" title="verticalLayers3" src="/wp-content/uploads/2010/01/verticalLayers3.png" alt="" width="625" height="354" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers3.png 625w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/verticalLayers3-300x169.png 300w" sizes="(max-width: 625px) 100vw, 625px" /></a>
+  <a href="/wp-content/uploads/2010/01/verticalLayers3.png"><img class="size-full wp-image-145" title="verticalLayers3" src="/wp-content/uploads/2010/01/verticalLayers3.png" alt="" width="625" height="354"/></a>
   
   <p class="wp-caption-text">
     Figure 5
@@ -118,7 +118,7 @@ Physical boundaries are generally used in the context of developing add-ins or c
 While vertical separation groups a set of concerns based on their relevance to the total fulfillment of a specific feature within an application, this does not preclude the use of other separation of concerns strategies. For example, each module may itself be designed using layers to delineate the role of components within the module. Figure 6 depicts an application using both horizontal and vertical separation of concerns strategies:
 
 <div id="attachment_146" style="max-width: 374px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/horizontalAndVerticalLayers.png"><img class="size-full wp-image-146" title="horizontalAndVerticalLayers" src="/wp-content/uploads/2010/01/horizontalAndVerticalLayers.png" alt="" width="364" height="311" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalAndVerticalLayers.png 364w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/horizontalAndVerticalLayers-300x256.png 300w" sizes="(max-width: 364px) 100vw, 364px" /></a>
+  <a href="/wp-content/uploads/2010/01/horizontalAndVerticalLayers.png"><img class="size-full wp-image-146" title="horizontalAndVerticalLayers" src="/wp-content/uploads/2010/01/horizontalAndVerticalLayers.png" alt="" width="364" height="311"/></a>
   
   <p class="wp-caption-text">
     Figure 6
@@ -132,7 +132,7 @@ Aspect Separation of Concerns, better known as Aspect-Oriented Programming, refe
 Figure 7 depicts an application with several cross-cutting concerns:
 
 <div id="attachment_147" style="max-width: 611px" class="wp-caption aligncenter">
-  <a href="/wp-content/uploads/2010/01/aspect1.png"><img class="size-full wp-image-147 " title="aspect1" src="/wp-content/uploads/2010/01/aspect1.png" alt="" width="601" height="385" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/aspect1.png 1001w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/aspect1-300x192.png 300w" sizes="(max-width: 601px) 100vw, 601px" /></a>
+  <a href="/wp-content/uploads/2010/01/aspect1.png"><img class="size-full wp-image-147 " title="aspect1" src="/wp-content/uploads/2010/01/aspect1.png" alt="" width="601" height="385"/></a>
   
   <p class="wp-caption-text">
     Figure 7
@@ -162,7 +162,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
     </p>
     
     <div id="attachment_149" style="max-width: 460px" class="wp-caption aligncenter">
-      <a href="/wp-content/uploads/2010/01/direction1.png"><img class="size-full wp-image-149" title="direction1" src="/wp-content/uploads/2010/01/direction1.png" alt="" width="450" height="216" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/direction1.png 450w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/direction1-300x144.png 300w" sizes="(max-width: 450px) 100vw, 450px" /></a>
+      <a href="/wp-content/uploads/2010/01/direction1.png"><img class="size-full wp-image-149" title="direction1" src="/wp-content/uploads/2010/01/direction1.png" alt="" width="450" height="216"/></a>
       
       <p class="wp-caption-text">
         Figure 8
@@ -175,7 +175,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
       </p>
       
       <div id="attachment_150" style="max-width: 423px" class="wp-caption aligncenter">
-        <a href="/wp-content/uploads/2010/01/direction2.png"><img class="size-full wp-image-150" title="direction2" src="/wp-content/uploads/2010/01/direction2.png" alt="" width="413" height="110" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/direction2.png 413w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/direction2-300x79.png 300w" sizes="(max-width: 413px) 100vw, 413px" /></a>
+        <a href="/wp-content/uploads/2010/01/direction2.png"><img class="size-full wp-image-150" title="direction2" src="/wp-content/uploads/2010/01/direction2.png" alt="" width="413" height="110"/></a>
         
         <p class="wp-caption-text">
           Figure 9
@@ -240,7 +240,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
         </p>
         
         <div id="attachment_154" style="max-width: 635px" class="wp-caption aligncenter">
-          <a href="/wp-content/uploads/2010/01/extensions1.png"><img class="size-full wp-image-154" title="extensions1" src="/wp-content/uploads/2010/01/extensions1.png" alt="" width="625" height="365" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/extensions1.png 625w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/extensions1-300x175.png 300w" sizes="(max-width: 625px) 100vw, 625px" /></a>
+          <a href="/wp-content/uploads/2010/01/extensions1.png"><img class="size-full wp-image-154" title="extensions1" src="/wp-content/uploads/2010/01/extensions1.png" alt="" width="625" height="365"/></a>
           
           <p class="wp-caption-text">
             Figure 10
@@ -265,7 +265,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
           </p>
           
           <div id="attachment_155" style="max-width: 536px" class="wp-caption aligncenter">
-            <a href="/wp-content/uploads/2010/01/delegation1.png"><img class="size-full wp-image-155" title="delegation1" src="/wp-content/uploads/2010/01/delegation1.png" alt="" width="526" height="535" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/delegation1.png 526w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/delegation1-294x300.png 294w" sizes="(max-width: 526px) 100vw, 526px" /></a>
+            <a href="/wp-content/uploads/2010/01/delegation1.png"><img class="size-full wp-image-155" title="delegation1" src="/wp-content/uploads/2010/01/delegation1.png" alt="" width="526" height="535"/></a>
             
             <p class="wp-caption-text">
               Figure 11
@@ -290,7 +290,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
             </p>
             
             <div id="attachment_156" style="max-width: 542px" class="wp-caption aligncenter">
-              <a href="/wp-content/uploads/2010/01/IoC1.png"><img class="size-full wp-image-156" title="IoC1" src="/wp-content/uploads/2010/01/IoC1.png" alt="" width="532" height="314" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/IoC1.png 532w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/IoC1-300x177.png 300w" sizes="(max-width: 532px) 100vw, 532px" /></a>
+              <a href="/wp-content/uploads/2010/01/IoC1.png"><img class="size-full wp-image-156" title="IoC1" src="/wp-content/uploads/2010/01/IoC1.png" alt="" width="532" height="314"/></a>
               
               <p class="wp-caption-text">
                 Figure 12
@@ -327,7 +327,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
               </p>
               
               <div id="attachment_157" style="max-width: 485px" class="wp-caption aligncenter">
-                <a href="/wp-content/uploads/2010/01/IoC2.png"><img class="size-full wp-image-157" title="IoC2" src="/wp-content/uploads/2010/01/IoC2.png" alt="" width="475" height="463" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/IoC2.png 475w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/IoC2-300x292.png 300w" sizes="(max-width: 475px) 100vw, 475px" /></a>
+                <a href="/wp-content/uploads/2010/01/IoC2.png"><img class="size-full wp-image-157" title="IoC2" src="/wp-content/uploads/2010/01/IoC2.png" alt="" width="475" height="463"/></a>
                 
                 <p class="wp-caption-text">
                   Figure 13
@@ -376,7 +376,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
                 </p>
                 
                 <div id="attachment_158" style="max-width: 372px" class="wp-caption aligncenter">
-                  <a href="/wp-content/uploads/2010/01/magnify.jpg"><img class="size-full wp-image-158" title="magnify" src="/wp-content/uploads/2010/01/magnify.jpg" alt="" width="362" height="435" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/01/magnify.jpg 362w, http://aspiringcraftsman.com/wp-content/uploads/2010/01/magnify-249x300.jpg 249w" sizes="(max-width: 362px) 100vw, 362px" /></a>
+                  <a href="/wp-content/uploads/2010/01/magnify.jpg"><img class="size-full wp-image-158" title="magnify" src="/wp-content/uploads/2010/01/magnify.jpg" alt="" width="362" height="435"/></a>
                   
                   <p class="wp-caption-text">
                     Figure 14
