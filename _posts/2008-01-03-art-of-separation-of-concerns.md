@@ -348,7 +348,7 @@ Figure 7 depicts an application with several cross-cutting concerns:
                 </p>
                 
                 <h2>
-                  The Exaggeration Exercise
+                  <a id="exaggeration-exercise">The Exaggeration Exercise</a>
                 </h2>
                 
                 <p>
