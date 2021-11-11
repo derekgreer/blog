@@ -72,6 +72,62 @@ tags:
   </ul>
 </div>
 
+<div>
+  <ul>
+    <li>
+      <a href="/2011/03/07/effective-tests-introduction/">Effective Tests: Introduction</a>
+    </li>
+    <li>
+      Effective Tests: A Unit Test Example
+    </li>
+    <li>
+      <a href="/2011/03/21/effective-tests-test-first/">Effective Tests: Test First</a>
+    </li>
+    <li>
+      <a href="/2011/03/28/effective-tests-a-test-first-example-part-1/">Effective Tests: A Test-First Example – Part 1</a>
+    </li>
+    <li>
+      <a href="/2011/03/29/effective-tests-how-faking-it-can-help-you/">Effective Tests: How Faking It Can Help You</a>
+    </li>
+    <li>
+      <a href="/2011/04/04/effective-tests-a-test-first-example-part-2/">Effective Tests: A Test-First Example – Part 2</a>
+    </li>
+    <li>
+      <a href="/2011/04/11/effective-tests-a-test-first-example-part-3/">Effective Tests: A Test-First Example – Part 3</a>
+    </li>
+    <li>
+      <a href="/2011/04/24/effective-tests-a-test-first-example-part-4/">Effective Tests: A Test-First Example – Part 4</a>
+    </li>
+    <li>
+      <a href="/2011/05/01/effective-tests-a-test-first-example-part-5/">Effective Tests: A Test-First Example – Part 5</a>
+    </li>
+    <li>
+      <a href="/2011/05/12/effective-tests-a-test-first-example-part-6/">Effective Tests: A Test-First Example – Part 6</a>
+    </li>
+    <li>
+      <a href="/2011/05/15/effective-tests-test-doubles/">Effective Tests: Test Doubles</a>
+    </li>
+    <li>
+      <a href="/2011/05/26/effective-tests-double-strategies/">Effective Tests: Double Strategies</a>
+    </li>
+    <li>
+      <a href="/2011/05/31/effective-tests-auto-mocking-containers/">Effective Tests: Auto-mocking Containers</a>
+    </li>
+    <li>
+      <a href="/2011/06/11/effective-tests-custom-assertions/">Effective Tests: Custom Assertions</a>
+    </li>
+    <li>
+      <a href="/2011/06/24/effective-tests-expected-objects/">Effective Tests: Expected Objects</a>
+    </li>
+    <li>
+      <a href="/2011/07/19/effective-tests-avoiding-context-obscurity/">Effective Tests: Avoiding Context Obscurity</a>
+    </li>
+    <li>
+      <a href="/2011/09/05/effective-tests-acceptance-tests/">Effective Tests: Acceptance Tests</a>
+    </li>
+  </ul>
+</div>
+
 In the [introduction](/2011/03/07/effective-tests-introduction/) to our series, I introduced some common types of automated tests: Unit Tests, Integration Tests, and Acceptance Tests.&nbsp; In this article, we’ll take a look at a traditional approach to unit testing and discuss a few practices surrounding good test communication.
 
 ## First Things First
@@ -176,15 +232,12 @@ While our test certainly does the job of validating the Calculator’s behavior,
   &nbsp;
 </div>
 
-<font face="Courier New"></p> 
+<font face="Courier New">
 
 <pre>CalculatorTests.TestPressEquals : Failed 
 Expected: 4m 
 But was:&nbsp; 0m</pre>
-
-<p>
-  </font>
-</p>
+</font>
 
 <p>
   &nbsp;
@@ -199,17 +252,17 @@ But was:&nbsp; 0m</pre>
 </p>
 
 <pre class="prettyprint">        
-        [Test]
-        public void TestPressEquals2()
-        {
-            var calculator = new Calculator();
-            calculator.Enter(2);
-            calculator.PressPlus();
-            calculator.Enter(2);
-            calculator.PressEquals();
-            Assert.AreEqual(4, calculator.Display,
-                "When adding 2 + 2, expected 4 but found {0}.", calculator.Display);
-        }</pre>
+    [Test]
+    public void TestPressEquals2()
+    {
+        var calculator = new Calculator();
+        calculator.Enter(2);
+        calculator.PressPlus();
+        calculator.Enter(2);
+        calculator.PressEquals();
+        Assert.AreEqual(4, calculator.Display,
+            "When adding 2 + 2, expected 4 but found {0}.", calculator.Display);
+    }</pre>
 
 <p>
   When we run the test again, we get the following:
@@ -219,17 +272,13 @@ But was:&nbsp; 0m</pre>
   &nbsp;
 </div>
 
-<p>
-  <font face="Courier New"></p> 
+<font face="Courier New">
   
-  <pre>CalculatorTests.TestPressEquals : Failed 
+<pre>CalculatorTests.TestPressEquals : Failed 
 When adding 2 + 2, expected 4 but found 0. 
 Expected: 4m 
 But was:&nbsp; 0m</pre>
-  
-  <p>
-    </font>
-  </p>
+ </font>
   
   <p>
     &nbsp;
@@ -244,22 +293,22 @@ But was:&nbsp; 0m</pre>
   </p>
   
   <pre class="prettyprint">
-        [Test]
-        public void TestPressEquals2()
-        {
-            var value1 = 2m;
-            var value2 = 2m;
-            var calculator = new Calculator();
-            calculator.Enter(value1);
-            calculator.PressPlus();
-            calculator.Enter(value2);
-            calculator.PressEquals();
-            decimal expected = 4m;
-            decimal actual = calculator.Display;
-            Assert.AreEqual(expected, actual, 
-                "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-        }</pre>
-  
+    [Test]
+    public void TestPressEquals2()
+    {
+        var value1 = 2m;
+        var value2 = 2m;
+        var calculator = new Calculator();
+        calculator.Enter(value1);
+        calculator.PressPlus();
+        calculator.Enter(value2);
+        calculator.PressEquals();
+        decimal expected = 4m;
+        decimal actual = calculator.Display;
+        Assert.AreEqual(expected, actual, 
+            "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+    }</pre>
+
   <p>
     Now we’ve eliminated the duplication, but the test doesn’t seem as easy to follow.&nbsp; Also, our custom message no longer communicates the purpose of the test clearly.&nbsp; If we revisit this test later, we might as well work through the logic of the test than work through the logic of what this assertion&nbsp; is going to produce.&nbsp; Let’s stick to our principles on keeping our code free of duplication for now, but we’ll revisit this topic later in our series.
   </p>
@@ -273,26 +322,26 @@ But was:&nbsp; 0m</pre>
   </p>
   
   <pre class="prettyprint">
-        [Test]
-        public void TestPressEquals()
-        {
-            // Arrange
-            decimal value1 = 2m;
-            decimal value2 = 2m;
-            decimal expected = 4m;
-            var calculator = new Calculator();
+    [Test]
+    public void TestPressEquals()
+    {
+        // Arrange
+        decimal value1 = 2m;
+        decimal value2 = 2m;
+        decimal expected = 4m;
+        var calculator = new Calculator();
 
-            // Act
-            calculator.Enter(value1);
-            calculator.PressPlus();
-            calculator.Enter(value2);
-            calculator.PressEquals();
-            decimal actual = calculator.Display;
+        // Act
+        calculator.Enter(value1);
+        calculator.PressPlus();
+        calculator.Enter(value2);
+        calculator.PressEquals();
+        decimal actual = calculator.Display;
 
-            // Assert
-            Assert.AreEqual(expected, actual,
-                            "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-        }</pre>
+        // Assert
+        Assert.AreEqual(expected, actual,
+                        "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+    }</pre>
   
   <p>
     That organizes the flow of the test a bit better, but we’re still missing the clarity that initial custom message was providing.&nbsp; We could communicate this through a comment as well, but another approach would be to just improve upon the actual test name.
@@ -303,26 +352,26 @@ But was:&nbsp; 0m</pre>
   </p>
   
   <pre class="prettyprint">
-        [Test]
-        public void PressEquals_AddingTwoPlusTwo_ReturnsFour()
-        {
-            // Arrange
-            decimal value1 = 2m;
-            decimal value2 = 2m;
-            decimal expected = 4m;
-            var calculator = new Calculator();
+    [Test]
+    public void PressEquals_AddingTwoPlusTwo_ReturnsFour()
+    {
+        // Arrange
+        decimal value1 = 2m;
+        decimal value2 = 2m;
+        decimal expected = 4m;
+        var calculator = new Calculator();
 
-            // Act
-            calculator.Enter(value1);
-            calculator.PressPlus();
-            calculator.Enter(value2);
-            calculator.PressEquals();
-            decimal actual = calculator.Display;
+        // Act
+        calculator.Enter(value1);
+        calculator.PressPlus();
+        calculator.Enter(value2);
+        calculator.PressEquals();
+        decimal actual = calculator.Display;
 
-            // Assert
-            Assert.AreEqual(expected, actual,
-                            "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-        }</pre>
+        // Assert
+        Assert.AreEqual(expected, actual,
+                        "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
+    }</pre>
   
   <p>
     &nbsp;
