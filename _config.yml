@@ -29,7 +29,7 @@ disqus:
 # Build settings
 markdown: kramdown
 highlighter: rouge
-theme: minima
+theme: jekyll-theme-minimal
 plugins:
   - jekyll-redirect-from
   - jekyll-gist
