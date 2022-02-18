@@ -129,15 +129,14 @@ Using Cucumber, the “Given” step in this scenario may then be associated to 
 
 Using SpecFlow, the same “Given” step can also be associated to the following step definition in C#:
 
-<pre><div style="background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline">
+```csharp
   [Given("I have entered (.*) into the calculator")]
   public void GivenIHaveEnteredSomethingIntoTheCalculator(int number)
   {
       _calculator = new Calculator();
       _calculator.Enter(number);
   }
-  
-</div></pre>
+ ``` 
 
 ## &nbsp;
 
@@ -151,7 +150,7 @@ While specialized frameworks have been created to support the Context/Specificat
 
 The following example demonstrates this technique using the NUnit framework:
 
-<pre><div style="background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline">
+```csharp
   [TestFixture]
       public abstract class Context
       {
@@ -180,7 +179,7 @@ The following example demonstrates this technique using the NUnit framework:
           {
           }
       }
-</div></pre>
+```
 
 &nbsp;
 
@@ -188,9 +187,9 @@ In addition to providing a Contact base class, the NUnit framework’s TestAttri
 
 &nbsp;
 
-<pre><div style="background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline">
+```csharp
   public class ObservationAttribute : TestAttribute {}
-</div></pre>
+```
 
 &nbsp;
 
@@ -198,7 +197,7 @@ By extending the Context base class, NUnit can then be used to write Context/Spe
 
 &nbsp;
 
-<pre><div style="background-color: #FFFFE0;border: 1px solid black;border-collapse: collapse;color: black;float: none;font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;font-size: 12px;font-style: normal;font-variant: normal;font-weight: normal;line-height: 20px;padding: 5px;text-align: left;vertical-align: baseline">
+```csharp
   public class when_adding_two_numbers : Context
   {
       Calculator _calculator;
@@ -222,7 +221,7 @@ By extending the Context base class, NUnit can then be used to write Context/Spe
           Assert.AreEqual(_calculator.Result, 4);
       }
   }
-</div></pre>
+```
 
 ## &nbsp;
 
