@@ -78,7 +78,8 @@ In the [introduction](/2011/03/07/effective-tests-introduction/) to our series, 
 
 Before getting started, we _obviously_ need something to test, so let’s create a Calculator class.
 
-<pre class="prettyprint">public class Calculator
+```csharp
+    public class Calculator
     {
         bool _isDirty;
 
@@ -115,7 +116,8 @@ Before getting started, we _obviously_ need something to test, so let’s create
 
             _isDirty = false;
         }
-    }</pre>
+    }
+```
 
 To keep things simple, our Calculator class just adds decimals, but that gives us enough to work with for our discussion.
 
@@ -123,7 +125,8 @@ To keep things simple, our Calculator class just adds decimals, but that gives u
 
 Now, let’s create a unit test to validate that our Calculator class behaves properly.&nbsp; I’ll use <a href="http://nunit.org/" target="_blank">NUnit</a> for this example:
 
-<pre class="prettyprint">[TestFixture]
+```csharp
+[TestFixture]
 public class CalculatorTests
 {
     [Test]
@@ -136,7 +139,8 @@ public class CalculatorTests
         calculator.PressEquals();
         Assert.AreEqual(4m, calculator.Display);
     }
-}</pre>
+}
+```
 
 So, what’s going on here?&nbsp; Starting at the top, we have a class with a TestFixture attribute.&nbsp; This tells NUnit that this class contains unit tests.&nbsp; We’ve named our test “CalculatorTests” to denote that this class contains the tests for our Calculator class.&nbsp; Pretty descriptive, eh?
 
@@ -195,7 +199,7 @@ But was:&nbsp; 0m</pre>
   What would be great is if we could have the test runner print out a descriptive message describing what didn’t work.&nbsp; As it happens, NUnit provides an overload to the TestEquals method which allows us to supply our own message.&nbsp; Let’s change our test to include a custom message:
 </p>
 
-<pre class="prettyprint">        
+```csharp
     [Test]
     public void TestPressEquals2()
     {
@@ -206,7 +210,8 @@ But was:&nbsp; 0m</pre>
         calculator.PressEquals();
         Assert.AreEqual(4, calculator.Display,
             "When adding 2 + 2, expected 4 but found {0}.", calculator.Display);
-    }</pre>
+    }
+```
 
 <p>
   When we run the test again, we get the following:
@@ -236,7 +241,7 @@ But was:&nbsp; 0m</pre>
     Unfortunately, these changes have introduced a bit of duplication into our test code.&nbsp; We now have the expected result, the actual result, and the values being added together repeated throughout out test.&nbsp; Also, it seems like a good idea to have the assert message automatically reflect any changes that might be made to the values used by the test.&nbsp; Let’s take a stab at reducing the duplication:
   </p>
   
-  <pre class="prettyprint">
+```csharp
     [Test]
     public void TestPressEquals2()
     {
@@ -251,7 +256,8 @@ But was:&nbsp; 0m</pre>
         decimal actual = calculator.Display;
         Assert.AreEqual(expected, actual, 
             "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-    }</pre>
+    }
+```
 
   <p>
     Now we’ve eliminated the duplication, but the test doesn’t seem as easy to follow.&nbsp; Also, our custom message no longer communicates the purpose of the test clearly.&nbsp; If we revisit this test later, we might as well work through the logic of the test than work through the logic of what this assertion&nbsp; is going to produce.&nbsp; Let’s stick to our principles on keeping our code free of duplication for now, but we’ll revisit this topic later in our series.
@@ -265,7 +271,7 @@ But was:&nbsp; 0m</pre>
     One popular style of organization is a pattern first described by Bill Wake as <em>Arrange, Act, Assert</em>.&nbsp; With this organization, the test is separated into three sections: one which Arranges the objects to be used as part of the test, one which Acts upon the objects, and one which Asserts that the expected outcomes have occurred.&nbsp; Since our test mostly follows this sequence already, let’s just space the sections out a bit and add some comments denoting the Arrange, Act and Assert sections:
   </p>
   
-  <pre class="prettyprint">
+```csharp
     [Test]
     public void TestPressEquals()
     {
@@ -285,7 +291,8 @@ But was:&nbsp; 0m</pre>
         // Assert
         Assert.AreEqual(expected, actual,
                         "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-    }</pre>
+    }
+```
   
   <p>
     That organizes the flow of the test a bit better, but we’re still missing the clarity that initial custom message was providing.&nbsp; We could communicate this through a comment as well, but another approach would be to just improve upon the actual test name.
@@ -295,7 +302,7 @@ But was:&nbsp; 0m</pre>
     One common naming convention is to create a name reflecting the name of the method being tested, the scenario being tested and the expected behavior.&nbsp; Let’s change our test method name to reflect this convention:
   </p>
   
-  <pre class="prettyprint">
+```csharp
     [Test]
     public void PressEquals_AddingTwoPlusTwo_ReturnsFour()
     {
@@ -315,7 +322,8 @@ But was:&nbsp; 0m</pre>
         // Assert
         Assert.AreEqual(expected, actual,
                         "When adding {0} + {1}, expected {2} but found {3}.", value1, value2, expected, actual);
-    }</pre>
+    }
+```
   
   <p>
     &nbsp;
