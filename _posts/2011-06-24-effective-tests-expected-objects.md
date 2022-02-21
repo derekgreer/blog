@@ -195,16 +195,16 @@ public class when_an_order_is_placed : WithSubject<OrderService>
     _customer = new TestCustomer(CustomerId)
     {
       FirstName = "First",
-                LastName = "Last",
-                PhoneNumber = "5129130000",
-                Address = new Address
-                {
-                  LineOne = "123 Street",
-                  LineTwo = string.Empty,
-                  City = "Austin",
-                  State = "TX",
-                  ZipCode = "78717"
-                }
+      LastName = "Last",
+      PhoneNumber = "5129130000",
+      Address = new Address
+      {
+        LineOne = "123 Street",
+        LineTwo = string.Empty,
+        City = "Austin",
+        State = "TX",
+        ZipCode = "78717"
+      }
     };
     For<IOrderNumberProvider<long>>().Setup(x => x.GetNext()).Returns(OrderNumber);
     For<ICustomerRepository>().Setup(x => x.Get(Parameter.IsAny<Guid>())).Returns(_customer);
@@ -213,15 +213,15 @@ public class when_an_order_is_placed : WithSubject<OrderService>
     _expectedOrderReceipt = new ExpectedOrderReceipt
     {
       OrderNumber = OrderNumber.ToString(),
-                  CustomerName = "First Last",
-                  CustomerPhone = "5129130000",
-                  AddressLineOne = "123 Street",
-                  AddressLineTwo = string.Empty,
-                  City = "Austin",
-                  State = "TX",
-                  ZipCode = "78717",
-                  CustomerId = CustomerId.ToString(),
-                  Orders = new List<Order> {_order}
+       CustomerName = "First Last",
+       CustomerPhone = "5129130000",
+       AddressLineOne = "123 Street",
+       AddressLineTwo = string.Empty,
+       City = "Austin",
+       State = "TX",
+       ZipCode = "78717",
+       CustomerId = CustomerId.ToString(),
+       Orders = new List<Order> {_order}
     };
   };
 
@@ -317,16 +317,16 @@ public class when_an_order_is_placed : WithSubject<OrderService>
     _customer = new TestCustomer(CustomerId)
     {
       FirstName = "Wrong",
-                LastName = "Wrong",
-                PhoneNumber = "Wrong",
-                Address = new Address
-                {
-                  LineOne = "Wrong",
-                  LineTwo = "Wrong",
-                  City = "Austin",
-                  State = "TX",
-                  ZipCode = "78717"
-                }
+      LastName = "Wrong",
+      PhoneNumber = "Wrong",
+      Address = new Address
+      {
+        LineOne = "Wrong",
+        LineTwo = "Wrong",
+        City = "Austin",
+        State = "TX",
+        ZipCode = "78717"
+      }
     };
     For<IOrderNumberProvider<long>>().Setup(x => x.GetNext()).Returns(OrderNumber);
     For<ICustomerRepository>().Setup(x => x.Get(Parameter.IsAny<Guid>())).Returns(_customer);
@@ -335,15 +335,15 @@ public class when_an_order_is_placed : WithSubject<OrderService>
     _expectedOrderReceipt = new ExpectedOrderReceipt
     {
       OrderNumber = OrderNumber.ToString(),
-                  CustomerName = "First Last",
-                  CustomerPhone = "5129130000",
-                  AddressLineOne = "123 Street",
-                  AddressLineTwo = string.Empty,
-                  City = "Austin",
-                  State = "TX",
-                  ZipCode = "78717",
-                  CustomerId = CustomerId.ToString(),
-                  Orders = new List<Order> {_order}
+      CustomerName = "First Last",
+      CustomerPhone = "5129130000",
+      AddressLineOne = "123 Street",
+      AddressLineTwo = string.Empty,
+      City = "Austin",
+      State = "TX",
+      ZipCode = "78717",
+      CustomerId = CustomerId.ToString(),
+      Orders = new List<Order> {_order}
     };
   };
 
