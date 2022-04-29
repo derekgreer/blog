@@ -48,7 +48,7 @@ The MVC pattern was originally conceived in 1978-79 by [Trygve Reenskaug](http:/
 The following diagram depicts the structure of the Model-View-Controller pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/MVC1.png"><img class="aligncenter size-full wp-image-192" title="MVC" alt="" src="/wp-content/uploads/2010/02/MVC1.png" width="450" height="269" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/MVC1.png 562w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/MVC1-300x179.png 300w" sizes="(max-width: 450px) 100vw, 450px" /></a>
+  <a href="/wp-content/uploads/2010/02/MVC1.png"><img class="aligncenter size-full wp-image-192" title="MVC" alt="" src="/wp-content/uploads/2010/02/MVC1.png" width="450" height="269" sizes="(max-width: 450px) 100vw, 450px" /></a>
 </p>
 
 <p style="text-align: center">
@@ -107,7 +107,7 @@ While introduced by Sun as the Model 2 architecture, the credit for the mainstre
 While no canonical structure exists, the following diagram is a depiction of how the MVC pattern is often adapted for Web development:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/WebMVC.png"><img class="aligncenter size-full wp-image-193" title="WebMVC" alt="" src="/wp-content/uploads/2010/02/WebMVC.png" width="640" height="480" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/WebMVC.png 800w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/WebMVC-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" /></a>
+  <a href="/wp-content/uploads/2010/02/WebMVC.png"><img class="aligncenter size-full wp-image-193" title="WebMVC" alt="" src="/wp-content/uploads/2010/02/WebMVC.png" width="640" height="480" sizes="(max-width: 640px) 100vw, 640px" /></a>
 </p>
 
 #### Components
@@ -155,7 +155,7 @@ While the main elements of the pattern were already being utilized at Taligent b
 The following diagram depicts the structure of the Taligent Model-View-Presenter pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/TaligentMVP.png"><img class="aligncenter size-full wp-image-194" title="TaligentMVP" alt="" src="/wp-content/uploads/2010/02/TaligentMVP.png" width="567" height="397" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/TaligentMVP.png 788w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/TaligentMVP-300x209.png 300w" sizes="(max-width: 567px) 100vw, 567px" /></a>
+  <a href="/wp-content/uploads/2010/02/TaligentMVP.png"><img class="aligncenter size-full wp-image-194" title="TaligentMVP" alt="" src="/wp-content/uploads/2010/02/TaligentMVP.png" width="567" height="397" sizes="(max-width: 567px) 100vw, 567px" /></a>
 </p>
 
 #### Components
@@ -195,7 +195,7 @@ The Dolphin Smalltalk Model-View-Presenter pattern was adapted from the Taligent
 The following diagram depicts the structure of the Dolphin Smalltalk Model-View-Presenter pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/MVP.png"><img class="aligncenter size-full wp-image-195" title="MVP" alt="" src="/wp-content/uploads/2010/02/MVP.png" width="451" height="270" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/MVP.png 564w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/MVP-300x179.png 300w" sizes="(max-width: 451px) 100vw, 451px" /></a>
+  <a href="/wp-content/uploads/2010/02/MVP.png"><img class="aligncenter size-full wp-image-195" title="MVP" alt="" src="/wp-content/uploads/2010/02/MVP.png" width="451" height="270" sizes="(max-width: 451px) 100vw, 451px" /></a>
 </p>
 
 #### Components
@@ -245,7 +245,7 @@ The Supervising Controller pattern separates an application’s concerns of pres
 The following diagram depicts the structure of the Supervising Controller pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/SupervisingController.png"><img class="aligncenter size-full wp-image-196" title="SupervisingController" alt="" src="/wp-content/uploads/2010/02/SupervisingController.png" width="451" height="270" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/SupervisingController.png 564w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/SupervisingController-300x179.png 300w" sizes="(max-width: 451px) 100vw, 451px" /></a>
+  <a href="/wp-content/uploads/2010/02/SupervisingController.png"><img class="aligncenter size-full wp-image-196" title="SupervisingController" alt="" src="/wp-content/uploads/2010/02/SupervisingController.png" width="451" height="270" sizes="(max-width: 451px) 100vw, 451px" /></a>
 </p>
 
 <p style="text-align: center">
@@ -277,7 +277,7 @@ The Passive View pattern separates an application’s concerns of presentation a
 The following diagram depicts the structure of the Passive View pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/PassiveView.png"><img class="aligncenter size-full wp-image-197" title="PassiveView" alt="" src="/wp-content/uploads/2010/02/PassiveView.png" width="451" height="270" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/PassiveView.png 564w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/PassiveView-300x179.png 300w" sizes="(max-width: 451px) 100vw, 451px" /></a>
+  <a href="/wp-content/uploads/2010/02/PassiveView.png"><img class="aligncenter size-full wp-image-197" title="PassiveView" alt="" src="/wp-content/uploads/2010/02/PassiveView.png" width="451" height="270" sizes="(max-width: 451px) 100vw, 451px" /></a>
 </p>
 
 <p style="text-align: center">
@@ -313,7 +313,7 @@ In her article, Coutaz sets forth that the PAC model more closely follows the co
 The following diagram depicts the structure of the Presentation-Abstraction-Control pattern:
 
 <p style="text-align: center">
-  <a href="/wp-content/uploads/2010/02/PAC.png"><img class="aligncenter size-full wp-image-198" title="PAC" alt="" src="/wp-content/uploads/2010/02/PAC.png" width="608" height="239" srcset="http://aspiringcraftsman.com/wp-content/uploads/2010/02/PAC.png 1407w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/PAC-300x117.png 300w, http://aspiringcraftsman.com/wp-content/uploads/2010/02/PAC-1024x401.png 1024w" sizes="(max-width: 608px) 100vw, 608px" /></a>
+  <a href="/wp-content/uploads/2010/02/PAC.png"><img class="aligncenter size-full wp-image-198" title="PAC" alt="" src="/wp-content/uploads/2010/02/PAC.png" width="608" height="239"  sizes="(max-width: 608px) 100vw, 608px" /></a>
 </p>
 
 #### Components
