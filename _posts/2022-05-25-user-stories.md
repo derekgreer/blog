@@ -105,4 +105,4 @@ While an Acceptance Criteria section isn't mandatory, it can often be valuable f
 
 ## Conclusion
 
-As the adoption of agile frameworks such as Scrum have become more mainstream, a number of practices have become formulaic and adopted by teams via a cargo-cult onboarding to agile practices without truly grasping what it means to be agile. The User Story has all but lost it original intent by many teams who have done little more than slap agile labels on on Waterfall manufacturing processes. Let's do better.
+As the adoption of agile frameworks such as Scrum have become more mainstream, a number of practices have become formulaic and adopted by teams via a cargo-cult onboarding to agile practices without truly grasping what it means to be agile. The User Story has all but lost it original intent by many teams who have done little more than slap agile labels onto Waterfall manufacturing processes. User Stories weren't intended to be requirements. Let's do better.
