@@ -117,3 +117,8 @@ p {
   margin-top:16px;
   margin-bottom:16px;
 }
+
+blockquote {
+   margin-left: 25px;
+   font-style: italic; 
+}
