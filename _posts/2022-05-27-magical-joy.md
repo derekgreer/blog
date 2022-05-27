@@ -25,4 +25,4 @@ Fortunately with the advent of .Net Core which introduced the [FromServices] att
     }
 ```
 
-This is my preferred approach today. While it allows us to keep our controllers clean; to write small, focused Application Layer handler classes; and to avoid injection of unused dependencies; it’s also easy for developers at any level to work with and maintains the standard navigation and debugging experience. Win, win!
+This is my preferred approach today. While it allows us to keep our controllers clean; to write small, focused Application Layer handler classes; and to avoid injection of unused dependencies; it’s also easy for developers at any level to work with and maintains the standard navigation and debugging experience. Win-win!
