@@ -7,6 +7,8 @@ layout: post
 
 A recent inquiry from a recruiter about accepting a partially-remote position prompted me to reflect upon 9 years of working remotely as a software developer.
 
+When I first started working from home, attitudes were quite different than they are in today’s post COVID-19 world. Full time remote software development jobs were few and far between, and most employers that allowed working remotely full time did so due to factors other than a belief that it was more productive and cost-effective. Studies since have overwhelmingly shown that the majority were simply wrong.
+
 One interesting side-effect of the previous year’s COVID-19 political entanglement is the degree to which it forced an entire generation of closed-minded, micro-managing executives to consider (through necessity) that remote work forces, especially for primarily thoughtwork-based positions, were not only viable, but perhaps even superior.
 
 When our entire society started shutting down due to concerns over the COVID-19 virus, I actually hardly noticed at first. Having transitioned to full-time remote work in early 2014, I had long since become accustomed to working remotely by the time society started shutting down. Prior to landing my first full-time remote position, I had worked at a couple of prior companies which allowed working remotely a couple of days a week, so I had some notion of its viability even before then.
