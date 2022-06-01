@@ -16,11 +16,12 @@
 title: Aspiring Craftsman
 tagline: pursuing well-crafted software
 email: dbgreer@gmail.com
-#author: Derek Greer
-#description: >- # this means to ignore newlines until "baseurl:"
+author: Derek Greer
+description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://aspiringcraftsman.com" # the base hostname & protocol for your site, e.g. http://example.com
-#feed: "http://feeds.feedburner.com/AspiringCraftsman"
+feed:
+  path: "http://feeds.feedburner.com/AspiringCraftsman"
 twitter_username: derekgreer
 github_username:  derekgreer
 linkedin_username: derekgreer
