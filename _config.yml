@@ -34,7 +34,6 @@ theme: jekyll-theme-minimal
 plugins:
   - jekyll-redirect-from
   - jekyll-gist
-  - jekyll-feed
 JB:
   comments:
       provider: disqus
