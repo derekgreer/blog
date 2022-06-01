@@ -20,7 +20,7 @@ email: dbgreer@gmail.com
 #description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://aspiringcraftsman.com" # the base hostname & protocol for your site, e.g. http://example.com
-feed: "http://feeds.feedburner.com/AspiringCraftsman"
+#feed: "http://feeds.feedburner.com/AspiringCraftsman"
 twitter_username: derekgreer
 github_username:  derekgreer
 linkedin_username: derekgreer
