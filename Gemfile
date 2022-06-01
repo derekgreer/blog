@@ -20,7 +20,6 @@ gem "minima", "~> 2.0"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.15.0"
   gem "jekyll-gist", "~> 1.4.1"
   gem "jekyll-redirect-from", "~> 0.12.1"
 end
@@ -29,3 +28,5 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'wdm', '>= 0.1.0'
+
+gem 'jekyll-feed'
