@@ -43,8 +43,8 @@ To help illustrate, let’s take a look at the following example which dynamical
   &#160;
 </div>
 
-<div class="alt-display">
-  <pre class="prettyprint">var AnswerType = {
+```javascript
+var AnswerType = {
     Choice: 0,
     Input: 1
 };
@@ -106,8 +106,8 @@ var questions = [
     ];
 
 var questionRegion = document.getElementById('questions');
-view.render(questionRegion, questions);</pre>
-</div>
+view.render(questionRegion, questions);
+```
 
 In this example, a view object contains a render method which renders questions based upon each type of question received. A question consists of a label, an answer type (choice or text entry), and an optional list of choices. If the answer type is Answer.Choice, a drop down is created with the options provided. If the answer type is AnswerType.Input, a simple text input is rendered.
 
@@ -116,11 +116,8 @@ Following the pattern already established, adding new input types would require 
 Let’s take a look at an alternate implementation that would allow us to extend the view object’s rendering capabilities without requiring changes to the view object for each new answer type :
 
 
-
-&#160;
-
-<div class="alt-display">
-  <pre class="prettyprint">function questionCreator(spec, my) {
+```javascript
+function questionCreator(spec, my) {
     var that = {};
 
     my = my || {};
@@ -204,8 +201,8 @@ var questions = [
 
 var questionRegion = document.getElementById('questions');
 
-view.render(questionRegion, questions);</pre>
-</div>
+view.render(questionRegion, questions);
+```
 
 There’s a few techniques being used here, so let’s walk through them one at a time.
 
