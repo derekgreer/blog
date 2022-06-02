@@ -68,8 +68,8 @@ While not prescriptive, this set of role stereotypes provides an excellent menta
 
 To illustrate the application of the Single Responsibility Principle, let’s consider the following example which facilitates the movement of product items into a shopping cart:
 
-```#javascript
-  function Product(id, description) {
+```javascript
+function Product(id, description) {
     this.getId = function() {
         return id;
     };
@@ -125,8 +125,6 @@ Second, we have behavior defined to add items to the cart view when an item is d
 Third, we have behavior defined to populate the products view with the initial set of products.
 
 Let’s break these three responsibilities out into their own objects:
-
-&#160;
 
 
 
