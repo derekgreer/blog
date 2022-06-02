@@ -214,6 +214,6 @@ Third, we’ve identified the code which creates each answer type as a family of
 
 As an added benefit to this refactoring, we were able to eliminate the need for an AnswerType enumeration and we were able make the choices array a requirement specific to the choiceQuestionCreator interface.
 
-The refactored version of the view object can now be cleanly extended by simply extending new questionCreator objects.
+The refactored version of the view object can now be cleanly extended by simply adding new questionCreator objects.
 
 Next time, we’ll discuss the third principle in the SOLID acronym: The Liskov Substitution Principle.
