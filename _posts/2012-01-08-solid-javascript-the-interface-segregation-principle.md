@@ -73,7 +73,8 @@ exampleBinder.bind = function(model) {
     var om = exampleBinder.modelObserver.observe(model);
     exampleBinder.viewAdaptor.bind(om);
     return om;
-};</pre>
+};
+```
 
 This listing presents a library named _exampleBinder_ whose purpose is to facilitate two-way data-binding. The public interface of the library is represented by the bind method. The responsibilities of change notification and view interaction have been separated into the objects _modelObserver_ and _viewAdaptor_ respectively to allow for alternate implementations. These objects represent the implementations of the **interfaces** expected by the _bind_ method. Any object adhering to the semantic behavior represented by these interfaces may be substituted for the default implementations. 
 
