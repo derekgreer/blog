@@ -35,7 +35,8 @@ In object-oriented programming, inheritance provides a mechanism for sharing cod
 
 To help illustrate, consider the following code:
 
-<pre class="prettyprint">function Vehicle(my) {
+```javascript
+function Vehicle(my) {
     my = my || {};
     my.speed = 0;
     my.running = false;
@@ -66,11 +67,13 @@ To help illustrate, consider the following code:
             return "idle";
         }
     };
-}</pre>
+}
+```
 
 This listing shows a Vehicle constructor which provides a few basic operations for a vehicle object.&#160; Let’s say this constructor is currently being used in production by several clients.&#160; Now, consider we’re asked to add a new constructor which represents faster moving vehicles.&#160; After thinking about it for a bit, we come up with the following new constructor:
 
-<pre class="prettyprint">function FastVehicle(my) {
+```javascript
+function FastVehicle(my) {
     my = my || {};
     
     var that = new Vehicle(my);
@@ -78,11 +81,13 @@ This listing shows a Vehicle constructor which provides a few basic operations f
         my.speed += 3;
     };
     return that;
-}</pre>
+}
+```
 
 After testing out our new FastVehicle constructor in the browser’s console window, we’re satisfied that everything works as expected.&#160; Objects created with FastVehicle accelerate 3 times faster than before and all the inherited methods function as expected.&#160; Confident that everything works as expected, we decide to deploy the new version of the library.&#160; Upon using the new type, however, we’re informed that objects created with the FastVehicle constructor break existing client code.&#160; Here’s the snippet of code that reveals the problem:
 
-<pre class="prettyprint">var maneuver = function(vehicle) {
+```javascript
+var maneuver = function(vehicle) {
     write(vehicle.state());
     vehicle.start();
     write(vehicle.state());
@@ -96,7 +101,8 @@ After testing out our new FastVehicle constructor in the browser’s console win
     }
     vehicle.stop();
     write(vehicle.state());
-};</pre>
+};
+```
 
 Upon running the code, we see that an exception is thrown: “_The vehicle is still moving!_”.&#160; It appears that the author of this function made the assumption that vehicles always accelerate and decelerate uniformly.&#160; Objects created from our FastVehicle aren’t completely substitutable for objects created from our base Vehicle constructor.&#160; Our FastVehicle violates the Liskov Substitution Principle! 
 
@@ -135,14 +141,17 @@ To illustrate, let’s consider an example taken from the book [Agile Software D
 
 Consider that we have an application which uses a rectangle object defined as follows:
 
-<pre class="prettyprint">var rectangle = {
+```javascript
+var rectangle = {
     length: 0,
     width: 0
-};</pre>
+};
+```
 
 Later, it’s determined that the application also needs to work with a square.&#160; Based on the knowledge that a square is a rectangle whose sides are equal in length, we decide to create a square object to use in place of rectangle.&#160; We add length and width properties to match the rectangle object’s definition, but we decide to use property getters and setters so we can keep the length and width values in sync, ensuring it adheres to the definition of a square:
 
-<pre class="prettyprint">var square = {};
+```javascript
+var square = {};
 (function() {
     var length = 0, width = 0;
     Object.defineProperty(square, "length", {
@@ -153,17 +162,20 @@ Later, it’s determined that the application also needs to work with a square.&
         get: function() { return width; },
         set: function(value) { length = width = value; }
     });
-})();</pre>
+})();
+```
 
 Unfortunately, a problem is discovered when the application attempts to use our square in place of rectangle.&#160; It turns out that one of the methods computes the rectangle’s area like so:
 
-<pre class="prettyprint">var g = function(rectangle) {
+```javascript
+var g = function(rectangle) {
     rectangle.length = 3;
     rectangle.width = 4;
     write(rectangle.length);
     write(rectangle.width);
     write(rectangle.length * rectangle.width);
-};</pre>
+};
+```
 
 When the method is invoked with square, the product is 16 rather than the expected value of 12.&#160; Our square object violates the Liskov Substitution Principle with respect to the function g.&#160; In this case, the presence of the length and width properties was a hint that our square might not end up being 100% compatible with rectangle, but we won’t always have such obvious hints.&#160; Correcting this situation would likely require a redesign of the shape objects and the consuming application.&#160; A more flexible approach might be to define rectangles and squares in terms of polygons.&#160; Regardless, the important take away from this example is that the Liskov Substitution Principle isn’t just relevant to inheritance, but to any approach where one behavior is being substituted for another.
 
