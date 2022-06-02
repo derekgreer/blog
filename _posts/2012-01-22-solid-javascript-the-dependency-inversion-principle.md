@@ -53,7 +53,8 @@ In JavaScript, the applicability of the Dependency Inversion Principle is releva
 
 To illustrate, consider the following example:
 
-<pre class="prettyprint">$.fn.trackMap = function(options) {
+```javascript
+$.fn.trackMap = function(options) {
     var defaults = { 
         /* defaults */
     };
@@ -102,7 +103,8 @@ $("#map_canvas").trackMap({
     icon: 'http://bit.ly/zjnGDe',
     title: 'Tracking Number: 12345',
     feed: updater
-});</pre>
+});
+```
 
 In this listing, we have a small library which converts a div target into an map used to show the current location of a item being tracked.&#160; The trackMap function has two dependencies: the 3rd party Google Maps API and a location feed.&#160; The responsibility of the feed object is to simply invoke a callback (supplied during the initialization process) with a new latitude and longitude position when the icon location should be updated.&#160; The Google Maps API is used to do the actual rending of the map to the screen. 
 
@@ -110,7 +112,8 @@ While the interface of the feed object may or may not have been designed in term
 
 To invert the semantic coupling to the Google Maps library, we need to redesign the trackMap function to have a semantic coupling to an implicit interface which abstractly represents the functionality needed by a mapping provider.&#160; We would then need to implement an object which adapts this interface to the Google Maps API.&#160; The following shows this alternate version of the trackMap function:
 
-<pre class="prettyprint">$.fn.trackMap = function(options) {
+```javascript
+$.fn.trackMap = function(options) {
     var defaults = { 
         /* defaults */
     };
@@ -139,11 +142,13 @@ $("#map_canvas").trackMap({
     title: 'Tracking Number: 12345',
     feed: updater,
     provider: trackMap.googleMapsProvider
-});</pre>
+});
+```
 
 In this version, we’ve redesigned the trackMap function to express its needs in terms of a generic mapping provider interface and have moved the implementation details out into a separate googleMapsProvider component which can be bundled as a separate JavaScript module.&#160; Here’s our googleMapsProvider implementation:
 
-<pre class="prettyprint">trackMap.googleMapsProvider = (function() {
+```javascript
+trackMap.googleMapsProvider = (function() {
     var marker, map;
 
     return {
@@ -173,7 +178,8 @@ In this version, we’ve redesigned the trackMap function to express its needs i
             map.setCenter(newLatLng);
         }
     };
-})();</pre>
+})();
+```
 
 With these changes, our trackMap function is now more resilient to the changes that might occur to the Google Maps API and is capable of being reused with another mapping provider.&#160; That is, as long as it’s API can be adapted to the needs of our application.
 
