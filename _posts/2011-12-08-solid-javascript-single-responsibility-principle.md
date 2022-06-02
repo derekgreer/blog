@@ -100,14 +100,14 @@ var products = [
         })[0];
         cart.addItem(product);
 
-        var newItem = $('&lt;li&gt;&lt;/li&gt;')
+        var newItem = $('<li></li>')
             .html(product.getDescription())
             .attr('id-cart', product.getId())
             .appendTo("#cart");
     }
 
     products.forEach(function(product) {
-        var newItem = $('&lt;li&gt;&lt;/li&gt;')
+        var newItem = $('<li></li>')
             .html(product.getDescription())
             .attr('id', product.getId())
             .dblclick(addToCart)
@@ -139,7 +139,7 @@ Event.prototype.addHandler = function(handler) {
     this._handlers.push(handler);
 };
 Event.prototype.removeHandler = function(handler) {
-    for (var i = 0; i &lt; handlers.length; i++) {
+    for (var i = 0; i < handlers.length; i++) {
         if (this._handlers[i] == handler) {
             this._handlers.splice(i, 1);
             break;
@@ -196,7 +196,7 @@ function Cart() {
 
 var cartView = (function() {
     eventAggregator.subscribe("itemAdded", function(eventArgs) {
-        var newItem = $('&lt;li&gt;&lt;/li&gt;')
+        var newItem = $('<li></li>')
             .html(eventArgs.getDescription())
             .attr('id-cart', eventArgs.getId())
             .appendTo("#cart");
@@ -235,7 +235,7 @@ var productView = (function() {
     }
 
     products.forEach(function(product) {
-        var newItem = $('&lt;li&gt;&lt;/li&gt;')
+        var newItem = $('<li></li>')
             .html(product.getDescription())
             .attr('id', product.getId())
             .dblclick(onProductSelected)
