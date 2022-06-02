@@ -43,7 +43,8 @@ So, what does this principle have to do with JavaScript? After all, JavaScript d
 
 Regardless of whether a language provides a separate construct for representing interfaces or not, all objects have an implicit interface comprised of the set of public properties and methods of the object. For example, consider the following library: 
 
-<pre class="prettyprint">var exampleBinder = {};
+```javascript
+var exampleBinder = {};
 exampleBinder.modelObserver = (function() {
     /* private variables */
     return {
@@ -88,7 +89,8 @@ In statically-typed languages, one issue that arises from violations of the ISP 
 
 For instance, consider the following example: 
 
-<pre class="prettyprint">var rectangle = {
+```javascript
+var rectangle = {
     area: function() { 
         /* code */
     },
@@ -107,7 +109,8 @@ var drawingApplication = {
     drawRectangles: function(rectangles) {
        /* code */
     }
-};</pre>
+};
+```
 
 While a substitute rectangle could be created with only an area() method in order to meet the needs of geometryApplication’s getLargestRectangle method, such an implementation would represent a LSP violation with respect to drawingApplication’s drawRectangles method. 
 
