@@ -66,12 +66,10 @@ While not prescriptive, this set of role stereotypes provides an excellent menta
 
 ## Single Responsibility Principle Example
 
-To illustrate the application of the Single Responsibility Principle, let’s consider the following example facilitates the movement of product items into a shopping cart:
+To illustrate the application of the Single Responsibility Principle, let’s consider the following example which facilitates the movement of product items into a shopping cart:
 
-
-
-<div class="alt-display">
-  <pre class="prettyprint">function Product(id, description) {
+```#javascript
+  function Product(id, description) {
     this.getId = function() {
         return id;
     };
@@ -116,8 +114,7 @@ var products = [
             .appendTo("#products");
     });
 })();
-/pre&gt;</pre>
-</div>
+```
 
 While not overly complex, this example illustrates a number of unrelated responsibilities which are grouped together within a single anonymous function. Let’s consider each responsibility:
 
@@ -133,8 +130,8 @@ Let’s break these three responsibilities out into their own objects:
 
 
 
-<div class="alt-display">
-  <pre class="prettyprint">function Event(name) {
+```javascript
+function Event(name) {
     this._handlers = [];
     this.name = name;
 }
@@ -244,8 +241,8 @@ var productView = (function() {
             .dblclick(onProductSelected)
             .appendTo("#products");
     });
-})();</pre>
-</div>
+})();
+```
 
 In our revised design, we’ve removed our anonymous function and replace it with objects to coordinate each of the separate set of responsibilities.&#160; A cartView was introduced to coordinate the population of the cart display, a cartController was introduced to coordinate the population of the cart model, and a productView was introduced to coordinate the population of the products display.&#160; We also introduced an [Event Aggregator](http://martinfowler.com/eaaDev/EventAggregator.html) to facilitate communication between the objects in a loosely-coupled way.&#160; While this design results in a larger number of objects, each object now focuses on fulfilling a specific role within the overall orchestration with minimal coupling between the objects.
 
