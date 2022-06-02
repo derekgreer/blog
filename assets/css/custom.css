@@ -13,10 +13,15 @@
 }
 
 .main-container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     padding-left: 2%;
     padding-right: 2%;
+}
+
+.main {
+  width: 100%;
+  flex: auto;
 }
 
 .container {
