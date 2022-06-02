@@ -16,7 +16,7 @@ tags:
   - SOLID
 ---
 <div style="border-bottom: black 1px solid; border-left: black 1px solid; float: right; margin-left: 4px; border-top: black 1px solid; border-right: black 1px solid" class="toc">
-  <u>Series <noindex></noindex> Table of Contents</u> <br /><a href="/2011/12/08/solid-javascript-single-responsibility-principle/">The Single Responsibility Principle</a> <br /><a href="/2011/12/19/solid-javascript-the-openclosed-principle/">The Open/Closed Principle</a> <br />The Liskov Substitution Principle <br /></a><a href="/2012/01/08/solid-javascript-the-interface-segregation-principle/">The Interface Segregation Principle</a> <br /><a href="/2012/01/22/solid-javascript-the-dependency-inversion-principle/">The Dependency Inversion Principle</a>
+  <u>Series <noindex></noindex> Table of Contents</u> <br /><a href="/2011/12/08/solid-javascript-single-responsibility-principle/">The Single Responsibility Principle</a> <br /><a href="/2011/12/19/solid-javascript-the-openclosed-principle/">The Open/Closed Principle</a> <br />The Liskov Substitution Principle <br /><a href="/2012/01/08/solid-javascript-the-interface-segregation-principle/">The Interface Segregation Principle</a> <br /><a href="/2012/01/22/solid-javascript-the-dependency-inversion-principle/">The Dependency Inversion Principle</a>
 </div>
 
 This is the thrid installment in the SOLID JavaScript series which explores the SOLID design principles within the context of the JavaScript language. In this installment, we’ll be covering the Liskov Substitution Principle.
