@@ -30,7 +30,7 @@ public class MyService
         }
     }
 
-    ….
+    …
 }
 ```
 
@@ -63,7 +63,7 @@ public class MyService
         }
     }
 
-    ….
+    …
 }
 ```
 
