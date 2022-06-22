@@ -5,8 +5,6 @@ author: Derek Greer
 layout: post
 ---
 
-Perhaps Too Much Validation
-
 Several factors have influenced my coding style over the years leaving me with a preference toward lean code syntax. I’ve been developing for quite a while, so it would be hard to pinpoint exactly when, where, or from whom I’ve picked up various preferences, but to name a few, I prefer: code that only includes comments for public APIs or to provide explanation of algorithms; code that is free of the use of regions, explicit default access modifiers, and unused using statements; reliance upon convention over configuration (both to eliminate repetitive tasks, but also just to eliminate unnecessary code); encapsulating excessive parameters into a [Parameter Object](https://wiki.c2.com/?ParameterObject), avoidance of excessive use of attributes/annotations (actually, I’d eliminate them completely if I could), and of course deleting dead code. There is one other practice I tend to see by other developers that I dislike and that’s too much validation.
 
 Perhaps you’ve seen code like this:
