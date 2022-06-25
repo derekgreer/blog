@@ -69,7 +69,7 @@ public class MyService
 
 If this is an internal service that isn’t going to be called by any other code except other components within your application, we have 14 lines of code that are unneeded and are just adding noise to our code. I’ve worked in shops where every class in an application or library was coded this way, effectively adding hundreds to thousands of lines of unneeded code. Like regions, comments, or poorly factored code, this adds to the cognitive load required for reading through and understanding the code and ultimately is unnecessary.
 
-We could, of course, lessen the syntax noise by using `System.ArgumentNullException.ThrowIfNull()` as demonstrated in the following code:
+We could, of course, lessen the syntax noise by using the `ThrowIfNull()` method of `System.ArgumentNullException` as demonstrated in the following code:
 
 ```csharp
 using static System.ArgumentNullException;
