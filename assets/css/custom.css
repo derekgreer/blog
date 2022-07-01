@@ -28,6 +28,12 @@
     text-align: center;
 }
 
+ul {
+  list-style-type: disc;
+  padding-left: 40px;
+}
+
+
 /* for mobile screens otherwise it messes up the nav*/
 #searchFieldNav {
     width: 65%;
@@ -126,4 +132,9 @@ p {
 blockquote {
    margin-left: 25px;
    font-style: italic; 
+}
+
+.theme-note {
+  border: 1px solid black;
+  background: #f4f2f2;
 }
