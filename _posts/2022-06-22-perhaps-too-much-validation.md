@@ -89,4 +89,4 @@ public class MyService
 
 If we needed validation other than checking for null, we could even write our own custom code that would provide similar terse improvements. This however, misses the point. If you're practicing TDD and this component is only ever called by other code within this project, it's effectively unused code. Sure, it would guard against bad practices such as reusing the code within a different context (potentially excluding the addition of equivalent specifications ensuring the code is used properly), having others modify the project code without using TDD, etc., but that's speculative planning for a future that may never come.
 
-The bottom line is, you _already_ have guards against the code being used incorrectly. It's called the tests!
+The bottom line is, you should _already_ have guards against the code being used incorrectly. It's called the specs!
