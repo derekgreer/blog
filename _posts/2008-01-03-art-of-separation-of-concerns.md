@@ -29,7 +29,7 @@ The Principle of Separation of Concerns states that system elements should have 
 
 Separation of concerns is achieved by the establishment of boundaries. A boundary is any logical or physical constraint which delineates a given set of responsibilities. Some examples of boundaries would include the use of methods, objects, components, and services to define core behavior within an application; projects, solutions, and folder hierarchies for source organization; application layers and tiers for processing organization; and versioned libraries and installers for product release organization.
 
-Though the process of achieving separation of concerns often involves the division of a set of responsibilities, the goal is not to reduce a system into its indivisible parts, but to organize the system into elements of non-repeating sets of cohesive responsibilities. As Albert Einstein stated, &#8220;Make everything as simple as possible, but not simpler.&#8221;
+Though the process of achieving separation of concerns often involves the division of a set of responsibilities, the goal is not to reduce a system into its indivisible parts, but to organize the system into elements of non-repeating sets of cohesive responsibilities. As the saying  attributed to Albert Einstein states, &#8220;Make everything as simple as possible, but not simpler.&#8221;
 
 At its essence, Separation of Concerns is about order. The overall goal of Separation of Concerns is to establish a well organized system where each part fulfills a meaningful and intuitive role while maximizing its ability to adapt to change.
 
