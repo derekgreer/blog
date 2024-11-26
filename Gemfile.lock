@@ -91,9 +91,8 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    thread_safe (0.3.6)
-    tzinfo (1.2.5)
-      thread_safe (~> 0.1)
+    tzinfo (2.0.5)
+      concurrent-ruby (~> 1.0)
     tzinfo-data (1.2018.5)
       tzinfo (>= 1.0.0)
     wdm (0.1.1)
@@ -104,7 +103,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll (~> 3.7.4)
-  jekyll-feed (~> 0.15.0)
+  jekyll-feed
   jekyll-gist (~> 1.4.1)
   jekyll-redirect-from (~> 0.12.1)
   minima (~> 2.0)
